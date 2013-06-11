@@ -1,0 +1,14 @@
+Metadata-Version: 1.0
+Name: astronomia
+Version: 0.1dev
+Summary: Libray for calculation of ephemeris and other astronomical calculations
+Home-page: UNKNOWN
+Author: Tim Cera, P.E.
+Author-email: tim@cerazone.net
+License: GPL2
+Description:               Library of astronomical calculations
+                      heavily based on Astrolabe, by Bill McClain,
+                      Astrolabe is no longer available - at least I
+                      couldn't find it.
+Keywords: ephemeris astronomy
+Platform: UNKNOWN
