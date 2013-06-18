@@ -2,7 +2,10 @@
 
 from __future__ import print_function
 
-"""Copyright 2000, 2001 William McClain
+"""
+    Astrolabe copyright 2000, 2001 William McClain
+    Astrolabe forked to Astronomia 2013
+    Astronomia copyright 2013
 
     This file is part of Astronomia.
 
@@ -51,7 +54,7 @@ from astronomia.dynamical import deltaT_seconds
 from astronomia.elp2000 import ELP2000
 from astronomia.equinox import equinox_approx, equinox
 from astronomia.nutation import nut_in_lon, nut_in_obl, obliquity, obliquity_hi
-from astronomia.riseset import transit, rise, set
+from astronomia.riseset import transit, rise, settime
 from astronomia.sun import longitude_radius_low, apparent_longitude_low, aberration_low, Sun
 from astronomia.util import load_params, hms_to_fday, equ_to_ecl, r_to_d, d_to_r, d_to_dms, dms_to_d, ecl_to_equ, interpolate3
 from astronomia.vsop87d import vsop_to_fk5, VSOP87d, geocentric_planet
@@ -210,7 +213,7 @@ decList = (d_to_r(18.04761), d_to_r(18.44092), d_to_r(18.82742))
 jd = rise(ut, raList, decList, d_to_r(-0.5667), days_per_minute)
 report("rise, julian days", jd - ut, 0.51766, 1e-5, "days")
 
-jd = set(ut, raList, decList, d_to_r(-0.5667), days_per_minute)
+jd = settime(ut, raList, decList, d_to_r(-0.5667), days_per_minute)
 report("set, julian days", jd - ut, 0.12130, 1e-5, "days")
 
 jd = transit(ut, raList, 1.0 / (60 * 24))
@@ -278,7 +281,7 @@ print("27.a Exact solstice")
 jd = equinox(2437837.38589, "summer", days_per_second)
 report("julian day", jd, cal_to_jd(1962, 6, 21) + hms_to_fday(21, 24, 42), 1e-5, "days")
 
-tbl = [ \
+tbl = [
     (1996, 
         (("spring", 20, hms_to_fday( 8,  4,  7)),
         ("summer",  21, hms_to_fday( 2, 24, 46)),
@@ -328,7 +331,7 @@ tbl = [ \
         (("spring", 20, hms_to_fday(12, 34, 29)),
         ("summer",  21, hms_to_fday( 6, 47, 12)),
         ("autumn",  22, hms_to_fday(22, 24, 14)),
-        ("winter",  21, hms_to_fday(18, 36, 01))))]
+        ("winter",  21, hms_to_fday(18, 36, 1))))]
 
 months = {"spring" : 3,  "summer" : 6, "autumn" : 9, "winter" : 12}
        
