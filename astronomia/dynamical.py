@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -657,10 +660,11 @@ def deltaT_seconds(jd):
     For a historical range from 1620 to a recent year, we interpolate from a
     table of observed values. Outside that range we use formulae.
 
-    Parameters:
-        jd : Julian Day number
+    Arguments:
+      - `jd` : (int) Julian Day number
+
     Returns:
-        deltaT in seconds
+      - deltaT in seconds
 
     """
     yr, mo, day = jd_to_cal(jd)
@@ -698,10 +702,11 @@ def deltaT_seconds(jd):
 def dt_to_ut(jd):
     """Convert Julian Day from dynamical to universal time.
 
-    Parameters:
-        jd : Julian Day number (dynamical time)
+    Arguments:
+      - `jd` : (int) Julian Day number (dynamical time)
+
     Returns:
-        Julian Day number (universal time)
+      - Julian Day number : (int) (universal time)
 
     """
     return jd - deltaT_seconds(jd) / seconds_per_day

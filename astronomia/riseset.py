@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -49,18 +52,18 @@ _k1 = d_to_r(360.985647)
 def rise(jd, raList, decList, h0, delta):
     """Return the Julian Day of the rise time of an object.
 
-    Parameters:
-        jd      : Julian Day number of the day in question, at 0 hr UT
-        raList  : a sequence of three right accension values, in radians,
-            for (jd-1, jd, jd+1)
-        decList : a sequence of three right declination values, in radians,
-            for (jd-1, jd, jd+1)
-        h0      : the standard altitude in radians
-        delta   : desired accuracy in days. Times less than one minute are
-            infeasible for rise times because of atmospheric refraction.
+    Arguments:
+      - `jd`     : (int) Julian Day number of the day in question, at 0 hr UT
+      - `raList` : (float, float, float) a sequence of three right accension
+        values, in radians, for (jd-1, jd, jd+1)
+      - `decList`: (float, float, float) a sequence of three right declination
+        values, in radians, for (jd-1, jd, jd+1)
+      - `h0`     : (float) the standard altitude in radians
+      - `delta`  : (float) desired accuracy in days. Times less than one minute
+        are infeasible for rise times because of atmospheric refraction.
 
     Returns:
-        Julian Day of the rise time
+      - Julian Day of the rise time
 
     """
     longitude = astronomia.globals.longitude
@@ -112,18 +115,18 @@ def rise(jd, raList, decList, h0, delta):
 def settime(jd, raList, decList, h0, delta):
     """Return the Julian Day of the set time of an object.
 
-    Parameters:
-        jd      : Julian Day number of the day in question, at 0 hr UT
-        raList  : a sequence of three right accension values, in radians,
-            for (jd-1, jd, jd+1)
-        decList : a sequence of three right declination values, in radians,
-            for (jd-1, jd, jd+1)
-        h0      : the standard altitude in radians
-        delta   : desired accuracy in days. Times less than one minute are
-            infeasible for set times because of atmospheric refraction.
+    Arguments:
+      - `jd`      : Julian Day number of the day in question, at 0 hr UT
+      - `raList`  : a sequence of three right accension values, in radians, for
+        (jd-1, jd, jd+1)
+      - `decList` : a sequence of three right declination values, in radians,
+        for (jd-1, jd, jd+1)
+      - `h0`      : the standard altitude in radians
+      - `delta`   : desired accuracy in days. Times less than one minute are
+        infeasible for set times because of atmospheric refraction.
 
     Returns:
-        Julian Day of the set time
+      - Julian Day of the set time
 
     """
     longitude = astronomia.globals.longitude
@@ -175,14 +178,14 @@ def settime(jd, raList, decList, h0, delta):
 def transit(jd, raList, delta):
     """Return the Julian Day of the transit time of an object.
 
-    Parameters:
-        jd      : Julian Day number of the day in question, at 0 hr UT
-        raList  : a sequence of three right accension values, in radians,
-            for (jd-1, jd, jd+1)
-        delta   : desired accuracy in days.
+    Arguments:
+      - `jd`      : Julian Day number of the day in question, at 0 hr UT
+      - `raList`  : a sequence of three right accension values, in radians, for
+        (jd-1, jd, jd+1)
+      - `delta`   : desired accuracy in days.
 
     Returns:
-        Julian Day of the transit time
+      - Julian Day of the transit time
 
     """
     #
@@ -222,11 +225,11 @@ def transit(jd, raList, delta):
 def moon_rst_altitude(r):
     """ Returnn the standard altitude of the Moon.
 
-    Parameters:
-        r : Distance between the centers of the Earth and Moon, in km.
+    Arguments:
+      - `r` : Distance between the centers of the Earth and Moon, in km.
 
     Returns:
-        Standard altitude in radians.
+      - Standard altitude in radians.
 
     """
     # horizontal parallax

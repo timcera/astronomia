@@ -2,7 +2,10 @@
 
 from __future__ import print_function
 
-"""Copyright 2000, 2001 William McClain
+"""
+    Astrolabe copyright 2000, 2001 William McClain
+    Astrolabe forked to Astronomia 2013
+    Astronomia copyright 2013
 
     This file is part of Astronomia.
 

@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -38,17 +41,18 @@ def d_to_dms(x):
     will be integers, seconds may be floating.
 
     If the argument is negative:
+
         The return value of degrees will be negative.
         If degrees is 0, minutes will be negative.
         If minutes is 0, seconds will be negative.
 
-    Parameters:
-        x : degrees
+    Arguments:
+      - `x` : degrees
 
     Returns:
-        degrees
-        minutes
-        seconds
+      - degrees : (int)
+      - minutes : (int)
+      - seconds : (int, float)
 
     """
     frac, degrees = modf(x)
@@ -65,11 +69,11 @@ _DtoR = pi / 180.0
 def d_to_r(d):
     """Convert degrees to radians.
 
-    Parameters:
-        d : degrees
+    Arguments:
+      -  `d` : (int, float), degrees
 
     Returns:
-        radians
+      - radians : (float)
 
     """
     return d * _DtoR
@@ -85,12 +89,12 @@ def diff_angle(a, b):
 
         359 degress... 0 degrees... 1 degree... etc
 
-    Parameters:
-        a : first angle, in radians
-        b : second angle, in radians
+    Arguments:
+      - `a` : (int, float) first angle, in radians
+      - `b` : (int, float) second angle, in radians
 
     Returns:
-        b - a, in radians
+      - b - a, in radians : (int, float)
 
     """
     if b < a:
@@ -107,13 +111,13 @@ def dms_to_d(deg, minute, sec):
 
     If any of the components are negative the result will also be negative.
 
-    Parameters:
-        deg : degrees
-        minute : minutes
-        sec : seconds
+    Arguments:
+      - `deg` : (int, float) degrees
+      - `minute` : (int, float) minutes
+      - `sec` : (int, float) seconds
 
     Returns:
-        decimal degrees
+      - decimal degrees : (float)
 
     """
     result = abs(deg) + abs(minute)/60.0 + abs(sec)/3600.0
@@ -127,14 +131,14 @@ def ecl_to_equ(longitude, latitude, obliquity):
 
     [Meeus-1998: equations 13.3, 13.4]
 
-    Parameters:
-        longitude : ecliptic longitude in radians
-        latitude : ecliptic latitude in radians
-        obliquity : obliquity of the ecliptic in radians
+    Arguments:
+      - `longitude` : ecliptic longitude in radians
+      - `latitude` : ecliptic latitude in radians
+      - `obliquity` : obliquity of the ecliptic in radians
 
     Returns:
-        Right accension in radians
-        Declination in radians
+      - Right accension in radians
+      - Declination in radians
 
     """
     cose = cos(obliquity)
@@ -154,13 +158,13 @@ def equ_to_horiz(H, decl):
 
     This is not a good formula for using near the poles.
 
-    Parameters:
-        H : hour angle in radians
-        decl : declination in radians
+    Arguments:
+      - `H` : hour angle in radians
+      - `decl` : declination in radians
 
     Returns:
-        azimuth in radians
-        altitude in radians
+      - azimuth in radians
+      - altitude in radians
 
     """
     cosH = cos(H)
@@ -176,14 +180,14 @@ def equ_to_ecl(ra, dec, obliquity):
 
     [Meeus-1998: equations 13.1, 13.2]
 
-    Parameters:
-        ra : right accension in radians
-        dec : declination in radians
-        obliquity : obliquity of the ecliptic in radians
+    Arguments:
+      - `ra` : right accension in radians
+      - `dec` : declination in radians
+      - `obliquity` : obliquity of the ecliptic in radians
 
     Returns:
-        ecliptic longitude in radians
-        ecliptic latitude in radians
+      - ecliptic longitude in radians
+      - ecliptic latitude in radians
 
     """
     cose = cos(obliquity)
@@ -197,13 +201,13 @@ def equ_to_ecl(ra, dec, obliquity):
 def fday_to_hms(day):
     """Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
 
-    Parameters:
-        day : a fractional day in the range 0.0..1.0
+    Arguments:
+      - day : a fractional day in the range 0.0..1.0
 
     Returns:
-        hour : 0..23
-        minute : 0..59
-        seccond : 0..59
+      - hour : (int, 0..23)
+      - minute : (int, 0..59)
+      - second : (int, 0..59)
 
     """
     frac, hours = modf(day * 24)
@@ -214,13 +218,13 @@ def fday_to_hms(day):
 def hms_to_fday(hr, mn, sec):
     """Convert hours-minutes-seconds into a fractional day 0.0..1.0.
 
-    Parameters:
-        hr : hours, 0..23
-        mn : minutes, 0..59
-        sec : seconds, 0..59
+    Arguments:
+      - `hr` : hours, 0..23
+      - `mn` : minutes, 0..59
+      - `sec` : seconds, 0..59
 
     Returns:
-        fractional day, 0.0..1.0
+      - fractional day, 0.0..1.0
 
     """
     return ((hr / 24.0) + (mn / minutes_per_day) + (sec / seconds_per_day))
@@ -232,11 +236,11 @@ def interpolate3(n, y):
     [Meeus-1998; equation 3.3]
 
     Parameters:
-        n : the interpolating factor, must be between -1 and 1
-        y : a sequence of three values
+      - `n` : the interpolating factor, must be between -1 and 1
+      - `y` : a sequence of three values
 
     Results:
-        the interpolated value of y
+      - the interpolated value of y
 
     """
     if not -1 < n < 1:
@@ -257,12 +261,12 @@ def interpolate_angle3(n, y):
     angular values which may cross the origin of the circle,
     for example: 359 degrees...0 degrees...1 degree.
 
-    Parameters:
-        n : the interpolating factor, must be between -1 and 1
-        y : a sequence of three values
+    Arguments:
+      - `n` : the interpolating factor, must be between -1 and 1
+      - `y` : a sequence of three values
 
     Results:
-        the interpolated value of y
+      - the interpolated value of y
 
     """
     if not -1 < n < 1:
@@ -277,7 +281,7 @@ def interpolate_angle3(n, y):
 def load_params():
     """Read a parameter file and assign global values.
 
-    Parameters:
+    Arguments:
         none
 
     Returns:
@@ -351,11 +355,11 @@ def load_params():
 def modpi2(x):
     """Reduce an angle in radians to the range 0..2pi.
 
-    Parameters:
-        x : angle in radians
+    Arguments:
+      - `x` : angle in radians
 
     Returns:
-        angle in radians in the range 0..2pi
+      - angle in radians in the range 0..2pi
 
     """
     return x % pi2
@@ -366,20 +370,19 @@ def polynomial(terms, x):
 
     Where: terms[0] is constant, terms[1] is for x, terms[2] is for x^2, etc.
 
-    Example:
-        y = polynomial((1.1, 2.2, 3.3, 4.4), t)
+    Arguments:
+      - `terms` : sequence of coefficients
+      - `x` : variable value
+
+    Results:
+      - value of the polynomial
+
+    Examples:
+        >>> y = polynomial((1.1, 2.2, 3.3, 4.4), t)
 
         returns the value of:
 
             1.1 + 2.2 * t + 3.3 * t^2 + 4.4 * t^3
-
-    Parameters:
-        terms : sequence of coefficients
-        x : variable value
-
-    Results:
-        value of the polynomial
-
     """
 
     result = 0.0
@@ -396,11 +399,11 @@ _RtoD = 180.0 / pi
 def r_to_d(r):
     """Convert radians to degrees.
 
-    Parameters:
-        r : radians
+    Arguments:
+      - `r` : radians
 
     Returns:
-        degrees
+      - degrees
 
     """
     return r * _RtoD

@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -34,6 +37,8 @@ edition edited by P. Kenneth Seidelman, 1992
 from math import *
 from astronomia.util import polynomial, modpi2, d_to_r, dms_to_d
 from astronomia.calendar import jd_to_jcent
+
+from astronomia.commonterms import kD, kM, kM1, kF, ko
 
 # [Meeus-1998: table 22.A]
 #
@@ -104,38 +109,14 @@ _tbl = (
     ( 0,  0,  3,  2,  2,      -3,     0,     0,   0),
     ( 2, -1,  0,  2,  2,      -3,     0,     0,   0))
 
-#
-# Constant terms.
-#
-_kD = (d_to_r(297.85036),
-       d_to_r(445267.111480),
-       d_to_r(-0.0019142),
-       d_to_r( 1.0/189474))
-_kM = (d_to_r(357.52772),
-       d_to_r( 35999.050340),
-       d_to_r(-0.0001603),
-       d_to_r(-1.0/300000))
-_kM1 = (d_to_r(134.96298),
-        d_to_r(477198.867398),
-        d_to_r( 0.0086972),
-        d_to_r( 1.0/56250))
-_kF = (d_to_r( 93.27191),
-       d_to_r(483202.017538),
-       d_to_r(-0.0036825),
-       d_to_r( 1.0/327270))
-_ko = (d_to_r(125.04452),
-       d_to_r( -1934.136261),
-       d_to_r( 0.0020708),
-       d_to_r( 1.0/450000))
-
 
 def _constants(T):
     """Return some values needed for both nut_in_lon() and nut_in_obl()"""
-    D = modpi2(polynomial(_kD,  T))
-    M = modpi2(polynomial(_kM,  T))
-    M1 = modpi2(polynomial(_kM1, T))
-    F = modpi2(polynomial(_kF,  T))
-    omega = modpi2(polynomial(_ko,  T))
+    D = modpi2(polynomial(kD,  T))
+    M = modpi2(polynomial(kM,  T))
+    M1 = modpi2(polynomial(kM1, T))
+    F = modpi2(polynomial(kF,  T))
+    omega = modpi2(polynomial(ko,  T))
     return D, M, M1, F, omega
 
 
@@ -144,11 +125,11 @@ def nut_in_lon(jd):
 
     High precision. [Meeus-1998: pg 144]
 
-    Parameters:
-        jd : Julian Day in dynamical time
+    Arguments:
+      - `jd` : Julian Day in dynamical time
 
     Returns:
-        nutation in longitude, in radians
+      - nutation in longitude, in radians
 
     """
     #
@@ -173,11 +154,11 @@ def nut_in_obl(jd):
 
     High precision. [Meeus-1998: pg 144]
 
-    Parameters:
-        jd : Julian Day in dynamical time
+    Arguments:
+      - `jd` : Julian Day in dynamical time
 
     Returns:
-        nutation in obliquity, in radians
+      - nutation in obliquity, in radians
 
     """
     #
@@ -208,14 +189,13 @@ def obliquity(jd):
     """Return the mean obliquity of the ecliptic.
 
     Low precision, but good enough for most uses. [Meeus-1998: equation 22.2].
-
     Accuracy is 1" over 2000 years and 10" over 4000 years.
 
-    Parameters:
-        jd : Julian Day in dynamical time
+    Arguments:
+      - `jd` : Julian Day in dynamical time
 
     Returns:
-        obliquity, in radians
+      - obliquity, in radians
 
     """
     T = jd_to_jcent(jd)
@@ -246,11 +226,11 @@ def obliquity_hi(jd):
     Accuracy is 0.01" between 1000 and 3000, and "a few arc-seconds
     after 10,000 years".
 
-    Parameters:
-        jd : Julian Day in dynamical time
+    Arguments:
+      - `jd` : Julian Day in dynamical time
 
     Returns:
-        obliquity, in radians
+      - obliquity, in radians
 
     """
     U = jd_to_jcent(jd) / 100

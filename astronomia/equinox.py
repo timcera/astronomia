@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -87,12 +90,12 @@ def equinox_approx(yr, season):
     The year must be in the range -1000...3000. Within that range the
     the error from the precise instant is at most 2.16 minutes.
 
-    Parameters:
-        yr     : year
-        season : one of ("spring", "summer", "autumn", "winter")
+    Arguments:
+      - `yr`     : (int) year
+      - `season` : (str) {"spring", "summer", "autumn", "winter"}
 
     Returns:
-        Julian Day of the event in dynamical time
+      - Julian Day : (int) in dynamical time
 
     """
     if not (-1000 <= yr <= 3000):
@@ -130,14 +133,13 @@ def equinox(jd, season, delta):
     """Return the precise moment of an equinox or solstice event on Earth.
 
     Parameters:
-        jd     : Julian Day of an approximate time of the event in
-                 dynamical time
-        season : one of ("spring", "summer", "autumn", "winter")
-        delta  : the required precision in days. Times accurate to a second are
-                 reasonable when using the VSOP model.
+      - `jd`     : Julian of an approximate time of the event in dynamical time
+      - `season` : one of ("spring", "summer", "autumn", "winter")
+      - `delta`  : the required precision in days. Times accurate to a second
+        are reasonable when using the VSOP model.
 
     Returns:
-        Julian Day of the event in dynamical time
+      - Julian Day : (int) dynamical time
 
     """
     #

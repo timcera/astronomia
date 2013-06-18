@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -47,11 +50,11 @@ class Sun:
     def mean_longitude(self, jd):
         """Return mean longitude.
 
-        Parameters:
-            jd : Julian Day in dynamical time
+        Arguments:
+          - `jd` : Julian Day in dynamical time
 
         Returns:
-            Longitude in radians
+          - Longitude in radians
 
         """
         T = jd_to_jcent(jd)
@@ -77,11 +80,11 @@ class Sun:
     def mean_longitude_perigee(self, jd):
         """Return mean longitude of solar perigee.
 
-        Parameters:
-            jd : Julian Day in dynamical time
+        Arguments:
+          - `jd` : Julian Day in dynamical time
 
         Returns:
-            Longitude of solar perigee in radians
+          - Longitude of solar perigee in radians
 
         """
         T = jd_to_jcent(jd)
@@ -98,14 +101,13 @@ class Sun:
     def dimension(self, jd, dim):
         """Return one of geocentric ecliptic longitude, latitude and radius.
 
-        Parameters:
-            jd : Julian Day in dynamical time
-            dim : one of "L" (longitude) or "B" (latitude) or "R" (radius).
+        Arguments:
+          - jd : Julian Day in dynamical time
+          - dim : one of "L" (longitude) or "B" (latitude) or "R" (radius).
 
         Returns:
-            Either longitude in radians, or
-            latitude in radians, or
-            radius in au.
+          - Either longitude in radians, or latitude in radians, or radius in
+            au, depending on value of `dim`.
 
         """
         X = self.vsop.dimension(jd, "Earth", dim)
@@ -118,13 +120,13 @@ class Sun:
     def dimension3(self, jd):
         """Return geocentric ecliptic longitude, latitude and radius.
 
-        Parameters:
-            jd : Julian Day in dynamical time
+        Arguments:
+          - `jd` : Julian Day in dynamical time
 
         Returns:
-            longitude in radians
-            latitude in radians
-            radius in au
+          - longitude in radians
+          - latitude in radians
+          - radius in au
 
         """
         L = self.dimension(jd, "L")
@@ -156,12 +158,12 @@ def longitude_radius_low(jd):
     Low precision. The longitude is accurate to 0.01 degree.  The latitude
     should be presumed to be 0.0. [Meeus-1998: equations 25.2 through 25.5
 
-    Parameters:
-        jd : Julian Day in dynamical time
+    Arguments:
+      - `jd` : Julian Day in dynamical time
 
     Returns:
-        longitude in radians
-        radius in au
+      - longitude in radians
+      - radius in au
 
     """
     T = jd_to_jcent(jd)
@@ -191,12 +193,12 @@ def apparent_longitude_low(jd, L):
 
     Low precision. [Meeus-1998: pg 164]
 
-    Parameters:
-        jd : Julian Day in dynamical time
-        L : longitude in radians
+    Arguments:
+      - `jd` : Julian Day in dynamical time
+      - `L` : longitude in radians
 
     Returns:
-        corrected longitude in radians
+      - corrected longitude in radians
 
     """
     T = jd_to_jcent(jd)
@@ -212,14 +214,13 @@ _lk4 = d_to_r(dms_to_d(0, 0, 20.4898))
 
 def aberration_low(R):
     """Correct for aberration; low precision, but good enough for most uses.
-
     [Meeus-1998: pg 164]
 
-    Parameters:
-        R : radius in au
+    Arguments:
+      - `R` : radius in au
 
     Returns:
-        correction in radians
+      - correction in radians
 
     """
     return -_lk4 / R

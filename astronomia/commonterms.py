@@ -20,58 +20,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
     """
 
-"""Useful constants.
+"""Useful constants terms.
 
 Don't change these unless you are moving to a new universe.
 
 """
-from math import pi
+from astronomia.util import d_to_r
 
 #
-# The number of radians in a circle.
+# Constant terms.
 #
-pi2 = 2 * pi
-
-#
-# Ratio of Earth's polar to equitorial radius.
-#
-#flattening = 0.99664719
-flattening = 0.99664713901477464
-
-#
-# Equitorial radius of the Earth in km.
-#
-earth_equ_radius = 6378.135
-
-#
-# How many minutes in a day?
-#
-minutes_per_day = 24.0 * 60.0
-
-#
-# How many days in minute?
-#
-days_per_minute = 1.0 / minutes_per_day
-
-#
-# How many seconds (time) in a day?
-#
-seconds_per_day = 24.0 * 60.0 * 60.0
-
-#
-# How many days in a second?
-#
-days_per_second = 1.0 / seconds_per_day
-
-#
-# How many kilometers in an astronomical unit?
-#
-# km_per_au = 149597870
-# More accurate? Does it matter?
-km_per_au = 149597870.691
-
-#
-# For rise-set-transit: altitude deflection caused by refraction
-#
-standard_rst_altitude = -0.00989078087105  # -0.5667 degrees
-sun_rst_altitude = -0.0145438286569        # -0.8333 degrees
+kL1 = (d_to_r(218.3164477),
+       d_to_r(481267.88123421),
+       d_to_r(-0.0015786),
+       d_to_r(1.0/538841),
+       d_to_r(-1.0/65194000))
+kD = (d_to_r(297.8501921),
+      d_to_r(445267.1114034),
+      d_to_r(-0.0018819),
+      d_to_r(1.0/545868),
+      d_to_r(-1.0/113065000))
+kM = (d_to_r(357.5291092),
+      d_to_r(35999.0502909),
+      d_to_r(-0.0001536),
+      d_to_r(1.0/24490000))
+kM1 = (d_to_r(134.9633964),
+       d_to_r(477198.8675055),
+       d_to_r(0.0087414),
+       d_to_r(1.0/69699),
+       d_to_r(-1.0/14712000))
+kF = (d_to_r(93.2720950),
+      d_to_r(483202.0175233),
+      d_to_r(-0.0036539),
+      d_to_r(-1.0/3526000),
+      d_to_r(1.0/863310000))
+ko = (d_to_r(125.0445479),
+      d_to_r(-1934.1362891),
+      d_to_r(0.0020754),
+      d_to_r(1.0/467441.0),
+      d_to_r(1.0/60616000.0))

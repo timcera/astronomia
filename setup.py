@@ -5,7 +5,7 @@ version = '0.1'
 
 setup(name='astronomia',
       version=version,
-      description="Libray for calculation of ephemeris and other astronomical calculations",
+      description="Library for calculation of ephemeris and other astronomical calculations",
       long_description="""\
               Library of astronomical calculations
               heavily based on Astrolabe, by Bill McClain,

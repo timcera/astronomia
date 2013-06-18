@@ -1,4 +1,10 @@
-"""Copyearight 2000, 2001 William McClain
+
+from __future__ import division
+
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -50,15 +56,17 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     """Convert a date in the Julian or Gregorian calendars to the Julian Day
     Number (Meeus 7.1).
 
-    Parameters:
-        year      : year
-        mon       : month (default: 1)
-        day       : day, may be fractional day (default: 1)
-        gregorian : If True, use Gregorian calendar, else use Julian calendar
-        (default: True)
+    Arguments:
+      - `year` : (int)  year
 
-    Return:
-        julian_day        : julian day number
+    Keywords:
+      - `mon`       : (int, default=1) month
+      - `day`       : (int, float, default=1) day, may be fractional day
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
+
+    Returns:
+      - (int, float)
 
     """
     if mon <= 2:
@@ -76,18 +84,20 @@ def cal_to_jde(year, mon=1, day=1, hour=0, minute=0, sec=0.0, gregorian=True):
     """Convert a date in the Julian or Gregorian calendars to the Julian Day
     Ephemeris (Meeus 22.1).
 
-    Parameters:
-        year        : year
-        mon        : month (default: 1)
-        day       : day, may be fractional day (default: 1)
-        hour        : hour
-        minute        : minute
-        sec        : second
-        gregorian : If True, use Gregorian calendar, else use Julian calendar
-        (default: True)
+    Arguments:
+      - `year` : year
 
-    Return:
-        jde        : julian day ephemeris
+    Keywords:
+      - `mon`       : (int, default=1) month
+      - `day`       : (int, default=1) day, may be fractional day
+      - `hour`      : (int, default=0) hour
+      - `minute`    : (int, default=0) minute
+      - `sec`       : (float, default=0.0) second
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
+
+    Returns:
+      - julian day ephemeris : (float)
 
     """
     jde = cal_to_jd(year, mon, day, gregorian)
@@ -98,15 +108,17 @@ def cal_to_day_of_year(year, mon, day, gregorian=True):
     """Convert a date in the Julian or Gregorian calendars to day of the year
     (Meeus 7.1).
 
-    Parameters:
-        year        : year
-        mon        : month
-        day       : day
-        gregorian : If True, use Gregorian calendar, else use Julian calendar
-        (default: True)
+    Arguments:
+      - `year` : (int) year
+      - `mon`  : (int) month
+      - `day`  : (int) day
+
+    Keywords:
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
 
     Return:
-        day number : 1 = Jan 1...365 (or 366 for leap years) = Dec 31.
+      - day number : 1 = Jan 1...365 (or 366 for leap years) = Dec 31.
 
     """
     if is_leap_year(year, gregorian):
@@ -121,15 +133,16 @@ def day_of_year_to_cal(year, N, gregorian=True):
     """Convert a day of year number to a month and day in the Julian or
     Gregorian calendars.
 
-    Parameters:
-        year        : year
-        N         : day of year, 1..365 (or 366 for leap years)
-        gregorian : If True, use Gregorian calendar, else use Julian calendar
+    Arguments:
+      - `year`      : year
+      - `N`         : day of year, 1..365 (or 366 for leap years)
+
+    Keywords:
+      - `gregorian` : If True, use Gregorian calendar, else use Julian calendar
         (default: True)
 
     Return:
-        month
-        day
+      - (month, day) : (tuple)
 
     """
     if is_leap_year(year, gregorian):
@@ -148,30 +161,31 @@ def easter(year, gregorian=True):
     """Return the date of Western ecclesiastical Easter for a year in the
     Julian or Gregorian calendars.
 
-    Parameters:
-        year        : year
-        gregorian : If True, use Gregorian calendar, else use Julian calendar
-        (default: True)
+    Arguments:
+      - `year` : (int) year
+
+    Keywords:
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
 
     Return:
-        month
-        day
+      - (month, day) : (tuple)
 
     """
     year = int(year)
     if gregorian:
         a = year % 19
-        b = year / 100
+        b = year // 100
         c = year % 100
-        d = b / 4
+        d = b // 4
         e = b % 4
-        f = (b + 8) / 25
-        g = (b - f + 1) / 3
+        f = (b + 8) // 25
+        g = (b - f + 1) // 3
         h = (19 * a + b - d - g + 15) % 30
-        i = c / 4
+        i = c // 4
         k = c % 4
         l = (32 + 2 * e + 2 * i - h - k) % 7
-        m = (a + 11 * h + 22 * l) / 451
+        m = (a + 11 * h + 22 * l) // 451
         tmp = h + l - 7 * m + 114
     else:
         a = year % 4
@@ -180,7 +194,7 @@ def easter(year, gregorian=True):
         d = (19 * c + 15) % 30
         e = (2 * a + 4 * b - d + 34) % 7
         tmp = d + e + 114
-    mon = tmp / 31
+    mon = tmp // 31
     day = (tmp % 31) + 1
     return mon, day
 
@@ -192,11 +206,12 @@ def is_dst(julian_day):
     If astronomia.globals.daylight_timezone_name is None, the function always
     returns False.
 
-    Parameters:
-        julian_day : Julian Day number representing an instant in Universal Time
+    Arguments:
+      - `julian_day` : (int) Julian Day number representing an instant in
+        Universal Time
 
-    Return:
-        True if Daylight Savings Time is in effect, False otherwise.
+    Returns:
+      - (bool) True if Daylight Savings Time is in effect, False otherwise.
 
     """
     if not astronomia.globals.daylight_timezone_name:
@@ -261,13 +276,15 @@ def is_dst(julian_day):
 def is_leap_year(year, gregorian=True):
     """Return True if this is a leap year in the Julian or Gregorian calendars
 
-    Parameters:
-        year        : year
-        gregorian : If True, use Gregorian calendar, else use Julian calendar
-        (default: True)
+    Arguments:
+      - `year` : (int) year
 
-    Return:
-        True is this is a leap year, else False.
+    Keywords:
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
+
+    Returns:
+      - (bool) True is this is a leap year, else False.
 
     """
     year = int(year)
@@ -281,17 +298,15 @@ def jd_to_cal(julian_day, gregorian=True):
     """Convert a Julian day number to a date in the Julian or Gregorian
     calendars.
 
-    Parameters:
-        julian_day        : Julian Day number
-        gregorian : If True, use Gregorian calendar, else use Julian calendar
-        (default: True)
+    Arguments:
+      - `julian_day` : (int) Julian Day Number
+
+    Keywords:
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
 
     Return:
-        year
-        month
-        day (may be fractional)
-
-    Return a tuple (year, month, day).
+      - (year, month, day) : (tuple) day may be fractional
 
     """
     F, Z = modf(julian_day + 0.5)
@@ -321,11 +336,11 @@ def jd_to_day_of_week(julian_day):
 
     The Julian Day Number must be for 0h UT.
 
-    Parameters:
-        julian_day : Julian Day number
+    Arguments:
+      - `julian_day` : (int) Julian Day number
 
-    Return:
-        day of week: 0 = Sunday...6 = Saturday.
+    Returns:
+      - day of week : (int) 0 = Sunday...6 = Saturday.
 
     """
     i = julian_day + 1.5
@@ -335,11 +350,11 @@ def jd_to_day_of_week(julian_day):
 def jd_to_jcent(julian_day):
     """Return the number of Julian centuries since J2000.0
 
-    Parameters:
-        julian_day : Julian Day number
+    Arguments:
+      - `julian_day` : (int) Julian Day number
 
     Return:
-        Julian centuries
+      - Julian centuries : (int)
 
     """
     return (julian_day - 2451545.0) / 36525.0
@@ -358,13 +373,15 @@ def lt_to_str(julian_day, zone="", level="second"):
     Pass an empty string ("", the default) for zone if you want to do
     your own zone formatting in the calling module.
 
-    Parameters:
-        julian_day    : Julian Day number
-        zone  : Time zone string (default = "")
-        level : "day" or "hour" or "minute" or "second" (default = "second")
+    Arguments:
+      - `julian_day` : (int) Julian Day number
+
+    Keywords:
+      - `zone`  : (str, default="") Time zone string
+      - level : (str, default="second") {"day", "hour", "minute", "second"}
 
     Return:
-        formatted date/time string
+      - formatted date/time string : (str)
 
     """
     year, mon, day = jd_to_cal(julian_day)
@@ -394,11 +411,11 @@ def sidereal_time_greenwich(julian_day):
 
     The Julian Day number must represent Universal Time.
 
-    Parameters:
-        julian_day : Julian Day number
+    Arguments:
+      - `julian_day` : (int) Julian Day number
 
-    Return:
-        sidereal time in radians (2pi radians = 24 hours)
+    Returns:
+      - sidereal time in radians : (float) 2pi radians = 24 hours
 
     """
     T = jd_to_jcent(julian_day)
@@ -417,11 +434,11 @@ def ut_to_lt(julian_day):
 
     Include Daylight Savings Time offset, if any.
 
-    Parameters:
-        julian_day : Julian Day number, universal time
+    Arguments:
+      - `julian_day` : (int) Julian Day number, universal time
 
     Return:
-        Julian Day number, local time
+      - Julian Day number : (str) local time
         zone string of the zone used for the conversion
 
     """

@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -70,19 +73,18 @@ class VSOP87d:
 
     def dimension(self, jd, planet, dim):
         """Return one of heliocentric ecliptic longitude, latitude and radius.
-
         [Meeus-1998: pg 218]
 
-        Parameters:
-            jd : Julian Day in dynamical time
-            planet : must be one of ("Mercury", "Venus", "Earth", "Mars",
-                "Jupiter", "Saturn", "Uranus", "Neptune")
-            dim : must be one of "L" (longitude) or "B" (latitude) or "R" (radius)
+        Arguments:
+          - `jd`     : Julian Day in dynamical time
+          - `planet` : must be one of ("Mercury", "Venus", "Earth", "Mars",
+            "Jupiter", "Saturn", "Uranus", "Neptune")
+          - `dim`    : must be one of "L" (longitude) or "B" (latitude) or "R"
+            (radius)
 
         Returns:
-            longitude in radians, or
-            latitude in radians, or
-            radius in au
+          - longitude in radians, or latitude in radians, or radius in au,
+            depending on the value of `dim`.
 
         """
         X = 0.0
@@ -102,15 +104,15 @@ class VSOP87d:
     def dimension3(self, jd, planet):
         """Return heliocentric ecliptic longitude, latitude and radius.
 
-        Parameters:
-            jd : Julian Day in dynamical time
-            planet : must be one of ("Mercury", "Venus", "Earth", "Mars",
-                "Jupiter", "Saturn", "Uranus", "Neptune")
+        Arguments:
+          - `jd`     : Julian Day in dynamical time
+          - `planet` : must be one of ("Mercury", "Venus", "Earth", "Mars",
+            "Jupiter", "Saturn", "Uranus", "Neptune")
 
         Returns:
-            longitude in radians
-            latitude in radians
-            radius in au
+          - longitude in radians
+          - latitude in radians
+          - radius in au
 
         """
         L = self.dimension(jd, planet, "L")
@@ -132,18 +134,16 @@ def vsop_to_fk5(jd, L, B):
     """Convert VSOP to FK5 coordinates.
 
     This is required only when using the full precision of the
-    VSOP model.
+    VSOP model.  [Meeus-1998: pg 219]
 
-    [Meeus-1998: pg 219]
-
-    Parameters:
-        jd : Julian Day in dynamical time
-        L : longitude in radians
-        B : latitude in radians
+    Arguments:
+      - `jd` : Julian Day in dynamical time
+      - `L`  : longitude in radians
+      - `B`  : latitude in radians
 
     Returns:
-        corrected longitude in radians
-        corrected latitude in radians
+      - corrected longitude in radians
+      - corrected latitude in radians
 
     """
     T = jd_to_jcent(jd)
@@ -161,17 +161,17 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
     The results will be geocentric, corrected for light-time and
     aberration.
 
-    Parameters:
-        jd : Julian Day in dynamical time
-        planet : must be one of ("Mercury", "Venus", "Earth", "Mars",
-            "Jupiter", "Saturn", "Uranus", "Neptune")
-        deltaPsi : nutation in longitude, in radians
-        epsilon : True obliquity (corrected for nutation), in radians
-        delta : desired accuracy, in days
+    Arguments:
+      - `jd`       : Julian Day in dynamical time
+      - `planet`   : must be one of ("Mercury", "Venus", "Earth", "Mars",
+        "Jupiter", "Saturn", "Uranus", "Neptune")
+      - `deltaPsi` : nutation in longitude, in radians
+      - `epsilon`  : True obliquity (corrected for nutation), in radians
+      - `delta`    : desired accuracy, in days
 
     Returns:
-        right accension, in radians
-        declination, in radians
+      - right accension, in radians
+      - declination, in radians
 
     """
     vsop = VSOP87d()

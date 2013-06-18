@@ -1,4 +1,7 @@
-"""Copyright 2000, 2001 William McClain
+"""
+    Copyright 2000, 2001 Astrolabe by William McClain
+    Forked in 2013 to Astronomia
+    Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
 
@@ -29,6 +32,7 @@ second edition, 1998, Willmann-Bell, Inc.
 from math import sin, cos
 from astronomia.calendar import jd_to_jcent
 from astronomia.util import polynomial, d_to_r, modpi2
+from astronomia.commonterms import kL1, kD, kM, kM1, kF, ko
 
 
 class Error(Exception):
@@ -167,34 +171,6 @@ _tblB = (
     (4, -1,  0, -1,     115),
     (2, -2,  0,  1,     107))
 
-#
-# Constant terms.
-#
-_kL1 = (d_to_r(218.3164477),
-        d_to_r(481267.88123421),
-        d_to_r(-0.0015786),
-        d_to_r(1.0/538841),
-        d_to_r(-1.0/65194000))
-_kD = (d_to_r(297.8501921),
-       d_to_r(445267.1114034),
-       d_to_r(-0.0018819),
-       d_to_r(1.0/545868),
-       d_to_r(-1.0/113065000))
-_kM = (d_to_r(357.5291092),
-       d_to_r(35999.0502909),
-       d_to_r(-0.0001536),
-       d_to_r(1.0/24490000))
-_kM1 = (d_to_r(134.9633964),
-        d_to_r(477198.8675055),
-        d_to_r(0.0087414),
-        d_to_r(1.0/69699),
-        d_to_r(-1.0/14712000))
-_kF = (d_to_r(93.2720950),
-       d_to_r(483202.0175233),
-       d_to_r(-0.0036539),
-       d_to_r(-1.0/3526000),
-       d_to_r(1.0/863310000))
-
 _kA1 = (d_to_r(119.75), d_to_r(131.849))
 _kA2 = (d_to_r(53.09), d_to_r(479264.290))
 _kA3 = (d_to_r(313.45), d_to_r(481266.484))
@@ -202,11 +178,11 @@ _kA3 = (d_to_r(313.45), d_to_r(481266.484))
 
 def _constants(T):
     """Calculate values required by several other functions"""
-    L1 = modpi2(polynomial(_kL1, T))
-    D = modpi2(polynomial(_kD, T))
-    M = modpi2(polynomial(_kM, T))
-    M1 = modpi2(polynomial(_kM1, T))
-    F = modpi2(polynomial(_kF, T))
+    L1 = modpi2(polynomial(kL1, T))
+    D = modpi2(polynomial(kD, T))
+    M = modpi2(polynomial(kM, T))
+    M1 = modpi2(polynomial(kM1, T))
+    F = modpi2(polynomial(kF, T))
 
     A1 = modpi2(polynomial(_kA1, T))
     A2 = modpi2(polynomial(_kA2, T))
@@ -225,9 +201,10 @@ class ELP2000:
         """Return mean longitude of ascending node
 
         Another equation from:
-            *  This routine is part of the International Astronomical Union's
-            *  SOFA (Standards of Fundamental Astronomy) software collection.
-            *  Fundamental (Delaunay) arguments from Simon et al. (1994)
+           This routine is part of the International Astronomical Union's
+           SOFA (Standards of Fundamental Astronomy) software collection.
+           Fundamental (Delaunay) arguments from Simon et al. (1994)
+
         *  Arcseconds to radians
            DOUBLE PRECISION DAS2R
            PARAMETER ( DAS2R = 4.848136811095359935899141D-6 )
@@ -244,29 +221,27 @@ class ELP2000:
            OM  = MOD ( 450160.398036D0  -6962890.5431D0*T, TURNAS ) * DAS2R
 
         Current implemention in astronomia is from:
-            PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+           PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
-            Look in nutation.py for calculation of omega
-            _ko  = (d_to_r(125.04452),
-                    d_to_r( -1934.136261),
-                    d_to_r( 0.0020708),
-                    d_to_r( 1.0/450000))
-            Though the last term was left off...
-            Will have to incorporate better...
+        Arguments:
+          - `jd` : julian Day
+
+        Returns:
+          - mean longitude of ascending node
         """
 
         T = jd_to_jcent(jd)
-        X = polynomial(
-            (d_to_r(125.0445479),
-             d_to_r(-1934.1362891),
-             d_to_r(0.0020754),
-             d_to_r(1.0/467441.0),
-             d_to_r(1.0/60616000.0)
-             ), T)
+        X = polynomial(ko, T)
         return modpi2(X)
 
     def mean_longitude_perigee(self, jd):
         """Return mean longitude of lunar perigee
+
+        Arguments:
+          - `jd` : julian Day
+
+        Returns:
+          - mean longitude of perigee
 
         """
         T = jd_to_jcent(jd)
@@ -282,15 +257,15 @@ class ELP2000:
     def mean_longitude(self, jd):
         """Return geocentric mean longitude.
 
-        Parameters:
-            jd : Julian Day in dynamical time
+        Arguments:
+          - `jd` : Julian Day in dynamical time
 
         Returns:
-            longitude in radians
+          - mean longitude in radians
 
         """
         T = jd_to_jcent(jd)
-        L1 = modpi2(polynomial(_kL1, T))
+        L1 = modpi2(polynomial(kL1, T))
         return L1
 
     def dimension3(self, jd):
@@ -299,13 +274,13 @@ class ELP2000:
         When we need all three dimensions it is more efficient to combine the
         calculations in one routine.
 
-        Parameters:
-            jd : Julian Day in dynamical time
+        Arguments:
+          - `jd` : Julian Day in dynamical time
 
         Returns:
-            longitude in radians
-            latitude in radians
-            radius in km, Earth's center to Moon's center
+          - longitude in radians
+          - latitude in radians
+          - radius in km, Earth's center to Moon's center
 
         """
         T = jd_to_jcent(jd)
@@ -358,14 +333,13 @@ class ELP2000:
     def dimension(self, jd, dim):
         """Return one of geocentric ecliptic longitude, latitude and radius.
 
-        Parameters:
-            jd : Julian Day in dynamical time
-            dim : "L" (longitude") or "B" (latitude) or "R" (radius)
+        Arguments:
+          - `jd` : Julian Day in dynamical time
+          - `dim` : "L" (longitude") or "B" (latitude) or "R" (radius)
 
         Returns:
-            longitude in radians or
-            latitude in radians or
-            radius in km, Earth's center to Moon's center
+          - longitude in radians or latitude in radians or radius in km,
+            Earth's center to Moon's center, depending on value of `dim`.
 
         """
         if dim == "L":
