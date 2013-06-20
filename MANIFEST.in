@@ -1,1 +1,2 @@
 include *.txt
+include apps/astronomia_params.txt

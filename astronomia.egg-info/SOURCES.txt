@@ -4,6 +4,7 @@ MANIFEST.in
 README.txt
 setup.cfg
 setup.py
+apps/astronomia_params.txt
 apps/check_perihelion.py
 apps/cronus.py
 apps/easter-cgi.py
