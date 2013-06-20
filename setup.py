@@ -4,7 +4,7 @@ import os.path
 version = '0.1-1'
 
 setup(name='astronomia',
-      version=version,
+      version=open("VERSION").readline().strip(),
       description="Library for calculation of ephemeris and other astronomical calculations",
       long_description="""\
               Library of astronomical calculations
