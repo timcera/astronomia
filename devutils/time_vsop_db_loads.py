@@ -37,7 +37,7 @@ text and binary times are about the same.
 """
 import time
 from astronomia.util import load_params
-from astronomia.vsop87d import load_vsop87d_text_db, load_vsop87d_text_db
+from astronomia.vsop87d import load_vsop87d_text_db
 
 load_params()
 
@@ -46,7 +46,3 @@ t0 = time.time()
 load_vsop87d_text_db()
 print(time.time() - t0, "seconds")
 
-print("reading binary database...")
-t0 = time.time()
-load_vsop87d_text_db()
-print(time.time() - t0, "seconds")

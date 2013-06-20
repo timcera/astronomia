@@ -1,4 +1,20 @@
 #! /usr/bin/env python
+"""
+Usage:
+
+    ./solstice.py start_year [stop_year]
+
+Displays the instants of equinoxes and solstices for a range of years.
+Times are accurate to one second.
+
+The arguments must be integers.
+
+If one argument is given, the display is for that year.
+
+If two arguments are given, the display is for that range of
+years.
+
+"""
 
 from __future__ import print_function
 
@@ -23,21 +39,8 @@ from __future__ import print_function
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-Usage:
-
-    ./solstice.py start_year [stop_year]
-    
-Displays the instants of equinoxes and solstices for a range of years.
-Times are accurate to one second.
-
-The arguments must be integers.
-
-If one argument is given, the display is for that year.
-
-If two arguments are given, the display is for that range of
-years.
-    
 """
+
 import sys
 
 from astronomia.constants import days_per_second

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-from __future__ import print_future
+from __future__ import print_function
 
 """
     Astrolabe copyright 2000, 2001 William McClain

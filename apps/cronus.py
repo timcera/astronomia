@@ -1,6 +1,28 @@
 #! /usr/bin/env python
+"""
+A clock application that displays a variety of celestial events in the
+order they occur.
 
-from __future__ import print_fuction
+Usage:
+
+    ./cronus.py start_year [stop_year]
+
+To do:
+    -- Add many more events
+    -- Support both real-time and "fast" modes
+    -- Allow finer start and stop times
+
+Currently the program always runs in "fast" mode, queueing and
+displaying events in the future as fast as possible. Eventually
+I would like to have enough events covered so that the display 
+runs continuously even in real-time. Since the next event of
+a given type needs to be calculated only when the previous one
+has been delivered, this is not as computationally intense as it
+sounds.
+
+"""
+
+from __future__ import print_function
 
 """
     Astrolabe copyright 2000, 2001 William McClain
@@ -22,28 +44,8 @@ from __future__ import print_fuction
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-A clock application that displays a variety of celestial events in the
-order they occur.
-
-Usage:
-
-    ./cronus.py start_year [stop_year]
-    
-To do:
-    -- Add many more events
-    -- Support both real-time and "fast" modes
-    -- Allow finer start and stop times
-    
-Currently the program always runs in "fast" mode, queueing and
-displaying events in the future as fast as possible. Eventually
-I would like to have enough events covered so that the display 
-runs continuously even in real-time. Since the next event of
-a given type needs to be calculated only when the previous one
-has been delivered, this is not as computationally intense as it
-sounds.
-
 """
+
 import sys
 from heapq import heappush, heappop
 from math import *
@@ -54,9 +56,9 @@ from astronomia.dynamical import dt_to_ut
 from astronomia.elp2000 import ELP2000
 from astronomia.equinox import equinox_approx, equinox
 from astronomia.nutation import nut_in_lon, nut_in_obl, obliquity
-from astronomia.riseset import rise, set, transit, moon_rst_altitude
+from astronomia.riseset import rise, settime, transit, moon_rst_altitude
 from astronomia.sun import Sun, aberration_low
-from astronomia.util import ecl_to_equ, d_to_r
+from astronomia.util import ecl_to_equ
 from astronomia.vsop87d import VSOP87d, geocentric_planet, vsop_to_fk5, planet_names
 from astronomia.util import load_params
 import astronomia.globals
@@ -74,9 +76,12 @@ class Task:
         self.jd = jd
         self.func = func
         self.args = args
-        
+
     def __cmp__(self, other):
         return cmp(self.jd, other.jd)
+
+    def __gt__(self, other):
+        return self.jd > other.jd
 
 taskQueue = []
 
@@ -97,10 +102,10 @@ def doEaster(year):
     heappush(taskQueue, Task(jd, display, (str,)))
     # recalculate on March 1, next year
     heappush(taskQueue, Task(cal_to_jd(year + 1, 3, 1), doEaster, (year + 1,)))
-    
+
 _seasons = {"spring": "Vernal Equinox", "summer": "Summer Solstice",
             "autumn": "Autumnal Equinox", "winter": "Winter Solstice"}
-            
+
 def doEquinox(year, season):
     approx_jd = equinox_approx(year, season)
     jd = equinox(approx_jd, season, days_per_second)
@@ -124,8 +129,8 @@ def doRiseSetTransit(jd_today):
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "rise")
-            
-        td = set(jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute)
+
+        td = settime(jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute)
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
@@ -147,13 +152,13 @@ def doRiseSetTransit(jd_today):
     # setup the day after tomorrow
     #
     jd += 2
-    
+
     # nutation in longitude
     deltaPsi = nut_in_lon(jd)
-    
+
     # apparent obliquity
     eps = obliquity(jd) + nut_in_obl(jd)
-    
+
     #
     # Planets
     #
@@ -172,13 +177,13 @@ def doRiseSetTransit(jd_today):
     # Moon
     #
     l, b, r = moon.dimension3(jd)
-    
+
     # nutation in longitude
     l += deltaPsi
 
     # equatorial coordinates
     ra, dec = ecl_to_equ(l, b, eps)
-    
+
     obj = rstDict["Moon"]
     del obj.raList[0]
     del obj.decList[0]
@@ -186,7 +191,7 @@ def doRiseSetTransit(jd_today):
     obj.raList.append(ra)
     obj.decList.append(dec)
     obj.h0List.append(moon_rst_altitude(r))
-    
+
     #
     # Sun
     #
@@ -197,13 +202,13 @@ def doRiseSetTransit(jd_today):
 
     # nutation in longitude
     l += deltaPsi
-    
+
     # aberration
     l += aberration_low(r)
 
     # equatorial coordinates
     ra, dec = ecl_to_equ(l, b, eps)
-    
+
     obj = rstDict["Sun"]
     del obj.raList[0]
     del obj.decList[0]
@@ -211,12 +216,12 @@ def doRiseSetTransit(jd_today):
     obj.raList.append(ra)
     obj.decList.append(dec)
     obj.h0List.append(sun_rst_altitude)
-    
+
     heappush(taskQueue, Task(jd, doRiseSetTransit, (jd_today + 1,)))
 
 def initRST(start_year):    
     start_jd = cal_to_jd(start_year)
-    
+
     #
     # We need nutation values for each of three days
     # 
@@ -228,7 +233,7 @@ def initRST(start_year):
         # apparent obliquity
         eps = obliquity(jd) + nut_in_obl(jd)
         nutation[day] = deltaPsi, eps
-        
+
     #
     # Planets
     #
@@ -288,10 +293,10 @@ def initRST(start_year):
         decList.append(dec)
         h0List.append(sun_rst_altitude)
     rstDict["Sun"] = RiseSetTransit("Sun", raList, decList, h0List)
-    
+
     # all Rise-Set-Transit events
     heappush(taskQueue, Task(HIGH_PRIORITY, doRiseSetTransit, (start_jd,)))
-    
+
 def run():
     global vsop
     global sun
@@ -314,14 +319,14 @@ def run():
 
     # Easter
     heappush(taskQueue, Task(HIGH_PRIORITY, doEaster, (start_year,)))
-    
+
     # four equinox/solstice events
     for season in astronomia.globals.season_names:
         heappush(taskQueue, Task(HIGH_PRIORITY, doEquinox, (start_year, season)))
 
     # initialize rise-set-transit objects  
     initRST(start_year);
-        
+
     # start the task loop        
     t = heappop(taskQueue)
     while t.jd < stop_jd:

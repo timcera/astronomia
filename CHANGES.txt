@@ -1,0 +1,7 @@
+v0.1, 2013-06-19 -- Initial release.
+    * Fork from Astrolabe
+    * Python 2 and 3 compatibility
+    * Added tests
+    * Several minor bug fixes
+    * Moved to git for source code control
+    * Moved to bitbucket

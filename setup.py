@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import sys, os
 
 version = '0.1'
 
@@ -8,14 +7,21 @@ setup(name='astronomia',
       description="Library for calculation of ephemeris and other astronomical calculations",
       long_description="""\
               Library of astronomical calculations
-              heavily based on Astrolabe, by Bill McClain,
-              Astrolabe is no longer available - at least I
-              couldn't find it.""",
-      classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+              based on Astrolabe, by Bill McClain.""",
+      classifiers=['Environment :: Console',
+                   'Intended Audience :: Developers',
+                   'Intended Audience :: Science/Research',
+                   'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
+                   'Operating System :: OS Independent',
+                   'Programming Language :: Python :: 2.6',
+                   'Programming Language :: Python :: 2.7',
+                   'Programming Language :: Python :: 3',
+                   'Topic :: Scientific/Engineering :: Astronomy',
+                   ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='ephemeris astronomy',
       author='Tim Cera, P.E.',
       author_email='tim@cerazone.net',
-      url='',
+      url='https://bitbucket.org/timcera/astronomia/wiki/Home',
       license='GPL2',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
@@ -23,12 +29,9 @@ setup(name='astronomia',
       install_requires=[
           # -*- Extra requirements: -*-
           ],
-      scripts=['apps/check_equinox.py', 'apps/create_text_vsop_db.py',
-               'apps/solstice.py', 'apps/check_perihelion.py',
-               'apps/cronus.py', 'apps/time_vsop_db_loads.py',
-               'apps/check_vsop87d.py', 'apps/easter-cgi.py',
-               'apps/validate_meeus.py', 'apps/create_binary_vsop_db.py',
-               'apps/solstice-cgi.py'],
+      scripts=['apps/solstice.py', 'apps/check_perihelion.py',
+          'apps/cronus.py', 'apps/easter-cgi.py', 'apps/solstice-cgi.py'],
+      data_files=[('share/astronomia', ['apps/astronomia_params.txt'])],
       entry_points="""
       # -*- Entry points: -*-
       """,

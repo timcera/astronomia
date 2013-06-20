@@ -7,6 +7,13 @@ from unittest import TestCase
 from astronomia.constants import days_per_second
 from astronomia.equinox import equinox_approx, equinox
 from astronomia.calendar import cal_to_jd, hms_to_fday
+import astronomia.globals
+
+_months = {
+           "spring" : 3, 
+           "summer" : 6, 
+           "autumn" : 9, 
+           "winter" : 12}
 
 class TestEquinox(TestCase):
     def test_equinox(self):
@@ -68,14 +75,39 @@ class TestEquinox(TestCase):
                     ("summer",  21, hms_to_fday( 6, 47, 12)),
                     ("autumn",  22, hms_to_fday(22, 24, 14)),
                     ("winter",  21, hms_to_fday(18, 36, 1))))]
-        months = {"spring" : 3,  "summer" : 6, "autumn" : 9, "winter" : 12}
 
         for yr, terms in tbl:
             for season, day, fday in terms:
                 approx = equinox_approx(yr, season)
                 jd = equinox(approx, season, days_per_second)
                 self.assertAlmostEqual(jd, cal_to_jd(yr, 
-                                                     months[season],
+                                                     _months[season],
                                                      day + fday),
                                                      places=4)
+
+    def test_equinox_range(self):
+        """
+        Check the accuracy of the equinox approximation routines over
+        4000 years.
+
+        Meeus provides formulae for appromimate solstices and equinoxes for
+        the years -1000 to 3000. How accurate are they over the whole range
+        of years?
+
+        The test below compares the approximate values with the exact
+        values as determined by the VSOP87d theory.
+
+        In other tests, the maximum differences is 0.0015 days, or about 2.16
+        minutes. The maximum occurred for the summer solstice in -408.
+
+        """
+        for yr in range(-1000, 3001, 100):
+            for season in astronomia.globals.season_names:
+                approx_jd = equinox_approx(yr, season)
+                #
+                # We use the 21st of the month as our guess, just in case the
+                # approx_jd is wildly off.
+                #
+                jd = equinox(cal_to_jd(yr, _months[season], 21), season, days_per_second)
+                self.assertAlmostEqual(jd, approx_jd, places=2)
 

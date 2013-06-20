@@ -25,6 +25,8 @@
 from math import modf, cos, sin, asin, tan, atan2, pi
 import os
 import shlex
+import sys
+
 import astronomia.globals
 from astronomia.constants import pi2, minutes_per_day, seconds_per_day
 
@@ -288,8 +290,19 @@ def load_params():
         nothing
 
     """
+    fname = os.environ.get("ASTRONOMIA_PARAMS", "astronomia_params.txt")
+
+    if not os.path.exists(fname):
+        # last resort
+        fname = os.path.join(sys.prefix,
+                             'share', 'astronomia', 'astronomia_params.txt')
+        print('''WARNING: Using system wide settings file at
+"{0}".
+You may want to set the ASTRONOMIA_PARAMS environment variable to point to the
+file you want, or create a "astronomia_params.txt" file in the current
+directory.'''.format(fname))
     try:
-        f = file(os.environ.get("ASTRONOMIA_PARAMS", "astronomia_params.txt"))
+        f = open(fname, 'r')
     except IOError as value:
         raise Error("Unable to open param file. Either set ASTRONOMIA_PARAMS correctly or create astronomia_params.txt in the current directory")
 
