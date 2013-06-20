@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+import os.path
 
 version = '0.1'
 
@@ -31,7 +32,7 @@ setup(name='astronomia',
           ],
       scripts=['apps/solstice.py', 'apps/check_perihelion.py',
           'apps/cronus.py', 'apps/easter-cgi.py', 'apps/solstice-cgi.py'],
-      data_files=[('share/astronomia', ['apps/astronomia_params.txt'])],
+      data_files=[(os.path.join('share', 'astronomia'), ['apps/astronomia_params.txt'])],
       entry_points="""
       # -*- Entry points: -*-
       """,
