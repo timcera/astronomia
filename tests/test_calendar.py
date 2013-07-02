@@ -3,9 +3,12 @@ Tests for the elp2000 functions.
 '''
 
 from unittest import TestCase
+import math
+
+import numpy as np
 
 from astronomia.util import ecl_to_equ, d_to_r, r_to_d
-from astronomia.calendar import cal_to_jd, cal_to_jde, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal, easter
+from astronomia.calendar import cal_to_jd, cal_to_jde, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal, easter, sidereal_time_greenwich
 
 class TestUtil(TestCase):
     def test_cal_to_jd(self):
@@ -31,6 +34,14 @@ class TestUtil(TestCase):
         self.assertEqual(jd, 2434923.5)
         dow = jd_to_day_of_week(jd)
         self.assertEqual(dow, 3)
+
+    def test_sidereal(self):
+        N = sidereal_time_greenwich(cal_to_jd(2004,1,1))
+        testval = (6*3600 + 39*60 + 58.60298794778828)/43200*math.pi
+        np.testing.assert_array_almost_equal(N, testval, decimal=4)
+        N = sidereal_time_greenwich(cal_to_jd(2004,1,[1,2]))
+        testval1 = (6*3600 + 43*60 + 55.15832794114431)/43200*math.pi
+        np.testing.assert_array_almost_equal(N, [testval, testval1], decimal=4)
 
     def test_doy(self):
         N = cal_to_day_of_year(1978, 11, 14)
@@ -63,6 +74,13 @@ class TestUtil(TestCase):
         self.assertEqual(mo, 5)
         self.assertAlmostEqual(day, 28.63)
 
+    def test_jd_to_cal_array(self):
+        yr, mo, day = jd_to_cal([1842713.0, 1507900.13], False)
+
+        np.testing.assert_array_equal(yr, [333, -584])
+        np.testing.assert_array_equal(mo, [1, 5])
+        np.testing.assert_array_almost_equal(day, [27.5, 28.63])
+
     def test_ecl_to_equ(self):
         ra, dec = ecl_to_equ(d_to_r(113.215630), d_to_r(6.684170), d_to_r(23.4392911))
         self.assertAlmostEqual(r_to_d(ra), 116.328942, places=5)
@@ -94,4 +112,4 @@ class TestUtil(TestCase):
               ]
         for date, testval in tbl:
             jd = cal_to_jde(*date)
-            self.assertAlmostEqual(jd, testval, places=6)
+            np.testing.assert_array_almost_equal(jd, testval, decimal=6)

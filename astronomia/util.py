@@ -27,6 +27,8 @@ import os
 import shlex
 import sys
 
+import numpy as np
+
 import astronomia.globals
 from astronomia.constants import pi2, minutes_per_day, seconds_per_day
 
@@ -34,6 +36,15 @@ from astronomia.constants import pi2, minutes_per_day, seconds_per_day
 class Error(Exception):
     """Local exception class"""
     pass
+
+
+def _scalar_if_one(solution):
+    """Returns a scalar if array size is 1"""
+    if np.isscalar(solution):
+        return solution
+    if solution.size == 1:
+        return solution.item()
+    return solution
 
 
 def d_to_dms(x):
@@ -122,10 +133,14 @@ def dms_to_d(deg, minute, sec):
       - decimal degrees : (float)
 
     """
+    deg = np.atleast_1d(deg)
+    minute = np.atleast_1d(minute)
+    sec = np.atleast_1d(sec)
+    deg, minute, sec = np.broadcast_arrays(deg, minute, sec)
     result = abs(deg) + abs(minute)/60.0 + abs(sec)/3600.0
     if deg < 0 or minute < 0 or sec < 0:
         result = -result
-    return result
+    return _scalar_if_one(result)
 
 
 def ecl_to_equ(longitude, latitude, obliquity):
@@ -229,6 +244,10 @@ def hms_to_fday(hr, mn, sec):
       - fractional day, 0.0..1.0
 
     """
+    hr = np.atleast_1d(hr)
+    mn = np.atleast_1d(mn)
+    sec = np.atleast_1d(sec)
+    hr, mn, sec = np.broadcast_arrays(hr, mn, sec)
     return ((hr / 24.0) + (mn / minutes_per_day) + (sec / seconds_per_day))
 
 
@@ -304,10 +323,13 @@ directory.'''.format(fname))
     try:
         f = open(fname, 'r')
     except IOError as value:
-        raise Error("Unable to open param file. Either set ASTRONOMIA_PARAMS correctly or create astronomia_params.txt in the current directory")
+        raise Error('''
+Unable to open param file. Either set ASTRONOMIA_PARAMS correctly or create
+astronomia_params.txt in the current directory''')
 
     lex = shlex.shlex(f)
-    lex.wordchars = lex.wordchars + '.-/\\:'   # tokens and values can have dots, dashes, slashes, colons
+    # tokens and values can have dots, dashes, slashes, colons
+    lex.wordchars = lex.wordchars + '.-/\\:'
     token = lex.get_token()
     while token:
         if token == "standard_timezone_name":
@@ -315,7 +337,14 @@ directory.'''.format(fname))
         elif token == "standard_timezone_offset":
             offset = float(lex.get_token())
             unit = lex.get_token().lower()
-            if unit not in ("day", "days", "hour", "hours", "minute", "minutes", "second", "seconds"):
+            if unit not in ("day",
+                            "days",
+                            "hour",
+                            "hours",
+                            "minute",
+                            "minutes",
+                            "second",
+                            "seconds"):
                 raise Error('bad value for standard_timezone_offset units')
             if unit in ("hour", "hours"):
                 offset /= 24.0
@@ -329,7 +358,14 @@ directory.'''.format(fname))
         elif token == "daylight_timezone_offset":
             offset = float(lex.get_token())
             unit = lex.get_token().lower()
-            if unit not in ("day", "days", "hour", "hours", "minute", "minutes", "second", "seconds"):
+            if unit not in ("day",
+                            "days",
+                            "hour",
+                            "hours",
+                            "minute",
+                            "minutes",
+                            "second",
+                            "seconds"):
                 raise Error('bad value for standard_timezone_offset units')
             if unit in ("hour", "hours"):
                 offset /= 24.0
@@ -359,7 +395,8 @@ directory.'''.format(fname))
         elif token == "vsop87d_binary_path":
             astronomia.globals.vsop87d_binary_path = lex.get_token()
         else:
-            raise Error("unknown token %s at line %d in param file" % (token, lex.lineno))
+            raise Error("unknown token %s at line %d in param file" %
+                        (token, lex.lineno))
         token = lex.get_token()
 
     f.close()
@@ -376,6 +413,19 @@ def modpi2(x):
 
     """
     return x % pi2
+
+
+def mod360(x):
+    """Reduce an angle in degrees to the range 0..360.
+
+    Arguments:
+      - `x` : angle in degrees
+
+    Returns:
+      - angle in degress in the range 0..360
+
+    """
+    return x % 360
 
 
 def polynomial(terms, x):
@@ -397,11 +447,8 @@ def polynomial(terms, x):
 
             1.1 + 2.2 * t + 3.3 * t^2 + 4.4 * t^3
     """
-
-    result = 0.0
-    for index, i in enumerate(terms):
-        result = result + i*x**index
-    return result
+    apolyfunc = np.polynomial.Polynomial(terms)
+    return apolyfunc(x)
 
 #
 # Local constants

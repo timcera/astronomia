@@ -35,9 +35,11 @@ Bug: each of the routines drops some events which occur near 0hr UT.
 from math import *
 
 from astronomia.calendar import sidereal_time_greenwich
-from astronomia.constants import seconds_per_day, pi2, earth_equ_radius, standard_rst_altitude
+from astronomia.constants import seconds_per_day, pi2, earth_equ_radius, \
+    standard_rst_altitude
 from astronomia.dynamical import deltaT_seconds
-from astronomia.util import d_to_r, interpolate_angle3, diff_angle, r_to_d, modpi2, interpolate3, equ_to_horiz
+from astronomia.util import d_to_r, interpolate_angle3, diff_angle, r_to_d, \
+    modpi2, interpolate3, equ_to_horiz
 import astronomia.globals
 
 

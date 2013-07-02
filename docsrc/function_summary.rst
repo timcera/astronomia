@@ -29,15 +29,11 @@ Dynamical Functions
    dynamical.deltaT_seconds
    dynamical.dt_to_ut
 
-ELP Functions
--------------
+Lunar Functions
+--------------
 .. autosummary::
 
-   elp2000.ELP2000.mean_longitude_ascending_node
-   elp2000.ELP2000.mean_longitude_perigee
-   elp2000.ELP2000.mean_longitude
-   elp2000.ELP2000.dimension3
-   elp2000.ELP2000.dimension
+   lunar.Lunar
 
 Equinox Functions
 -----------------
@@ -50,8 +46,8 @@ Nutation Functions
 ------------------
 .. autosummary::
 
-   nutation.nut_in_lon
-   nutation.nut_in_obl
+   nutation.nutation_in_longitude
+   nutation.nutation_in_obliquity
    nutation.obliquity
    nutation.obliquity_hi
 
@@ -68,10 +64,7 @@ Sun Functions
 -------------
 .. autosummary::
 
-   sun.Sun.mean_longitude
-   sun.Sun.mean_longitude_perigee
-   sun.Sun.dimension
-   sun.Sun.dimension3
+   sun.Sun
    sun.longitude_radius_low
    sun.apparent_longitude_low
    sun.aberration_low
@@ -96,12 +89,11 @@ Utility Functions
    util.polynomial
    util.r_to_d
 
-VSOP86d Functions
+VSOP87d Functions
 -----------------
 .. autosummary::
 
-   vsop87d.VSOP87d.dimension
-   vsop87d.VSOP87d.dimension3
+   vsop87d.VSOP87d
    vsop87d.vsop_to_fk5
    vsop87d.geocentric_planet
    vsop87d.load_vsop87d_text_db

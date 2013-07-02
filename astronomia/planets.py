@@ -23,9 +23,13 @@
     """
 
 from math import sin, cos, tan, atan2, sqrt
+
+import numpy as np
+
 from astronomia.constants import pi2
 from astronomia.calendar import jd_to_jcent
-from astronomia.util import d_to_r, dms_to_d, polynomial, modpi2, diff_angle, ecl_to_equ
+from astronomia.util import d_to_r, dms_to_d, polynomial, modpi2, diff_angle, \
+    ecl_to_equ, _scalar_if_one
 
 
 class Error(Exception):
@@ -87,19 +91,20 @@ class VSOP87d:
             depending on the value of `dim`.
 
         """
+        jd = np.atleast_1d(jd)
         X = 0.0
         tauN = 1.0
         tau = jd_to_jcent(jd)/10.0
         c = _planets[(planet, dim)]
 
         for s in c:
-            X += sum([A*cos(B + C*tau) for A, B, C in s])*tauN
+            X += np.sum([A*np.cos(B + C*tau) for A, B, C in s])*tauN
             tauN = tauN*tau  # last calculation is wasted
 
         if dim == "L":
             X = modpi2(X)
 
-        return X
+        return _scalar_if_one(X)
 
     def dimension3(self, jd, planet):
         """Return heliocentric ecliptic longitude, latitude and radius.
@@ -146,13 +151,14 @@ def vsop_to_fk5(jd, L, B):
       - corrected latitude in radians
 
     """
+    jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
     L1 = polynomial([L, _k0, _k1], T)
-    cosL1 = cos(L1)
-    sinL1 = sin(L1)
-    deltaL = _k2 + _k3*(cosL1 + sinL1)*tan(B)
+    cosL1 = np.cos(L1)
+    sinL1 = np.sin(L1)
+    deltaL = _k2 + _k3*(cosL1 + sinL1)*np.tan(B)
     deltaB = _k3*(cosL1 - sinL1)
-    return modpi2(L + deltaL), B + deltaB
+    return _scalar_if_one(modpi2(L + deltaL)), _scalar_if_one(B + deltaB)
 
 
 def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
@@ -174,6 +180,7 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
       - declination, in radians
 
     """
+    jd = np.atleast_1d(jd)
     vsop = VSOP87d()
     t = jd
     l0 = -100.0  # impossible value
@@ -189,20 +196,20 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
         L, B, R = vsop.dimension3(t, planet)
 
         # rectangular offset
-        cosB0 = cos(B0)
-        cosB = cos(B)
-        x = R*cosB*cos(L) - R0*cosB0*cos(L0)
-        y = R*cosB*sin(L) - R0*cosB0*sin(L0)
-        z = R*sin(B) - R0*sin(B0)
+        cosB0 = np.cos(B0)
+        cosB = np.cos(B)
+        x = R*cosB*np.cos(L) - R0*cosB0*np.cos(L0)
+        y = R*cosB*np.sin(L) - R0*cosB0*np.sin(L0)
+        z = R*np.sin(B) - R0*np.sin(B0)
 
         # geocentric geometric ecliptic coordinates of the planet
         x2 = x*x
         y2 = y*y
-        l = atan2(y, x)
-        b = atan2(z, sqrt(x2 + y2))
+        l = np.arctan2(y, x)
+        b = np.arctan2(z, sqrt(x2 + y2))
 
         # distance to planet in AU
-        dist = sqrt(x2 + y2 + z*z)
+        dist = np.sqrt(x2 + y2 + z*z)
 
         # light time in days
         tau = 0.0057755183 * dist

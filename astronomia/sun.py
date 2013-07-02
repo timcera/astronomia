@@ -24,9 +24,13 @@
 
 """
 from math import *
+
+import numpy as np
+
 from astronomia.calendar import jd_to_jcent
-from astronomia.util import polynomial, d_to_r, modpi2, dms_to_d
-from astronomia.vsop87d import VSOP87d
+from astronomia.util import polynomial, d_to_r, modpi2, dms_to_d, \
+    _scalar_if_one
+from astronomia.planets import VSOP87d
 
 
 class Error(Exception):
@@ -57,6 +61,7 @@ class Sun:
           - Longitude in radians
 
         """
+        jd = np.atleast_1d(jd)
         T = jd_to_jcent(jd)
 
         # From astrolabe
@@ -75,7 +80,7 @@ class Sun:
                         d_to_r(-1.0/2000000)), T/10.0)
 
         X = modpi2(X + pi)
-        return X
+        return _scalar_if_one(X)
 
     def mean_longitude_perigee(self, jd):
         """Return mean longitude of solar perigee.
@@ -87,16 +92,17 @@ class Sun:
           - Longitude of solar perigee in radians
 
         """
+        jd = np.atleast_1d(jd)
         T = jd_to_jcent(jd)
 
         X = polynomial((1012395.0,
-                        6189.03  ,
-                        1.63     ,
-                        0.012    ), (T + 1))/3600.0
+                        6189.03,
+                        1.63,
+                        0.012), (T + 1))/3600.0
         X = d_to_r(X)
 
         X = modpi2(X)
-        return X
+        return _scalar_if_one(X)
 
     def dimension(self, jd, dim):
         """Return one of geocentric ecliptic longitude, latitude and radius.
@@ -110,12 +116,13 @@ class Sun:
             au, depending on value of `dim`.
 
         """
+        jd = np.atleast_1d(jd)
         X = self.vsop.dimension(jd, "Earth", dim)
         if dim == "L":
             X = modpi2(X + pi)
         elif dim == "B":
             X = -X
-        return X
+        return _scalar_if_one(X)
 
     def dimension3(self, jd):
         """Return geocentric ecliptic longitude, latitude and radius.
@@ -139,17 +146,18 @@ class Sun:
 #
 _kL0 = (d_to_r(280.46646),
         d_to_r(36000.76983),
-        d_to_r( 0.0003032))
-_kM  = (d_to_r(357.52911),
-        d_to_r(35999.05029),
-        d_to_r(-0.0001537))
-_kC  = (d_to_r(  1.914602),
-        d_to_r(   -0.004817),
-        d_to_r(-0.000014))
+        d_to_r(0.0003032))
+_kM = (d_to_r(357.5291092),
+       d_to_r(35999.0502909),
+       d_to_r(-0.0001536),
+       d_to_r(1.0/24490000))
+_kC = (d_to_r(1.914602),
+       d_to_r(-0.004817),
+       d_to_r(-0.000014))
 
-_ck3 = d_to_r( 0.019993)
+_ck3 = d_to_r(0.019993)
 _ck4 = d_to_r(-0.000101)
-_ck5 = d_to_r( 0.000289)
+_ck5 = d_to_r(0.000289)
 
 
 def longitude_radius_low(jd):
@@ -166,16 +174,17 @@ def longitude_radius_low(jd):
       - radius in au
 
     """
+    jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
     L0 = polynomial(_kL0, T)
     M = polynomial(_kM, T)
     er = polynomial((0.016708634, -0.000042037, -0.0000001267), T)
-    C = polynomial(_kC, T) * sin(M) \
-        + (_ck3 - _ck4 * T) * sin(2 * M) \
-        + _ck5 * sin(3 * M)
+    C = polynomial(_kC, T) * np.sin(M) \
+        + (_ck3 - _ck4 * T) * np.sin(2 * M) \
+        + _ck5 * np.sin(3 * M)
     L = modpi2(L0 + C)
     v = M + C
-    R = 1.000001018 * (1 - er * er) / (1 + er * cos(v))
+    R = 1.000001018 * (1 - er * er) / (1 + er * np.cos(v))
     return L, R
 
 
@@ -201,9 +210,10 @@ def apparent_longitude_low(jd, L):
       - corrected longitude in radians
 
     """
+    jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
     omega = _lk0 - _lk1 * T
-    return modpi2(L - _lk2 - _lk3 * sin(omega))
+    return _scalar_if_one(modpi2(L - _lk2 - _lk3 * np.sin(omega)))
 
 
 #

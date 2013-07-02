@@ -14,7 +14,7 @@ To do:
 
 Currently the program always runs in "fast" mode, queueing and
 displaying events in the future as fast as possible. Eventually
-I would like to have enough events covered so that the display 
+I would like to have enough events covered so that the display
 runs continuously even in real-time. Since the next event of
 a given type needs to be calculated only when the previous one
 has been delivered, this is not as computationally intense as it
@@ -53,9 +53,9 @@ from math import *
 from astronomia.calendar import easter, cal_to_jd, ut_to_lt, lt_to_str
 from astronomia.constants import days_per_second, days_per_minute, standard_rst_altitude, sun_rst_altitude
 from astronomia.dynamical import dt_to_ut
-from astronomia.elp2000 import ELP2000
+from astronomia.lunar import Lunar
 from astronomia.equinox import equinox_approx, equinox
-from astronomia.nutation import nut_in_lon, nut_in_obl, obliquity
+from astronomia.nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
 from astronomia.riseset import rise, settime, transit, moon_rst_altitude
 from astronomia.sun import Sun, aberration_low
 from astronomia.util import ecl_to_equ
@@ -65,7 +65,7 @@ import astronomia.globals
 
 vsop = None # delay loading this until we are sure the script can run
 sun = None  #  "                  "
-moon = ELP2000()
+moon = Lunar()
 
 HIGH_PRIORITY = 0.0
 
@@ -154,10 +154,10 @@ def doRiseSetTransit(jd_today):
     jd += 2
 
     # nutation in longitude
-    deltaPsi = nut_in_lon(jd)
+    deltaPsi = nutation_in_longitude(jd)
 
     # apparent obliquity
-    eps = obliquity(jd) + nut_in_obl(jd)
+    eps = obliquity(jd) + nutation_in_obliquity(jd)
 
     #
     # Planets
@@ -197,7 +197,7 @@ def doRiseSetTransit(jd_today):
     #
     l, b, r = sun.dimension3(jd)
 
-    # correct vsop coordinates    
+    # correct vsop coordinates
     l, b = vsop_to_fk5(jd, l, b)
 
     # nutation in longitude
@@ -219,19 +219,19 @@ def doRiseSetTransit(jd_today):
 
     heappush(taskQueue, Task(jd, doRiseSetTransit, (jd_today + 1,)))
 
-def initRST(start_year):    
+def initRST(start_year):
     start_jd = cal_to_jd(start_year)
 
     #
     # We need nutation values for each of three days
-    # 
+    #
     nutation = {}
     for day in (-1, 0, 1):
         jd = start_jd + day
         # nutation in longitude
-        deltaPsi = nut_in_lon(jd)
+        deltaPsi = nutation_in_longitude(jd)
         # apparent obliquity
-        eps = obliquity(jd) + nut_in_obl(jd)
+        eps = obliquity(jd) + nutation_in_obliquity(jd)
         nutation[day] = deltaPsi, eps
 
     #
@@ -281,7 +281,7 @@ def initRST(start_year):
         jd = start_jd + day
         deltaPsi, eps = nutation[day]
         l, b, r = sun.dimension3(jd)
-        # correct vsop coordinates    
+        # correct vsop coordinates
         l, b = vsop_to_fk5(jd, l, b)
         # nutation in longitude
         l += deltaPsi
@@ -324,14 +324,14 @@ def run():
     for season in astronomia.globals.season_names:
         heappush(taskQueue, Task(HIGH_PRIORITY, doEquinox, (start_year, season)))
 
-    # initialize rise-set-transit objects  
+    # initialize rise-set-transit objects
     initRST(start_year);
 
-    # start the task loop        
+    # start the task loop
     t = heappop(taskQueue)
     while t.jd < stop_jd:
-        #apply(t.func, t.args)   
-        t.func(*t.args)   
+        #apply(t.func, t.args)
+        t.func(*t.args)
         t = heappop(taskQueue)
 
 run()

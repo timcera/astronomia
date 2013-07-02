@@ -42,8 +42,11 @@ Willmann-Bell, Inc.
 """
 
 from math import modf
-from astronomia.util import d_to_r, modpi2, fday_to_hms, hms_to_fday
 
+import numpy as np
+
+from astronomia.util import d_to_r, modpi2, fday_to_hms, hms_to_fday, \
+    _scalar_if_one
 import astronomia.globals
 
 
@@ -69,15 +72,21 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
       - (int, float)
 
     """
-    if mon <= 2:
-        year -= 1
-        mon += 12
+    year = np.atleast_1d(year)
+    mon = np.atleast_1d(mon)
+    day = np.atleast_1d(day)
+    year, mon, day = np.broadcast_arrays(year, mon, day)
+    testarr = mon <= 2
+    year[testarr] -= 1
+    mon[testarr] += 12
     if gregorian:
-        A = int(year / 100)
-        B = 2 - A + int(A / 4)
+        A = (year / 100).astype(np.int64)
+        B = 2 - A + (A / 4).astype(np.int64)
     else:
         B = 0
-    return int(365.25*(year + 4716)) + int(30.6001*(mon + 1)) + day + B - 1524.5
+    return _scalar_if_one(
+        (365.25*(year + 4716)).astype(np.int64) +
+        (30.6001*(mon + 1)).astype(np.int64) + day + B - 1524.5)
 
 
 def cal_to_jde(year, mon=1, day=1, hour=0, minute=0, sec=0.0, gregorian=True):
@@ -101,7 +110,7 @@ def cal_to_jde(year, mon=1, day=1, hour=0, minute=0, sec=0.0, gregorian=True):
 
     """
     jde = cal_to_jd(year, mon, day, gregorian)
-    return jde + hms_to_fday(hour, minute, sec)
+    return _scalar_if_one(jde + hms_to_fday(hour, minute, sec))
 
 
 def cal_to_day_of_year(year, mon, day, gregorian=True):
@@ -121,12 +130,16 @@ def cal_to_day_of_year(year, mon, day, gregorian=True):
       - day number : 1 = Jan 1...365 (or 366 for leap years) = Dec 31.
 
     """
-    if is_leap_year(year, gregorian):
-        K = 1
-    else:
-        K = 2
-    day = int(day)
-    return int(275 * mon / 9.0) - (K * int((mon + 9) / 12.0)) + day - 30
+    year = np.atleast_1d(year).astype(np.int64)
+    mon = np.atleast_1d(mon).astype(np.int64)
+    day = np.atleast_1d(day).astype(np.int64)
+    year, mon, day = np.broadcast_arrays(year, mon, day)
+    K = np.ones_like(year)
+    K[:] = 2
+    K[np.atleast_1d(is_leap_year(year, gregorian))] = 1
+    return _scalar_if_one(
+        (275 * mon / 9.0).astype(np.int64) -
+        (K * ((mon + 9) / 12.0).astype(np.int64)) + day - 30)
 
 
 def day_of_year_to_cal(year, N, gregorian=True):
@@ -145,16 +158,17 @@ def day_of_year_to_cal(year, N, gregorian=True):
       - (month, day) : (tuple)
 
     """
-    if is_leap_year(year, gregorian):
-        K = 1
-    else:
-        K = 2
-    if (N < 32):
-        mon = 1
-    else:
-        mon = int(9 * (K+N) / 275.0 + 0.98)
-    day = int(N - int(275 * mon / 9.0) + K * int((mon + 9) / 12.0) + 30)
-    return mon, day
+    year = np.atleast_1d(year)
+    N = np.atleast_1d(N)
+    year, N = np.broadcast_arrays(year, N)
+    K = np.ones_like(N)
+    K[:] = 2
+    K[np.atleast_1d(is_leap_year(year, gregorian))] = 1
+    mon = (9 * (K + N) / 275.0 + 0.98).astype(np.int64)
+    mon[N < 32] = 1
+    day = (N - (275 * mon / 9.0).astype(np.int64) +
+           K * ((mon + 9) / 12.0).astype(np.int64) + 30).astype(np.int64)
+    return _scalar_if_one(mon), _scalar_if_one(day)
 
 
 def easter(year, gregorian=True):
@@ -172,7 +186,7 @@ def easter(year, gregorian=True):
       - (month, day) : (tuple)
 
     """
-    year = int(year)
+    year = np.atleast_1d(year)
     if gregorian:
         a = year % 19
         b = year // 100
@@ -196,7 +210,7 @@ def easter(year, gregorian=True):
         tmp = d + e + 114
     mon = tmp // 31
     day = (tmp % 31) + 1
-    return mon, day
+    return _scalar_if_one(mon), _scalar_if_one(day)
 
 
 def is_dst(julian_day):
@@ -287,11 +301,13 @@ def is_leap_year(year, gregorian=True):
       - (bool) True is this is a leap year, else False.
 
     """
-    year = int(year)
+    year = np.atleast_1d(year).astype(np.int64)
     if gregorian:
-        return (year % 4 == 0) and ((year % 100 != 0) or (year % 400 == 0))
+        return _scalar_if_one(
+            np.logical_or(np.logical_and((year % 4 == 0), (year % 100 != 0)),
+                         (year % 400 == 0)))
     else:
-        return year % 4 == 0
+        return _scalar_if_one(year % 4 == 0)
 
 
 def jd_to_cal(julian_day, gregorian=True):
@@ -309,26 +325,23 @@ def jd_to_cal(julian_day, gregorian=True):
       - (year, month, day) : (tuple) day may be fractional
 
     """
-    F, Z = modf(julian_day + 0.5)
+    julian_day = np.atleast_1d(julian_day)
+    F, Z = np.modf(julian_day + 0.5)
     if gregorian:
-        alpha = int((Z - 1867216.25) / 36524.25)
-        A = Z + 1 + alpha - int(alpha / 4)
+        alpha = ((Z - 1867216.25) / 36524.25).astype(np.int64)
+        A = Z + 1 + alpha - (alpha / 4).astype(np.int64)
     else:
         A = Z
     B = A + 1524
-    C = int((B - 122.1) / 365.25)
-    D = int(365.25 * C)
-    E = int((B - D) / 30.6001)
-    day = B - D - int(30.6001 * E) + F
-    if E < 14:
-        mon = E - 1
-    else:
-        mon = E - 13
-    if mon > 2:
-        year = C - 4716
-    else:
-        year = C - 4715
-    return year, mon, day
+    C = ((B - 122.1) / 365.25).astype(np.int64)
+    D = (365.25 * C).astype(np.int64)
+    E = ((B - D) / 30.6001).astype(np.int64)
+    day = B - D - (30.6001 * E).astype(np.int64) + F
+    mon = E - 13
+    mon[E < 14] = E[E < 14] - 1
+    year = C - 4715
+    year[mon > 2] = C[mon > 2] - 4716
+    return _scalar_if_one(year), _scalar_if_one(mon), _scalar_if_one(day)
 
 
 def jd_to_day_of_week(julian_day):
@@ -343,8 +356,9 @@ def jd_to_day_of_week(julian_day):
       - day of week : (int) 0 = Sunday...6 = Saturday.
 
     """
-    i = julian_day + 1.5
-    return int(i) % 7
+    julian_day = np.atleast_1d(julian_day)
+    i = (julian_day + 1.5).astype(np.int64)
+    return _scalar_if_one(i % 7)
 
 
 def jd_to_jcent(julian_day):
@@ -357,7 +371,8 @@ def jd_to_jcent(julian_day):
       - Julian centuries : (int)
 
     """
-    return (julian_day - 2451545.0) / 36525.0
+    julian_day = np.atleast_1d(julian_day)
+    return _scalar_if_one((julian_day - 2451545.0) / 36525.0)
 
 
 def lt_to_str(julian_day, zone="", level="second"):

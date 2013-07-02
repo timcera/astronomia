@@ -25,10 +25,10 @@
 from math import pi, cos
 from astronomia.calendar import jd_to_jcent
 from astronomia.constants import pi2
-from astronomia.nutation import nut_in_lon
+from astronomia.nutation import nutation_in_longitude
 from astronomia.sun import aberration_low, Sun
 from astronomia.util import d_to_r, polynomial, diff_angle
-from astronomia.vsop87d import vsop_to_fk5
+from astronomia.planets import vsop_to_fk5
 import astronomia.globals
 
 
@@ -144,15 +144,15 @@ def equinox(jd, season, delta):
     """
     #
     # If we knew that the starting approximate time was close enough
-    # to the actual time, we could pull nut_in_lon() and the aberration
-    # out of the loop and save some calculating.
+    # to the actual time, we could pull nutation_in_longitude() and the
+    # aberration out of the loop and save some calculating.
     #
     circ = _circle[season]
     sun = Sun()
     for i in range(20):
         jd0 = jd
         L, B, R = sun.dimension3(jd)
-        L += nut_in_lon(jd) + aberration_low(R)
+        L += nutation_in_longitude(jd) + aberration_low(R)
         L, B = vsop_to_fk5(jd, L, B)
         # Meeus uses jd + 58 * sin(diff(...))
         jd += diff_angle(L, circ) * _k_sun_motion

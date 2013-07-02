@@ -34,7 +34,9 @@ published in _Explanatory Supplement to the Astronomical Almanac_, revised
 edition edited by P. Kenneth Seidelman, 1992
 
 """
-from math import *
+
+import numpy as np
+
 from astronomia.util import polynomial, modpi2, d_to_r, dms_to_d
 from astronomia.calendar import jd_to_jcent
 
@@ -111,7 +113,8 @@ _tbl = (
 
 
 def _constants(T):
-    """Return some values needed for both nut_in_lon() and nut_in_obl()"""
+    """Return some values needed for both nutation_in_longitude() and
+    nutation_in_obliquity()"""
     D = modpi2(polynomial(kD,  T))
     M = modpi2(polynomial(kM,  T))
     M1 = modpi2(polynomial(kM1, T))
@@ -120,7 +123,7 @@ def _constants(T):
     return D, M, M1, F, omega
 
 
-def nut_in_lon(jd):
+def nutation_in_longitude(jd):
     """Return the nutation in longitude.
 
     High precision. [Meeus-1998: pg 144]
@@ -142,14 +145,14 @@ def nut_in_lon(jd):
     deltaPsi = 0.0
     for tD, tM, tM1, tF, tomega, tpsiK, tpsiT, tepsK, tepsT in _tbl:
         arg = D*tD + M*tM + M1*tM1 + F*tF + omega*tomega
-        deltaPsi += (tpsiK/10000.0 + tpsiT/100000.0 * T) * sin(arg)
+        deltaPsi += (tpsiK/10000.0 + tpsiT/100000.0 * T) * np.sin(arg)
 
     deltaPsi /= 3600
     deltaPsi = d_to_r(deltaPsi)
     return deltaPsi
 
 
-def nut_in_obl(jd):
+def nutation_in_obliquity(jd):
     """Return the nutation in obliquity.
 
     High precision. [Meeus-1998: pg 144]
@@ -171,7 +174,7 @@ def nut_in_obl(jd):
     deltaEps = 0.0
     for tD, tM, tM1, tF, tomega, tpsiK, tpsiT, tepsK, tepsT in _tbl:
         arg = D*tD + M*tM + M1*tM1 + F*tF + omega*tomega
-        deltaEps = deltaEps + (tepsK/10000.0 + tepsT/100000.0 * T) * cos(arg)
+        deltaEps = deltaEps + (tepsK/10000.0 + tepsT/100000.0 * T) * np.cos(arg)
     deltaEps = deltaEps / 3600
     deltaEps = d_to_r(deltaEps)
     return deltaEps

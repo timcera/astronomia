@@ -28,10 +28,10 @@ astronomia Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`elp2000` Module
+:mod:`lunar` Module
 ---------------------
 
-.. automodule:: astronomia.elp2000
+.. automodule:: astronomia.lunar
     :members:
     :undoc-members:
     :show-inheritance:

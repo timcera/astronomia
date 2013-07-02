@@ -24,11 +24,11 @@
 __all__ = ["calendar",
            "constants",
            "dynamical",
-           "elp2000",
+           "moon",
            "equinox",
            "globals",
            "nutation",
            "riseset",
            "sun",
            "util",
-           "vsop87d"]
+           "planets"]

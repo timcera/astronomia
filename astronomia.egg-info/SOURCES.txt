@@ -14,14 +14,14 @@ astronomia/calendar.py
 astronomia/commonterms.py
 astronomia/constants.py
 astronomia/dynamical.py
-astronomia/elp2000.py
 astronomia/equinox.py
 astronomia/globals.py
+astronomia/lunar.py
 astronomia/nutation.py
+astronomia/planets.py
 astronomia/riseset.py
 astronomia/sun.py
 astronomia/util.py
-astronomia/vsop87d.py
 astronomia/vsop87d_dict.py
 astronomia.egg-info/PKG-INFO
 astronomia.egg-info/SOURCES.txt

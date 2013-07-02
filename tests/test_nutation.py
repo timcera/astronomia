@@ -4,19 +4,26 @@ Tests for the elp2000 functions.
 
 from unittest import TestCase
 
-from astronomia.nutation import nut_in_lon, nut_in_obl, obliquity, obliquity_hi
+from astronomia.nutation import nutation_in_longitude, nutation_in_obliquity, obliquity, obliquity_hi
 from astronomia.util import d_to_dms, r_to_d
 
-class TestNutaiont(TestCase):
+class TestNutation(TestCase):
     def test_nut_in_lon(self):
-        deltaPsi = nut_in_lon(2446895.5)
+        deltaPsi = nutation_in_longitude(2446895.5)
         d, m, s = d_to_dms(r_to_d(deltaPsi))
         self.assertEqual(d, 0)
         self.assertEqual(m, 0)
         self.assertAlmostEqual(s, -3.788, places=3)
 
+        # from http://www.neoprogrammics.com/nutations/Nutation_In_Longitude_And_RA.php
+        deltaPsi = nutation_in_longitude(2456479.5)
+        d, m, s = d_to_dms(r_to_d(deltaPsi))
+        self.assertEqual(d, 0)
+        self.assertEqual(m, 0)
+        self.assertAlmostEqual(s, 12.675, places=3)
+
     def test_nut_in_obl(self):
-        deltaEps = nut_in_obl(2446895.5)
+        deltaEps = nutation_in_obliquity(2446895.5)
         d, m, s = d_to_dms(r_to_d(deltaEps))
         self.assertEqual(d, 0)
         self.assertEqual(m, 0)

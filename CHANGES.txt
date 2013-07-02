@@ -5,3 +5,17 @@ v0.1, 2013-06-19 -- Initial release.
     * Several minor bug fixes
     * Moved to git for source code control
     * Moved to bitbucket
+
+v0.2, 
+    * Refactored nut_in_lon -> nutation_in_longitude
+    * Refactored nut_in_obl -> nutation_in_obliquity
+    * Renamed elp2000.py -> lunar.py
+    * Refactored ELP2000 class to Lunar class
+    * Renamed vsop87d.py -> planets.py
+    * Refactored VSOP87D class to Planets class
+    * Added mean_elongation, mean_anomaly, argument_of_latitude Lunar
+      functions
+    * Shifted many functions to work with numpy
+      arrays along with scalars
+    * Added several tests
+    * moon.Moon.dimension3 no longer repeats logic, but calls other functions

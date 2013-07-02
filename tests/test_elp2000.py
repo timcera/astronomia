@@ -7,13 +7,15 @@ import datetime
 
 import numpy as np
 
-from astronomia import elp2000
+from astronomia import lunar
 from astronomia.util import r_to_d
 from astronomia.calendar import cal_to_jd, hms_to_fday
 
-_elp = elp2000.ELP2000()
+_elp = lunar.Lunar()
 
-_comp_longitude = 133.162655*3600*1000
+# These are comparisons with Meuus, which aren't as good as my calculation
+# compared against http://www.neoprogrammics.com/moon/
+_comp_longitude = 133.162655
 _comp_latitude = -3.229126
 _comp_radius = 368409.7
 
@@ -21,25 +23,47 @@ class TestELP(TestCase):
     def test_dimension3(self):
         calc_longitude, calc_latitude, calc_radius = \
                 _elp.dimension3(2448724.5)
-        calc_longitude = r_to_d(calc_longitude)*3600*1000
+        calc_longitude = r_to_d(calc_longitude)
         calc_latitude = r_to_d(calc_latitude)
 
-        self.assertAlmostEqual(calc_longitude, _comp_longitude, delta=5)
-        self.assertAlmostEqual(calc_longitude - _comp_longitude, -4.05, places=0)
-        self.assertAlmostEqual(calc_latitude, _comp_latitude, places=5)
-        self.assertAlmostEqual(calc_radius, _comp_radius, places=1)
+        np.testing.assert_array_almost_equal(calc_longitude, _comp_longitude, decimal=2)
+        np.testing.assert_array_almost_equal(calc_longitude - _comp_longitude, -4.05/1000, decimal=0)
+        np.testing.assert_array_almost_equal(calc_latitude, _comp_latitude, decimal=5)
+        np.testing.assert_array_almost_equal(calc_radius, _comp_radius, decimal=1)
+
+    def test_dimension3_01(self):
+        calc_longitude, calc_latitude, calc_radius = \
+                _elp.dimension3(2456466.5)
+        calc_longitude = r_to_d(calc_longitude)
+        calc_latitude = r_to_d(calc_latitude)
+
+        # from http://www.neoprogrammics.com/moon/
+        np.testing.assert_array_almost_equal(calc_longitude, 264.8092609, decimal=5)
+        np.testing.assert_array_almost_equal(calc_latitude, 3.2272014, decimal=5)
+        np.testing.assert_array_almost_equal(calc_radius, 357206, decimal=0)
 
     def test_dimension(self):
         calc_longitude = _elp.dimension(2448724.5, 'L')
-        calc_longitude = r_to_d(calc_longitude)*3600*1000
+        calc_longitude = r_to_d(calc_longitude)
         calc_latitude = _elp.dimension(2448724.5, 'B')
         calc_latitude = r_to_d(calc_latitude)
         calc_radius = _elp.dimension(2448724.5, 'R')
 
-        self.assertAlmostEqual(calc_longitude, _comp_longitude, delta=5)
-        self.assertAlmostEqual(calc_longitude - _comp_longitude, -4.05, places=0)
-        self.assertAlmostEqual(calc_latitude, _comp_latitude, places=5)
-        self.assertAlmostEqual(calc_radius, _comp_radius, places=1)
+        np.testing.assert_array_almost_equal(calc_longitude, _comp_longitude, decimal=2)
+        np.testing.assert_array_almost_equal(calc_longitude - _comp_longitude, -4.05/1000, decimal=0)
+        np.testing.assert_array_almost_equal(calc_radius, _comp_radius, decimal=1)
+
+    def test_arrays(self):
+        calc_longitude = _elp.dimension([2448724.5, 2456466.5], 'L')
+        calc_longitude = r_to_d(calc_longitude)
+        calc_latitude = _elp.dimension([2448724.5, 2456466.5], 'B')
+        calc_latitude = r_to_d(calc_latitude)
+        calc_radius = _elp.dimension([2448724.5, 2456466.5], 'R')
+
+        np.testing.assert_array_almost_equal(calc_longitude, [_comp_longitude, 264.8092609], decimal=2)
+        np.testing.assert_array_almost_equal(calc_longitude - _comp_longitude, [4.61/1000, 131600./1000], decimal=0)
+        np.testing.assert_array_almost_equal(calc_latitude, [_comp_latitude, 3.2272014], decimal=5)
+        np.testing.assert_array_almost_equal(calc_radius, [_comp_radius, 357206], decimal=1)
 
     def test_compare_to_schureman(self):
         rad2deg = 180.0/np.pi
@@ -93,7 +117,7 @@ class TestELP(TestCase):
                        np.mod(331.54 + 57.41 + 26.35 + 9.88, 360),
                        82.36  + 0.00  + 118.59 + 1.65]
         for i in range(len(Nv)):
-            self.assertAlmostEqual(Nv[i], Nv_schureman[i], places=1)
-            self.assertAlmostEqual(p[i], p_schureman[i], places=1)
-            self.assertAlmostEqual(s[i], s_schureman[i], places=1)
+            np.testing.assert_array_almost_equal(Nv[i], Nv_schureman[i], decimal=1)
+            np.testing.assert_array_almost_equal(p[i], p_schureman[i], decimal=1)
+            np.testing.assert_array_almost_equal(s[i], s_schureman[i], decimal=1)
 

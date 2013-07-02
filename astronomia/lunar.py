@@ -29,7 +29,8 @@ This is the simplified version of Jean Meeus, _Astronomical Algorithms_,
 second edition, 1998, Willmann-Bell, Inc.
 
 """
-from math import sin, cos
+import numpy as np
+
 from astronomia.calendar import jd_to_jcent
 from astronomia.util import polynomial, d_to_r, modpi2
 from astronomia.commonterms import kL1, kD, kM, kM1, kF, ko
@@ -194,7 +195,7 @@ def _constants(T):
     return L1, D, M, M1, F, A1, A2, A3, E, E2
 
 
-class ELP2000:
+class Lunar:
     """ELP2000 lunar position calculations"""
 
     def mean_longitude_ascending_node(self, jd):
@@ -220,7 +221,9 @@ class ELP2000:
         *  Mean longitude of the ascending node of the Moon.
            OM  = MOD ( 450160.398036D0  -6962890.5431D0*T, TURNAS ) * DAS2R
 
+        Keeping above for documentation, but...
         Current implemention in astronomia is from:
+
            PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
         Arguments:
@@ -229,10 +232,8 @@ class ELP2000:
         Returns:
           - mean longitude of ascending node
         """
-
         T = jd_to_jcent(jd)
-        X = polynomial(ko, T)
-        return modpi2(X)
+        return modpi2(polynomial(ko, T))
 
     def mean_longitude_perigee(self, jd):
         """Return mean longitude of lunar perigee
@@ -265,8 +266,46 @@ class ELP2000:
 
         """
         T = jd_to_jcent(jd)
-        L1 = modpi2(polynomial(kL1, T))
-        return L1
+        return modpi2(polynomial(kL1, T))
+
+    def mean_elongation(self, jd):
+        """Return geocentric mean elongation.
+
+        Arguments:
+          - `jd` : Julian Day in dynamical time
+
+        Returns:
+          - mean elongation in radians
+
+        """
+        T = jd_to_jcent(jd)
+        return modpi2(polynomial(kD, T))
+
+    def mean_anomaly(self, jd):
+        """Return geocentric mean anomaly.
+
+        Arguments:
+          - `jd` : Julian Day in dynamical time
+
+        Returns:
+          - mean anomaly in radians
+
+        """
+        T = jd_to_jcent(jd)
+        return modpi2(polynomial(kM1, T))
+
+    def argument_of_latitude(self, jd):
+        """Return geocentric mean longitude.
+
+        Arguments:
+          - `jd` : Julian Day in dynamical time
+
+        Returns:
+          - argument of latitude in radians
+
+        """
+        T = jd_to_jcent(jd)
+        return modpi2(polynomial(kF, T))
 
     def dimension3(self, jd):
         """Return geocentric ecliptic longitude, latitude and radius.
@@ -283,52 +322,7 @@ class ELP2000:
           - radius in km, Earth's center to Moon's center
 
         """
-        T = jd_to_jcent(jd)
-        L1, D, M, M1, F, A1, A2, A3, E, E2 = _constants(T)
-
-        #
-        # longitude and radius
-        #
-        lsum = 0.0
-        rsum = 0.0
-        for tD, tM, tM1, tF, tl, tr in _tblLR:
-            arg = tD*D + tM*M + tM1*M1 + tF*F
-            if abs(tM) == 1:
-                tl *= E
-                tr *= E
-            elif abs(tM == 2):
-                tl *= E2
-                tr *= E2
-            lsum += tl * sin(arg)
-            rsum += tr * cos(arg)
-
-        #
-        # latitude
-        #
-        bsum = 0.0
-        for tD, tM, tM1, tF, tb in _tblB:
-            arg = tD*D + tM*M + tM1*M1 + tF*F
-            if abs(tM) == 1:
-                tb *= E
-            elif abs(tM) == 2:
-                tb *= E2
-            bsum += tb * sin(arg)
-
-        lsum += 3958 * sin(A1) +       \
-                1962 * sin(L1 - F) +   \
-                 318 * sin(A2)
-
-        bsum += -2235 * sin(L1) +      \
-                  382 * sin(A3) +      \
-                  175 * sin(A1 - F) +  \
-                  175 * sin(A1 + F) +  \
-                  127 * sin(L1 - M1) - \
-                  115 * sin(L1 + M1)
-
-        longitude = L1 + d_to_r(lsum / 1000000)
-        latitude = d_to_r(bsum / 1000000)
-        dist = 385000.56 + rsum / 1000
-        return longitude, latitude, dist
+        return self._longitude(jd), self._latitude(jd), self._radius(jd)
 
     def dimension(self, jd, dim):
         """Return one of geocentric ecliptic longitude, latitude and radius.
@@ -356,9 +350,10 @@ class ELP2000:
         A subset of the logic in dimension3()
 
         """
+        from astronomia.nutation import nutation_in_longitude
+
         T = jd_to_jcent(jd)
         L1, D, M, M1, F, A1, A2, A3, E, E2 = _constants(T)
-
         lsum = 0.0
         for tD, tM, tM1, tF, tl, tr in _tblLR:
             arg = tD * D + tM * M + tM1 * M1 + tF * F
@@ -366,13 +361,14 @@ class ELP2000:
                 tl *= E
             elif abs(tM == 2):
                 tl *= E2
-            lsum += tl * sin(arg)
+            lsum += tl * np.sin(arg)
 
-        lsum += 3958 * sin(A1) +      \
-                1962 * sin(L1 - F) +  \
-                 318 * sin(A2)
+        lsum += 3958 * np.sin(A1) +      \
+                1962 * np.sin(L1 - F) +  \
+                 318 * np.sin(A2)
 
-        longitude = L1 + d_to_r(lsum / 1000000)
+        nutinlong = nutation_in_longitude(jd)
+        longitude = L1 + d_to_r(lsum / 1000000) + nutinlong
         return longitude
 
     def _latitude(self, jd):
@@ -391,14 +387,14 @@ class ELP2000:
                 tb *= E
             elif abs(tM) == 2:
                 tb *= E2
-            bsum += tb * sin(arg)
+            bsum += tb * np.sin(arg)
 
-        bsum += -2235 * sin(L1) +      \
-                  382 * sin(A3) +      \
-                  175 * sin(A1 - F) +  \
-                  175 * sin(A1 + F) +  \
-                  127 * sin(L1 - M1) - \
-                  115 * sin(L1 + M1)
+        bsum += -2235 * np.sin(L1) +      \
+                  382 * np.sin(A3) +      \
+                  175 * np.sin(A1 - F) +  \
+                  175 * np.sin(A1 + F) +  \
+                  127 * np.sin(L1 - M1) - \
+                  115 * np.sin(L1 + M1)
 
         latitude = d_to_r(bsum / 1000000)
         return latitude
@@ -419,7 +415,7 @@ class ELP2000:
                 tr *= E
             elif abs(tM == 2):
                 tr *= E2
-            rsum += tr * cos(arg)
+            rsum += tr * np.cos(arg)
 
         dist = 385000.56 + rsum / 1000
         return dist
