@@ -9,7 +9,7 @@ Astronomia will work with Python 2.6+ and 3.0+.
 
 Documentation
 -------------
-Reference documentation is at http://timcera.bitbucket.org/astronomia/
+Reference documentation is at http://pythonhosted.org/astronomia/
 
 Development
 -----------
