@@ -1,10 +1,7 @@
-v0.1, 2013-06-19 -- Initial release.
-    * Fork from Astrolabe
-    * Python 2 and 3 compatibility
-    * Added tests
-    * Several minor bug fixes
-    * Moved to git for source code control
-    * Moved to bitbucket
+v0.2.1,
+    * Moved coordinate functions from util to calendar
+    * Added ecl_to_geo
+    * Minor cleanups
 
 v0.2, 
     * Refactored nut_in_lon -> nutation_in_longitude
@@ -19,3 +16,12 @@ v0.2,
       arrays along with scalars
     * Added several tests
     * moon.Moon.dimension3 no longer repeats logic, but calls other functions
+
+v0.1, 2013-06-19 -- Initial release.
+    * Fork from Astrolabe
+    * Python 2 and 3 compatibility
+    * Added tests
+    * Several minor bug fixes
+    * Moved to git for source code control
+    * Moved to bitbucket
+
