@@ -1,6 +1,8 @@
 """
     Copyright 2000, 2001 Astrolabe by William McClain
+
     Forked in 2013 to Astronomia
+
     Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
@@ -40,8 +42,9 @@ flattening = 0.99664713901477464
 
 #
 # Equitorial radius of the Earth in km.
+# C_IERS
 #
-earth_equ_radius = 6378.135
+earth_equ_radius = 6378.1363
 
 #
 # How many minutes in a day?

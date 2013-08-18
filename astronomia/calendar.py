@@ -3,7 +3,9 @@ from __future__ import division
 
 """
     Copyright 2000, 2001 Astrolabe by William McClain
+
     Forked in 2013 to Astronomia
+
     Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
@@ -45,8 +47,7 @@ from math import modf
 
 import numpy as np
 
-from astronomia.util import d_to_r, modpi2, fday_to_hms, hms_to_fday, \
-    _scalar_if_one
+from astronomia.util import d_to_r, modpi2, scalar_if_one
 import astronomia.globals
 
 
@@ -87,6 +88,40 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     return _scalar_if_one(
         (365.25*(year + 4716)).astype(np.int64) +
         (30.6001*(mon + 1)).astype(np.int64) + day + B - 1524.5)
+
+
+def jd_to_cal(julian_day, gregorian=True):
+    """Convert a Julian day number to a date in the Julian or Gregorian
+    calendars.
+
+    Arguments:
+      - `julian_day` : (int) Julian Day Number
+
+    Keywords:
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
+
+    Return:
+      - (year, month, day) : (tuple) day may be fractional
+
+    """
+    julian_day = np.atleast_1d(julian_day)
+    F, Z = np.modf(julian_day + 0.5)
+    if gregorian:
+        alpha = ((Z - 1867216.25) / 36524.25).astype(np.int64)
+        A = Z + 1 + alpha - (alpha / 4).astype(np.int64)
+    else:
+        A = Z
+    B = A + 1524
+    C = ((B - 122.1) / 365.25).astype(np.int64)
+    D = (365.25 * C).astype(np.int64)
+    E = ((B - D) / 30.6001).astype(np.int64)
+    day = B - D - (30.6001 * E).astype(np.int64) + F
+    mon = E - 13
+    mon[E < 14] = E[E < 14] - 1
+    year = C - 4715
+    year[mon > 2] = C[mon > 2] - 4716
+    return _scalar_if_one(year), _scalar_if_one(mon), _scalar_if_one(day)
 
 
 def cal_to_jde(year, mon=1, day=1, hour=0, minute=0, sec=0.0, gregorian=True):
@@ -213,6 +248,42 @@ def easter(year, gregorian=True):
     return _scalar_if_one(mon), _scalar_if_one(day)
 
 
+def fday_to_hms(day):
+    """Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
+
+    Arguments:
+      - day : a fractional day in the range 0.0..1.0
+
+    Returns:
+      - hour : (int, 0..23)
+      - minute : (int, 0..59)
+      - second : (int, 0..59)
+
+    """
+    frac, hours = modf(day * 24)
+    seconds, minutes = modf(frac * 60)
+    return int(hours), int(minutes), int(seconds * 60)
+
+
+def hms_to_fday(hr, mn, sec):
+    """Convert hours-minutes-seconds into a fractional day 0.0..1.0.
+
+    Arguments:
+      - `hr` : hours, 0..23
+      - `mn` : minutes, 0..59
+      - `sec` : seconds, 0..59
+
+    Returns:
+      - fractional day, 0.0..1.0
+
+    """
+    hr = np.atleast_1d(hr)
+    mn = np.atleast_1d(mn)
+    sec = np.atleast_1d(sec)
+    hr, mn, sec = np.broadcast_arrays(hr, mn, sec)
+    return ((hr / 24.0) + (mn / minutes_per_day) + (sec / seconds_per_day))
+
+
 def is_dst(julian_day):
     """Is this instant within the Daylight Savings Time period as used in the
     US?
@@ -302,46 +373,16 @@ def is_leap_year(year, gregorian=True):
 
     """
     year = np.atleast_1d(year).astype(np.int64)
+    x = np.fmod(year, 4)
     if gregorian:
+        x = np.fmod(year, 4)
+        y = np.fmod(year, 100)
+        z = np.fmod(year, 400)
         return _scalar_if_one(
-            np.logical_or(np.logical_and((year % 4 == 0), (year % 100 != 0)),
-                         (year % 400 == 0)))
+            np.logical_and(np.logical_not(x),
+                           np.logical_or(y, np.logical_not(z))))
     else:
-        return _scalar_if_one(year % 4 == 0)
-
-
-def jd_to_cal(julian_day, gregorian=True):
-    """Convert a Julian day number to a date in the Julian or Gregorian
-    calendars.
-
-    Arguments:
-      - `julian_day` : (int) Julian Day Number
-
-    Keywords:
-      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
-        else use Julian calendar
-
-    Return:
-      - (year, month, day) : (tuple) day may be fractional
-
-    """
-    julian_day = np.atleast_1d(julian_day)
-    F, Z = np.modf(julian_day + 0.5)
-    if gregorian:
-        alpha = ((Z - 1867216.25) / 36524.25).astype(np.int64)
-        A = Z + 1 + alpha - (alpha / 4).astype(np.int64)
-    else:
-        A = Z
-    B = A + 1524
-    C = ((B - 122.1) / 365.25).astype(np.int64)
-    D = (365.25 * C).astype(np.int64)
-    E = ((B - D) / 30.6001).astype(np.int64)
-    day = B - D - (30.6001 * E).astype(np.int64) + F
-    mon = E - 13
-    mon[E < 14] = E[E < 14] - 1
-    year = C - 4715
-    year[mon > 2] = C[mon > 2] - 4716
-    return _scalar_if_one(year), _scalar_if_one(mon), _scalar_if_one(day)
+        return _scalar_if_one(x == 0)
 
 
 def jd_to_day_of_week(julian_day):

@@ -1,6 +1,8 @@
 """
     Copyright 2000, 2001 Astrolabe by William McClain
+
     Forked in 2013 to Astronomia
+
     Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
@@ -23,6 +25,7 @@
 
 __all__ = ["calendar",
            "constants",
+           "coordinates",
            "dynamical",
            "moon",
            "equinox",

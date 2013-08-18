@@ -1,6 +1,8 @@
 """
     Copyright 2000, 2001 Astrolabe by William McClain
+
     Forked in 2013 to Astronomia
+
     Copyright 2013 Astronomia by Tim Cera
 
     This file is part of Astronomia.
@@ -141,114 +143,6 @@ def dms_to_d(deg, minute, sec):
     if deg < 0 or minute < 0 or sec < 0:
         result = -result
     return _scalar_if_one(result)
-
-
-def ecl_to_equ(longitude, latitude, obliquity):
-    """Convert ecliptic to equitorial coordinates.
-
-    [Meeus-1998: equations 13.3, 13.4]
-
-    Arguments:
-      - `longitude` : ecliptic longitude in radians
-      - `latitude` : ecliptic latitude in radians
-      - `obliquity` : obliquity of the ecliptic in radians
-
-    Returns:
-      - Right accension in radians
-      - Declination in radians
-
-    """
-    cose = cos(obliquity)
-    sine = sin(obliquity)
-    sinl = sin(longitude)
-    ra = modpi2(atan2(sinl * cose - tan(latitude) * sine, cos(longitude)))
-    dec = asin(sin(latitude) * cose + cos(latitude) * sine * sinl)
-    return ra, dec
-
-
-def equ_to_horiz(H, decl):
-    """Convert equitorial to horizontal coordinates.
-
-    [Meeus-1998: equations 13.5, 13.6]
-
-    Note that azimuth is measured westward starting from the south.
-
-    This is not a good formula for using near the poles.
-
-    Arguments:
-      - `H` : hour angle in radians
-      - `decl` : declination in radians
-
-    Returns:
-      - azimuth in radians
-      - altitude in radians
-
-    """
-    cosH = cos(H)
-    sinLat = sin(astronomia.globals.latitude)
-    cosLat = cos(astronomia.globals.latitude)
-    A = atan2(sin(H), cosH * sinLat - tan(decl) * cosLat)
-    h = asin(sinLat * sin(decl) + cosLat * cos(decl) * cosH)
-    return A, h
-
-
-def equ_to_ecl(ra, dec, obliquity):
-    """Convert equitorial to ecliptic coordinates.
-
-    [Meeus-1998: equations 13.1, 13.2]
-
-    Arguments:
-      - `ra` : right accension in radians
-      - `dec` : declination in radians
-      - `obliquity` : obliquity of the ecliptic in radians
-
-    Returns:
-      - ecliptic longitude in radians
-      - ecliptic latitude in radians
-
-    """
-    cose = cos(obliquity)
-    sine = sin(obliquity)
-    sina = sin(ra)
-    longitude = modpi2(atan2(sina * cose + tan(dec) * sine, cos(ra)))
-    latitude = modpi2(asin(sin(dec) * cose - cos(dec) * sine * sina))
-    return longitude, latitude
-
-
-def fday_to_hms(day):
-    """Convert fractional day (0.0..1.0) to integral hours, minutes, seconds.
-
-    Arguments:
-      - day : a fractional day in the range 0.0..1.0
-
-    Returns:
-      - hour : (int, 0..23)
-      - minute : (int, 0..59)
-      - second : (int, 0..59)
-
-    """
-    frac, hours = modf(day * 24)
-    seconds, minutes = modf(frac * 60)
-    return int(hours), int(minutes), int(seconds * 60)
-
-
-def hms_to_fday(hr, mn, sec):
-    """Convert hours-minutes-seconds into a fractional day 0.0..1.0.
-
-    Arguments:
-      - `hr` : hours, 0..23
-      - `mn` : minutes, 0..59
-      - `sec` : seconds, 0..59
-
-    Returns:
-      - fractional day, 0.0..1.0
-
-    """
-    hr = np.atleast_1d(hr)
-    mn = np.atleast_1d(mn)
-    sec = np.atleast_1d(sec)
-    hr, mn, sec = np.broadcast_arrays(hr, mn, sec)
-    return ((hr / 24.0) + (mn / minutes_per_day) + (sec / seconds_per_day))
 
 
 def interpolate3(n, y):
