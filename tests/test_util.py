@@ -4,7 +4,7 @@ Tests for the elp2000 functions.
 
 from unittest import TestCase
 
-from astronomia.util import interpolate3, equ_to_ecl, ecl_to_equ, d_to_r, r_to_d
+from astronomia.util import interpolate3
 
 class TestUtil(TestCase):
     def test_interpolate3(self):

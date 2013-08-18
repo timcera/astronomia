@@ -47,7 +47,8 @@ from math import modf
 
 import numpy as np
 
-from astronomia.util import d_to_r, modpi2, scalar_if_one
+from astronomia.util import d_to_r, modpi2, _scalar_if_one
+from astronomia.constants import minutes_per_day, seconds_per_day
 import astronomia.globals
 
 

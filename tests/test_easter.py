@@ -4,8 +4,9 @@ Tests for the elp2000 functions.
 
 from unittest import TestCase
 
-from astronomia.util import equ_to_ecl, ecl_to_equ, d_to_r, r_to_d
+from astronomia.util import d_to_r, r_to_d
 from astronomia.calendar import cal_to_jd, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal
+from astronomia.coordinates import ecl_to_equ
 
 class TestUtil(TestCase):
     def test_cal_to_jd(self):

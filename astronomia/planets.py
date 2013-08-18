@@ -31,7 +31,8 @@ import numpy as np
 from astronomia.constants import pi2
 from astronomia.calendar import jd_to_jcent
 from astronomia.util import d_to_r, dms_to_d, polynomial, modpi2, diff_angle, \
-    ecl_to_equ, _scalar_if_one
+    _scalar_if_one
+from astronomia.coordinates import ecl_to_equ
 
 
 class Error(Exception):

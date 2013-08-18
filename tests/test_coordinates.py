@@ -1,7 +1,8 @@
 
 from unittest import TestCase
 
-from astronomia.util import equ_to_ecl, ecl_to_equ, d_to_r, r_to_d
+from astronomia.coordinates import equ_to_ecl, ecl_to_equ
+from astronomia.util import d_to_r, r_to_d
 
 class TestCoords(TestCase):
     def test_equ_to_ecl(self):

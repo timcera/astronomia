@@ -33,7 +33,7 @@ import numpy as np
 
 import astronomia.globals
 from astronomia.constants import pi2, minutes_per_day, seconds_per_day
-from astronomia.util import _scalar_if_one
+from astronomia.util import _scalar_if_one, modpi2
 
 
 class Error(Exception):
@@ -148,4 +148,3 @@ def equ_to_ecl(ra, dec, obliquity):
     latitude = modpi2(asin(sin(dec) * cose - cos(dec) * sine * sina))
     return longitude, latitude
 
-def ell_

@@ -41,7 +41,8 @@ from astronomia.constants import seconds_per_day, pi2, earth_equ_radius, \
     standard_rst_altitude
 from astronomia.dynamical import deltaT_seconds
 from astronomia.util import d_to_r, interpolate_angle3, diff_angle, r_to_d, \
-    modpi2, interpolate3, equ_to_horiz
+    modpi2, interpolate3
+from astronomia.coordinates import equ_to_horiz
 import astronomia.globals
 
 

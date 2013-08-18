@@ -7,7 +7,8 @@ import math
 
 import numpy as np
 
-from astronomia.util import ecl_to_equ, d_to_r, r_to_d
+from astronomia.util import d_to_r, r_to_d
+from astronomia.coordinates import ecl_to_equ
 from astronomia.calendar import cal_to_jd, cal_to_jde, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal, easter, sidereal_time_greenwich
 
 class TestUtil(TestCase):
