@@ -1,8 +1,6 @@
 from setuptools import setup, find_packages
 import os.path
 
-version = '0.1-1'
-
 setup(name='astronomia',
       version=open("VERSION").readline().strip(),
       description="Library for calculation of ephemeris and other astronomical calculations",
@@ -22,7 +20,7 @@ setup(name='astronomia',
       keywords='ephemeris astronomy',
       author='Tim Cera, P.E.',
       author_email='tim@cerazone.net',
-      url='https://bitbucket.org/timcera/astronomia/wiki/Home',
+      url='http://timcera.bitbucket.org',
       license='GPL2',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,

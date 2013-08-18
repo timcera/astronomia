@@ -2,6 +2,8 @@ CHANGES.txt
 LICENSE.txt
 MANIFEST.in
 README.txt
+VERSION
+setup.cfg
 setup.py
 apps/astronomia_params.txt
 apps/check_perihelion.py
@@ -13,6 +15,7 @@ astronomia/__init__.py
 astronomia/calendar.py
 astronomia/commonterms.py
 astronomia/constants.py
+astronomia/coordinates.py
 astronomia/dynamical.py
 astronomia/equinox.py
 astronomia/globals.py
