@@ -1,21 +1,10 @@
 astronomia Package
 ==================
 
-:mod:`astronomia` Package
--------------------------
-
 :mod:`calendar` Module
 ----------------------
 
 .. automodule:: astronomia.calendar
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`constants` Module
------------------------
-
-.. automodule:: astronomia.constants
     :members:
     :undoc-members:
     :show-inheritance:
@@ -40,14 +29,6 @@ astronomia Package
 ---------------------
 
 .. automodule:: astronomia.equinox
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`globals` Module
----------------------
-
-.. automodule:: astronomia.globals
     :members:
     :undoc-members:
     :show-inheritance:
@@ -84,18 +65,10 @@ astronomia Package
     :undoc-members:
     :show-inheritance:
 
-:mod:`vsop87d` Module
+:mod:`planets` Module
 ---------------------
 
-.. automodule:: astronomia.vsop87d
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-:mod:`vsop87d_dict` Module
---------------------------
-
-.. automodule:: astronomia.vsop87d_dict
+.. automodule:: astronomia.planets
     :members:
     :undoc-members:
     :show-inheritance:

@@ -6,7 +6,25 @@
 Astronomia Documentation
 ========================
 
-Contents:
+This is the home page for Astronomia.  Astronomia is a small Python library for
+calculating the ephemeris of the Sun, Moon, and planets.  It also has some
+utilities for working with time and angles.
+
+Astronomia will work with Python 2.6+ and 3.0+.
+
+Other Work
+----------
+http://timcera.bitbucket.org
+
+Table of Contents
+-----------------
+.. toctree::
+   :maxdepth: 2
+
+   main
+
+API Documentation
+-----------------
 
 .. toctree::
    :maxdepth: 2

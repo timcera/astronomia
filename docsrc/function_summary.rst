@@ -22,6 +22,15 @@ Calendar Functions
    calendar.sidereal_time_greenwich
    calendar.ut_to_lt
 
+Coordinate Functions
+--------------------
+.. autosummary::
+
+   coordinates.ecl_to_equ
+   coordinates.equ_to_horiz
+   coordinates.equ_to_ecl
+   coordinates.ecl_to_geo
+
 Dynamical Functions
 -------------------
 .. autosummary::
@@ -30,7 +39,7 @@ Dynamical Functions
    dynamical.dt_to_ut
 
 Lunar Functions
---------------
+---------------
 .. autosummary::
 
    lunar.Lunar
@@ -77,9 +86,6 @@ Utility Functions
    util.d_to_r
    util.diff_angle
    util.dms_to_d
-   util.ecl_to_equ
-   util.equ_to_horiz
-   util.equ_to_ecl
    util.fday_to_hms
    util.hms_to_fday
    util.interpolate3
@@ -89,12 +95,12 @@ Utility Functions
    util.polynomial
    util.r_to_d
 
-VSOP87d Functions
+Planet Functions
 -----------------
 .. autosummary::
 
-   vsop87d.VSOP87d
-   vsop87d.vsop_to_fk5
-   vsop87d.geocentric_planet
-   vsop87d.load_vsop87d_text_db
+   planets.VSOP87d
+   planets.vsop_to_fk5
+   planets.geocentric_planet
+   planets.load_vsop87d_text_db
 
