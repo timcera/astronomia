@@ -9,6 +9,14 @@ astronomia Package
     :undoc-members:
     :show-inheritance:
 
+:mod:`coordinates` Module
+-------------------------
+
+.. automodule:: astronomia.coordinates
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 :mod:`dynamical` Module
 -----------------------
 

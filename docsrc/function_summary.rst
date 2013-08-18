@@ -29,7 +29,7 @@ Coordinate Functions
    coordinates.ecl_to_equ
    coordinates.equ_to_horiz
    coordinates.equ_to_ecl
-   coordinates.ecl_to_geo
+   coordinates.ell_to_geo
 
 Dynamical Functions
 -------------------
@@ -86,8 +86,6 @@ Utility Functions
    util.d_to_r
    util.diff_angle
    util.dms_to_d
-   util.fday_to_hms
-   util.hms_to_fday
    util.interpolate3
    util.interpolate_angle3
    util.load_params
