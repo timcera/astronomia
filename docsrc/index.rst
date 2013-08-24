@@ -21,7 +21,13 @@ Table of Contents
 .. toctree::
    :maxdepth: 2
 
-   main
+   readme
+   usage
+   models
+   contributing
+   authors
+   changes
+   license
 
 API Documentation
 -----------------

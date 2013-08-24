@@ -2,7 +2,7 @@ Metadata-Version: 1.1
 Name: astronomia
 Version: 0.2.1
 Summary: Library for calculation of ephemeris and other astronomical calculations
-Home-page: http://timcera.bitbucket.org
+Home-page: http://timcera.bitbucket.org/
 Author: Tim Cera, P.E.
 Author-email: tim@cerazone.net
 License: GPL2
@@ -15,7 +15,9 @@ Classifier: Intended Audience :: Developers
 Classifier: Intended Audience :: Science/Research
 Classifier: License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)
 Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2
 Classifier: Programming Language :: Python :: 2.6
 Classifier: Programming Language :: Python :: 2.7
 Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
 Classifier: Topic :: Scientific/Engineering :: Astronomy
