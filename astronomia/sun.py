@@ -25,8 +25,6 @@
 """ Geocentric solar position and radius, both low and high precision.
 
 """
-from math import *
-
 import numpy as np
 
 from astronomia.calendar import jd_to_jcent
@@ -81,7 +79,7 @@ class Sun:
                         d_to_r(-1.0/15300),
                         d_to_r(-1.0/2000000)), T/10.0)
 
-        X = modpi2(X + pi)
+        X = modpi2(X + np.pi)
         return _scalar_if_one(X)
 
     def mean_longitude_perigee(self, jd):
@@ -121,7 +119,7 @@ class Sun:
         jd = np.atleast_1d(jd)
         X = self.vsop.dimension(jd, "Earth", dim)
         if dim == "L":
-            X = modpi2(X + pi)
+            X = modpi2(X + np.pi)
         elif dim == "B":
             X = -X
         return _scalar_if_one(X)

@@ -24,7 +24,6 @@
     Collection of miscellaneous functions
     """
 
-from math import modf, cos, sin, asin, tan, atan2, pi
 import os
 import shlex
 import sys
@@ -70,15 +69,15 @@ def d_to_dms(x):
       - seconds : (int, float)
 
     """
-    frac, degrees = modf(x)
-    seconds, minutes = modf(frac*60)
+    frac, degrees = np.modf(x)
+    seconds, minutes = np.modf(frac*60)
     return int(degrees), int(minutes), seconds*60
 
 
 #
 # Local constants
 #
-_DtoR = pi / 180.0
+_DtoR = np.pi / 180.0
 
 
 def d_to_r(d):
@@ -116,7 +115,7 @@ def diff_angle(a, b):
         result = b + pi2 - a
     else:
         result = b - a
-    if result > pi:
+    if result > np.pi:
         result -= pi2
     return result
 
@@ -335,7 +334,9 @@ def polynomial(terms, x):
       - value of the polynomial
 
     Examples:
-        >>> y = polynomial((1.1, 2.2, 3.3, 4.4), t)
+        >>> t = 4.1
+        >>> polynomial((1.1, -3.2, 3.3, 4.5), t)
+        353.59749999999997
 
         returns the value of:
 
@@ -347,7 +348,7 @@ def polynomial(terms, x):
 #
 # Local constants
 #
-_RtoD = 180.0 / pi
+_RtoD = 180.0 / np.pi
 
 
 def r_to_d(r):

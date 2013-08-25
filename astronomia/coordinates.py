@@ -24,16 +24,10 @@
     Collection of miscellaneous functions
     """
 
-from math import modf, cos, sin, asin, tan, atan2, pi
-import os
-import shlex
-import sys
-
 import numpy as np
 
 import astronomia.globals
-from astronomia.constants import pi2, minutes_per_day, seconds_per_day
-from astronomia.util import _scalar_if_one, modpi2
+from astronomia.util import modpi2
 
 
 class Error(Exception):
@@ -56,11 +50,12 @@ def ecl_to_equ(longitude, latitude, obliquity):
       - Declination in radians
 
     """
-    cose = cos(obliquity)
-    sine = sin(obliquity)
-    sinl = sin(longitude)
-    ra = modpi2(atan2(sinl * cose - tan(latitude) * sine, cos(longitude)))
-    dec = asin(sin(latitude) * cose + cos(latitude) * sine * sinl)
+    cose = np.cos(obliquity)
+    sine = np.sin(obliquity)
+    sinl = np.sin(longitude)
+    ra = modpi2(np.arctan2(sinl * cose - np.tan(latitude) * sine,
+                np.cos(longitude)))
+    dec = np.arcsin(np.sin(latitude) * cose + np.cos(latitude) * sine * sinl)
     return ra, dec
 
 
@@ -82,11 +77,11 @@ def equ_to_horiz(H, decl):
       - altitude in radians
 
     """
-    cosH = cos(H)
-    sinLat = sin(astronomia.globals.latitude)
-    cosLat = cos(astronomia.globals.latitude)
-    A = atan2(sin(H), cosH * sinLat - tan(decl) * cosLat)
-    h = asin(sinLat * sin(decl) + cosLat * cos(decl) * cosH)
+    cosH = np.cos(H)
+    sinLat = np.sin(astronomia.globals.latitude)
+    cosLat = np.cos(astronomia.globals.latitude)
+    A = np.arctan2(np.sin(H), cosH * sinLat - np.tan(decl) * cosLat)
+    h = np.arcsin(sinLat * np.sin(decl) + cosLat * np.cos(decl) * cosH)
     return A, h
 
 
@@ -111,19 +106,19 @@ def ell_to_geo(latitude, longitude, height):
 
     ee = 2.0*f - f*f
 
-    sinLat = sin(astronomia.globals.latitude)
-    cosLat = cos(astronomia.globals.latitude)
+    sinLat = np.sin(latitude)
+    cosLat = np.cos(latitude)
 
-    N = ea/np.sqrt(1.0 - ee*sin_lat*sin_lat)
+    N = ea/np.sqrt(1.0 - ee*sinLat*sinLat)
 
-    Hx = (N + height)*cos_lat
-    Hy = (N*(1 - ee) + height)*sin_lat
+    Hx = (N + height)*cosLat
+    Hy = (N*(1 - ee) + height)*sinLat
 
     r = np.sqrt(Hx*Hx + Hy*Hy)
     theta = np.aran2(Hx, Hy)
     phi = longitude
 
-    return(r, theta, ph)
+    return(r, theta, phi)
 
 
 def equ_to_ecl(ra, dec, obliquity):
@@ -141,10 +136,11 @@ def equ_to_ecl(ra, dec, obliquity):
       - ecliptic latitude in radians
 
     """
-    cose = cos(obliquity)
-    sine = sin(obliquity)
-    sina = sin(ra)
-    longitude = modpi2(atan2(sina * cose + tan(dec) * sine, cos(ra)))
-    latitude = modpi2(asin(sin(dec) * cose - cos(dec) * sine * sina))
+    cose = np.cos(obliquity)
+    sine = np.sin(obliquity)
+    sina = np.sin(ra)
+    longitude = modpi2(np.arctan2(sina * cose + np.tan(dec) * sine,
+                       np.cos(ra)))
+    latitude = modpi2(np.arcsin(np.sin(dec) * cose -
+                      np.cos(dec) * sine * sina))
     return longitude, latitude
-

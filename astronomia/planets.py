@@ -24,8 +24,6 @@
     The VSOP87d planetary position model
     """
 
-from math import sin, cos, tan, atan2, sqrt
-
 import numpy as np
 
 from astronomia.constants import pi2
@@ -165,7 +163,7 @@ def vsop_to_fk5(jd, L, B):
 
 
 def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
-    """"Calculate the equatorial coordinates of a planet
+    """Calculate the equatorial coordinates of a planet
 
     The results will be geocentric, corrected for light-time and
     aberration.
@@ -209,7 +207,7 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
         x2 = x*x
         y2 = y*y
         l = np.arctan2(y, x)
-        b = np.arctan2(z, sqrt(x2 + y2))
+        b = np.arctan2(z, np.sqrt(x2 + y2))
 
         # distance to planet in AU
         dist = np.sqrt(x2 + y2 + z*z)

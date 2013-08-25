@@ -184,10 +184,10 @@ def nutation_in_obliquity(jd):
 #
 # Constant terms
 #
-_el0 = (d_to_r(dms_to_d(23, 26,  21.448)),
-        d_to_r(dms_to_d( 0,  0, -46.8150)),
-        d_to_r(dms_to_d( 0,  0,  -0.00059)),
-        d_to_r(dms_to_d( 0,  0,   0.001813)))
+_el0 = (d_to_r(dms_to_d(23, 26, 21.448)),
+        d_to_r(dms_to_d(0, 0, -46.8150)),
+        d_to_r(dms_to_d(0, 0, -0.00059)),
+        d_to_r(dms_to_d(0, 0, 0.001813)))
 
 
 def obliquity(jd):
@@ -210,17 +210,17 @@ def obliquity(jd):
 #
 # Constant terms
 #
-_el1 = (d_to_r(dms_to_d(23, 26,    21.448)),
-        d_to_r(dms_to_d( 0,  0, -4680.93)),
-        d_to_r(dms_to_d( 0,  0,    -1.55)),
-        d_to_r(dms_to_d( 0,  0,  1999.25)),
-        d_to_r(dms_to_d( 0,  0,   -51.38)),
-        d_to_r(dms_to_d( 0,  0,  -249.67)),
-        d_to_r(dms_to_d( 0,  0,   -39.05)),
-        d_to_r(dms_to_d( 0,  0,     7.12)),
-        d_to_r(dms_to_d( 0,  0,    27.87)),
-        d_to_r(dms_to_d( 0,  0,     5.79)),
-        d_to_r(dms_to_d( 0,  0,     2.45)))
+_el1 = (d_to_r(dms_to_d(23, 26, 21.448)),
+        d_to_r(dms_to_d(0, 0, -4680.93)),
+        d_to_r(dms_to_d(0, 0, -1.55)),
+        d_to_r(dms_to_d(0, 0, 1999.25)),
+        d_to_r(dms_to_d(0, 0, -51.38)),
+        d_to_r(dms_to_d(0, 0, -249.67)),
+        d_to_r(dms_to_d(0, 0, -39.05)),
+        d_to_r(dms_to_d(0, 0, 7.12)),
+        d_to_r(dms_to_d(0, 0, 27.87)),
+        d_to_r(dms_to_d(0, 0, 5.79)),
+        d_to_r(dms_to_d(0, 0, 2.45)))
 
 
 def obliquity_hi(jd):

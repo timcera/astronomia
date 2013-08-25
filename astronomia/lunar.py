@@ -365,9 +365,7 @@ class Lunar:
                 tl *= E2
             lsum += tl * np.sin(arg)
 
-        lsum += 3958 * np.sin(A1) +      \
-                1962 * np.sin(L1 - F) +  \
-                 318 * np.sin(A2)
+        lsum += 3958*np.sin(A1) + 1962*np.sin(L1 - F) + 318*np.sin(A2)
 
         nutinlong = nutation_in_longitude(jd)
         longitude = L1 + d_to_r(lsum / 1000000) + nutinlong
@@ -392,11 +390,11 @@ class Lunar:
             bsum += tb * np.sin(arg)
 
         bsum += -2235 * np.sin(L1) +      \
-                  382 * np.sin(A3) +      \
-                  175 * np.sin(A1 - F) +  \
-                  175 * np.sin(A1 + F) +  \
-                  127 * np.sin(L1 - M1) - \
-                  115 * np.sin(L1 + M1)
+                 382 * np.sin(A3) +      \
+                 175 * np.sin(A1 - F) +  \
+                 175 * np.sin(A1 + F) +  \
+                 127 * np.sin(L1 - M1) - \
+                 115 * np.sin(L1 + M1)
 
         latitude = d_to_r(bsum / 1000000)
         return latitude

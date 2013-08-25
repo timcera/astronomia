@@ -34,7 +34,7 @@ Bug: each of the routines drops some events which occur near 0hr UT.
 
 """
 
-from math import *
+import numpy as np
 
 from astronomia.calendar import sidereal_time_greenwich
 from astronomia.constants import seconds_per_day, pi2, earth_equ_radius, \
@@ -76,8 +76,8 @@ def rise(jd, raList, decList, h0, delta):
     THETA0 = sidereal_time_greenwich(jd)
     deltaT_days = deltaT_seconds(jd) / seconds_per_day
 
-    cosH0 = (sin(h0) - sin(latitude)*sin(decList[1])) / (
-        cos(latitude)*cos(decList[1]))
+    cosH0 = (np.sin(h0) - np.sin(latitude)*np.sin(decList[1])) / (
+        np.cos(latitude)*np.cos(decList[1]))
     #
     # future: return some indicator when the object is circumpolar or always
     # below the horizon.
@@ -87,7 +87,7 @@ def rise(jd, raList, decList, h0, delta):
     if cosH0 > 1.0:  # never rises
         return None
 
-    H0 = acos(cosH0)
+    H0 = np.acos(cosH0)
     m0 = (raList[1] + longitude - THETA0) / pi2
     m = m0 - H0 / pi2  # the only difference between rise() and settime()
     if m < 0:
@@ -109,7 +109,7 @@ def rise(jd, raList, decList, h0, delta):
 #            H = H - pi2
         H = diff_angle(0.0, H)
         A, h = equ_to_horiz(H, dec)
-        dm = (h - h0) / (pi2 * cos(dec) * cos(latitude) * sin(H))
+        dm = (h - h0) / (pi2 * np.cos(dec) * np.cos(latitude) * np.sin(H))
         m += dm
         if abs(m - m0) < delta:
             return jd + m
@@ -139,8 +139,8 @@ def settime(jd, raList, decList, h0, delta):
     THETA0 = sidereal_time_greenwich(jd)
     deltaT_days = deltaT_seconds(jd) / seconds_per_day
 
-    cosH0 = (sin(h0) - sin(latitude)*sin(decList[1])) / (
-        cos(latitude)*cos(decList[1]))
+    cosH0 = (np.sin(h0) - np.sin(latitude)*np.sin(decList[1])) / (
+        np.cos(latitude)*np.cos(decList[1]))
     #
     # future: return some indicator when the object is circumpolar or always
     # below the horizon.
@@ -150,7 +150,7 @@ def settime(jd, raList, decList, h0, delta):
     if cosH0 > 1.0:  # never rises
         return None
 
-    H0 = acos(cosH0)
+    H0 = np.acos(cosH0)
     m0 = (raList[1] + longitude - THETA0) / pi2
     m = m0 + H0 / pi2  # the only difference between rise() and settime()
     if m < 0:
@@ -172,7 +172,7 @@ def settime(jd, raList, decList, h0, delta):
 #            H = H - pi2
         H = diff_angle(0.0, H)
         A, h = equ_to_horiz(H, dec)
-        dm = (h - h0) / (pi2 * cos(dec) * cos(latitude) * sin(H))
+        dm = (h - h0) / (pi2 * np.cos(dec) * np.cos(latitude) * np.sin(H))
         m += dm
         if abs(m - m0) < delta:
             return jd + m
@@ -238,6 +238,6 @@ def moon_rst_altitude(r):
 
     """
     # horizontal parallax
-    parallax = asin(earth_equ_radius / r)
+    parallax = np.asin(earth_equ_radius / r)
 
     return 0.7275 * parallax + standard_rst_altitude
