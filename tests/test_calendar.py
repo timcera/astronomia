@@ -11,6 +11,7 @@ from astronomia.util import d_to_r, r_to_d
 from astronomia.coordinates import ecl_to_equ
 from astronomia.calendar import cal_to_jd, cal_to_jde, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal, easter, sidereal_time_greenwich
 
+
 class TestUtil(TestCase):
     def test_cal_to_jd(self):
         jd = cal_to_jd(1957, 10, 4.81)
@@ -30,6 +31,14 @@ class TestUtil(TestCase):
         self.assertEqual(mo, 11)
         self.assertEqual(day, 26)
 
+        jd = cal_to_jd([1991 + 1.0/365.0, 1991])
+        self.assertEqual(jd[0] - jd[1], 1.0)
+        jd = cal_to_jd([1991.5, 1991])
+        self.assertEqual(jd[0] - jd[1], 182.5)
+
+        jd = cal_to_jd(1991, [1.5, 1])
+        self.assertEqual(jd[0] - jd[1], 15.5)
+
     def test_dow(self):
         jd = cal_to_jd(1954, 6, 30.0)
         self.assertEqual(jd, 2434923.5)
@@ -37,10 +46,10 @@ class TestUtil(TestCase):
         self.assertEqual(dow, 3)
 
     def test_sidereal(self):
-        N = sidereal_time_greenwich(cal_to_jd(2004,1,1))
+        N = sidereal_time_greenwich(cal_to_jd(2004, 1, 1))
         testval = (6*3600 + 39*60 + 58.60298794778828)/43200*math.pi
         np.testing.assert_array_almost_equal(N, testval, decimal=4)
-        N = sidereal_time_greenwich(cal_to_jd(2004,1,[1,2]))
+        N = sidereal_time_greenwich(cal_to_jd(2004, 1, [1, 2]))
         testval1 = (6*3600 + 43*60 + 55.15832794114431)/43200*math.pi
         np.testing.assert_array_almost_equal(N, [testval, testval1], decimal=4)
 
@@ -83,7 +92,9 @@ class TestUtil(TestCase):
         np.testing.assert_array_almost_equal(day, [27.5, 28.63])
 
     def test_ecl_to_equ(self):
-        ra, dec = ecl_to_equ(d_to_r(113.215630), d_to_r(6.684170), d_to_r(23.4392911))
+        ra, dec = ecl_to_equ(d_to_r(113.215630),
+                             d_to_r(6.684170),
+                             d_to_r(23.4392911))
         self.assertAlmostEqual(r_to_d(ra), 116.328942, places=5)
         self.assertAlmostEqual(r_to_d(dec), 28.026183, places=6)
 
@@ -99,7 +110,7 @@ class TestUtil(TestCase):
         for yr, mo, day in tbl:
             xmo, xday = easter(yr)
             self.assertEqual(xmo, mo)
-            self.assertEqual(xday,day)
+            self.assertEqual(xday, day)
 
         for yr in [179, 711, 1243]:
             mo, day = easter(yr, False)
@@ -108,9 +119,9 @@ class TestUtil(TestCase):
 
     def test_cal_to_jde(self):
         tbl = [
-               [(2013,6,18,18,25,30), 2456462.267708],
-               [(2013,6,18,18,26,30), 2456462.268403],
-              ]
+            [(2013, 6, 18, 18, 25, 30), 2456462.267708],
+            [(2013, 6, 18, 18, 26, 30), 2456462.268403],
+            ]
         for date, testval in tbl:
             jd = cal_to_jde(*date)
             np.testing.assert_array_almost_equal(jd, testval, decimal=6)
