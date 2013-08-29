@@ -176,7 +176,8 @@ def nutation_in_obliquity(jd):
     deltaEps = 0.0
     for tD, tM, tM1, tF, tomega, tpsiK, tpsiT, tepsK, tepsT in _tbl:
         arg = D*tD + M*tM + M1*tM1 + F*tF + omega*tomega
-        deltaEps = deltaEps + (tepsK/10000.0 + tepsT/100000.0 * T) * np.cos(arg)
+        deltaEps = deltaEps + (tepsK/10000.0 +
+                               tepsT/100000.0 * T) * np.cos(arg)
     deltaEps = deltaEps / 3600
     deltaEps = d_to_r(deltaEps)
     return deltaEps

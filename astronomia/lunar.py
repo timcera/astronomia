@@ -348,9 +348,6 @@ class Lunar:
 
     def _longitude(self, jd):
         """Return the geocentric ecliptic longitude in radians.
-
-        A subset of the logic in dimension3()
-
         """
         from astronomia.nutation import nutation_in_longitude
 
@@ -373,9 +370,6 @@ class Lunar:
 
     def _latitude(self, jd):
         """Return the geocentric ecliptic latitude in radians.
-
-        A subset of the logic in dimension3()
-
         """
         T = jd_to_jcent(jd)
         L1, D, M, M1, F, A1, A2, A3, E, E2 = _constants(T)
@@ -389,21 +383,18 @@ class Lunar:
                 tb *= E2
             bsum += tb * np.sin(arg)
 
-        bsum += -2235 * np.sin(L1) +      \
-                 382 * np.sin(A3) +      \
-                 175 * np.sin(A1 - F) +  \
-                 175 * np.sin(A1 + F) +  \
-                 127 * np.sin(L1 - M1) - \
-                 115 * np.sin(L1 + M1)
+        bsum += -2235 * np.sin(L1) +    \
+            382 * np.sin(A3) +      \
+            175 * np.sin(A1 - F) +  \
+            175 * np.sin(A1 + F) +  \
+            127 * np.sin(L1 - M1) - \
+            115 * np.sin(L1 + M1)
 
         latitude = d_to_r(bsum / 1000000)
         return latitude
 
     def _radius(self, jd):
         """Return the geocentric radius in km.
-
-        A subset of the logic in dimension3()
-
         """
         T = jd_to_jcent(jd)
         L1, D, M, M1, F, A1, A2, A3, E, E2 = _constants(T)
