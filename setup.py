@@ -14,12 +14,13 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     sys.exit()
 
+readme = open('README.rst').read()
+history = open('CHANGES.rst').read().replace('.. :changelog:', '')
+
 setup(name='astronomia',
       version=open("VERSION").readline().strip(),
       description="Library for calculation of ephemeris and other astronomical calculations",
-      long_description="""\
-              Library of astronomical calculations
-              based on Astrolabe, by Bill McClain.""",
+      long_description=readme + '\n\n' + history,
       classifiers=['Environment :: Console',
                    'Intended Audience :: Developers',
                    'Intended Audience :: Science/Research',

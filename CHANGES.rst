@@ -1,6 +1,10 @@
 Changes
 =======
 
+v0.2.3-1, 2013-08-31:
+
+    * Minor changes to get the README.rst to post to the PyPI page.
+
 v0.2.3, 2013-08-31:
 
     * Made fday_to_hms more robust by getting rid of the integer part
