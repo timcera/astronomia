@@ -99,7 +99,7 @@ def ell_to_geo(latitude, longitude, height):
       - phi
 
     """
-    from constants import earth_equ_radius
+    from astronomia.constants import earth_equ_radius
 
     f = 1.0/298.2564219846
     ea = earth_equ_radius/1000
@@ -115,7 +115,7 @@ def ell_to_geo(latitude, longitude, height):
     Hy = (N*(1 - ee) + height)*sinLat
 
     r = np.sqrt(Hx*Hx + Hy*Hy)
-    theta = np.aran2(Hx, Hy)
+    theta = np.arctan2(Hx, Hy)
     phi = longitude
 
     return(r, theta, phi)
