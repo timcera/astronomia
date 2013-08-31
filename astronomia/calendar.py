@@ -291,7 +291,9 @@ def fday_to_hms(day):
       - second : (int, 0..59)
 
     """
-    seconds = day * 86400.0
+    # First get rid of the integer day
+    fday, days = modf(day)
+    seconds = fday * 86400.0
     minutes = int(seconds / 60.0)
     seconds = seconds - (minutes * 60.0)
     hours = int(minutes / 60.0)
@@ -333,63 +335,14 @@ def is_dst(julian_day):
       - (bool) True if Daylight Savings Time is in effect, False otherwise.
 
     """
-    if not astronomia.globals.daylight_timezone_name:
-        return False
+    import time
+    import datetime
 
-    #
-    # What year is this?
-    #
     year, mon, day = jd_to_cal(julian_day)
-    #
-    # First day in April
-    #
-    start = cal_to_jd(year, 4, 1)
+    hr, minute, second = fday_to_hms(julian_day)
 
-    #
-    # Advance to the first Sunday
-    #
-    dow = jd_to_day_of_week(start)
-    if dow:
-        start += 7 - dow
-
-    #
-    # Advance to 2AM
-    #
-    start += 2.0 / 24
-
-    #
-    # Convert to Universal Time
-    #
-    start += astronomia.globals.standard_timezone_offset
-
-    if julian_day < start:
-        return False
-
-    #
-    # Last day in October
-    #
-    stop = cal_to_jd(year, 10, 31)
-
-    #
-    # Backup to the last Sunday
-    #
-    dow = jd_to_day_of_week(stop)
-    stop -= dow
-
-    #
-    # Advance to 2AM
-    #
-    stop += 2.0 / 24
-
-    #
-    # Convert to Universal Time
-    #
-    stop += astronomia.globals.daylight_timezone_offset
-
-    if julian_day < stop:
-        return True
-
-    return False
+    stamp = datetime.datetime(year, mon, day, hr, minute, second)
+    return time.localtime(time.mktime(stamp.timetuple())).tm_isdst == 1
 
 
 def is_leap_year(year, gregorian=True):
