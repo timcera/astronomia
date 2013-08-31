@@ -1,8 +1,9 @@
-CHANGES.txt
-CONTRIBUTING.txt
+AUTHORS.rst
+CHANGES.rst
+CONTRIBUTING.rst
 LICENSE.txt
 MANIFEST.in
-README.txt
+README.rst
 VERSION
 setup.cfg
 setup.py
