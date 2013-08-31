@@ -9,7 +9,7 @@ import numpy as np
 
 from astronomia.util import d_to_r, r_to_d
 from astronomia.coordinates import ecl_to_equ
-from astronomia.calendar import cal_to_jd, cal_to_jde, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal, easter, sidereal_time_greenwich
+from astronomia.calendar import cal_to_jd, cal_to_jde, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal, easter, sidereal_time_greenwich, fday_to_hms, is_leap_year
 
 
 class TestUtil(TestCase):
@@ -38,6 +38,16 @@ class TestUtil(TestCase):
 
         jd = cal_to_jd(1991, [1.5, 1])
         self.assertEqual(jd[0] - jd[1], 15.5)
+
+        self.assertRaises(ValueError, cal_to_jd, 1991, 13)
+        self.assertRaises(ValueError, cal_to_jd, 1991, 12, 32)
+        self.assertRaises(ValueError, cal_to_jd, 1991.1, 12.1)
+
+    def test_fday_to_hms(self):
+        self.assertEqual(fday_to_hms(0.5), (12, 0, 0))
+        self.assertEqual(fday_to_hms(0.5006944444444444445), (12, 1, 0))
+        self.assertEqual(fday_to_hms(0.5006944444444444445 +
+                                     0.0007060185185185186), (12, 2, 1))
 
     def test_dow(self):
         jd = cal_to_jd(1954, 6, 30.0)
@@ -125,3 +135,7 @@ class TestUtil(TestCase):
         for date, testval in tbl:
             jd = cal_to_jde(*date)
             np.testing.assert_array_almost_equal(jd, testval, decimal=6)
+
+    def test_is_leap_year(self):
+        self.assertEqual(is_leap_year(2004), True)
+        self.assertEqual(is_leap_year(2004, gregorian=False), True)
