@@ -60,7 +60,7 @@ Ready to contribute? Here's how to set up `astronomia` for local development.
 1. Fork the `astronomia` repo on bitbucket.
 2. Clone your fork locally::
 
-    $ git clone git@bitbucket.org:your_name_here/astronomia.git
+    $ git clone git@bitbucket.org:your_bitbucket_login/astronomia.git
 
 3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
 
@@ -68,28 +68,32 @@ Ready to contribute? Here's how to set up `astronomia` for local development.
     $ cd astronomia/
     $ python setup.py develop
 
-4. Create a branch for local development::
+4. For testing you also need to install tox, coverage, and flake8::
+
+    $ pip install tox
+    $ pip install coverage
+    $ pip install flake8
+
+5. Create a branch for local development::
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
 Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
+6. When you're done making changes, check that your changes pass flake8 and the
 tests, including testing other Python versions with tox::
 
-    $ flake8 astronomia tests
-	$ python setup.py test
     $ tox
 
-To get flake8 and tox, just pip install them into your virtualenv. 
+Bring the htmlcov/index.html file up into a browser to make sure that the code has appropriate test coverage.
 
-6. Commit your changes and push your branch to bitbucket::
+7. Commit your changes and push your branch to bitbucket::
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
 
-7. Submit a pull request through the bitbucket website.
+8. Submit a pull request through the bitbucket website.
 
 Pull Request Guidelines
 -----------------------
@@ -100,4 +104,4 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 2.6, 2.7, and 3.3.
+3. The pull request should work for Python 2.7, and 3.3.
