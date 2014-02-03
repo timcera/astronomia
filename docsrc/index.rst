@@ -24,8 +24,6 @@ Table of Contents
    readme
    usage
    models
-   applications
-   todo
    contributing
    authors
    changes

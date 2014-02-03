@@ -321,11 +321,10 @@ def hms_to_fday(hr, mn, sec):
 
 
 def is_dst(julian_day):
-    """Is this instant within the Daylight Savings Time period as used in the
-    US?
+    """Is this instant within the Daylight Savings Time period.
 
-    If astronomia.globals.daylight_timezone_name is None, the function always
-    returns False.
+    Uses the time zone database associated with Python and used in the 'time'
+    module.
 
     Arguments:
       - `julian_day` : (int) Julian Day number representing an instant in
