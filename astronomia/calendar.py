@@ -79,7 +79,7 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     day = np.atleast_1d(day).astype(np.float64)
     if np.any(mon >= 13) or np.any(mon < 1):
         raise ValueError('Month must be between 1 and 13')
-    if np.any(day >= 31) or np.any(day < 1):
+    if np.any(day > 31) or np.any(day < 1):
         raise ValueError('Day must be between 1 and 31')
     year, mon, day = map(np.array, np.broadcast_arrays(year, mon, day))
     # For float years and month abuse the day variable
