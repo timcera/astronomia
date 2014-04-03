@@ -9,7 +9,10 @@ import numpy as np
 
 from astronomia.util import d_to_r, r_to_d
 from astronomia.coordinates import ecl_to_equ
-from astronomia.calendar import cal_to_jd, cal_to_jde, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal, easter, sidereal_time_greenwich, fday_to_hms, is_leap_year
+from astronomia.calendar import (cal_to_jd, cal_to_jde, jd_to_cal,
+    jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal,
+    easter, sidereal_time_greenwich, fday_to_hms, is_leap_year,
+    frac_yr_to_jd, yr_frac_mon_to_jd)
 
 
 class TestUtil(TestCase):
@@ -31,12 +34,12 @@ class TestUtil(TestCase):
         self.assertEqual(mo, 11)
         self.assertEqual(day, 26)
 
-        jd = cal_to_jd([1991 + 1.0/365.0, 1991])
+        jd = frac_yr_to_jd([1991 + 1.0/365.0, 1991])
         self.assertEqual(jd[0] - jd[1], 1.0)
-        jd = cal_to_jd([1991.5, 1991])
+        jd = frac_yr_to_jd([1991.5, 1991])
         self.assertEqual(jd[0] - jd[1], 182.5)
 
-        jd = cal_to_jd(1991, [1.5, 1])
+        jd = yr_frac_mon_to_jd(1991, [1.5, 1])
         self.assertEqual(jd[0] - jd[1], 15.5)
 
         self.assertRaises(ValueError, cal_to_jd, 1991, 13)

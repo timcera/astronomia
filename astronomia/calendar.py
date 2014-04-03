@@ -57,6 +57,73 @@ class Error(Exception):
     pass
 
 
+def frac_yr_to_jd(year, gregorian=True):
+    """Convert a date in the Julian or Gregorian fractional year to the
+    Julian Day Number (Meeus 7.1).
+
+    Arguments:
+      - `year` : (int, float)  year
+
+    Keywords:
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
+
+    Returns:
+      - (float)
+
+    """
+    year = np.atleast_1d(year)
+    day = np.atleast_1d(0.0).astype(np.float64)
+    year, day = map(np.array, np.broadcast_arrays(year, day))
+    # For float years abuse the day variable
+    fyear = year - year.astype('i')
+    mask = fyear > 0
+    if np.any(mask):
+        year = year.astype('i')
+        days_in_year = cal_to_jd(year[mask] + 1) - cal_to_jd(year[mask])
+        day[mask] = days_in_year*fyear[mask]
+        return _scalar_if_one(cal_to_jd(year) + day)
+    return _scalar_if_one(cal_to_jd(year))
+
+
+def yr_frac_mon_to_jd(year, mon, gregorian=True):
+    """Convert a year and fractional month in the Julian or Gregorian
+    calendars to the Julian Day Number (Meeus 7.1).
+
+    Arguments:
+      - `year` : (int)  year
+      - `mon` : (int, float)  month
+
+    Keywords:
+      - `gregorian` : (bool, default=True) If True, use Gregorian calendar,
+        else use Julian calendar
+
+    Returns:
+      - (float)
+
+    """
+    year = np.atleast_1d(year)
+    mon = np.atleast_1d(mon).astype(np.float64)
+    day = np.atleast_1d(0.0).astype(np.float64)
+    year, mon, day = map(np.array, np.broadcast_arrays(year,
+                         mon, day))
+    fmon = mon - mon.astype('i')
+    mask = fmon > 0
+    if np.any(mask):
+        mon = mon.astype('i')
+        next_mon = np.copy(mon) + 1
+        next_year = np.copy(year)
+        next_mon_mask = next_mon == 13
+        next_year[next_mon_mask] = next_year[next_mon_mask] + 1
+        next_mon[next_mon_mask] = 1
+        days_in_mon = cal_to_jd(next_year[mask],
+                                next_mon[mask]) - cal_to_jd(year[mask],
+                                                            mon[mask])
+        day[mask] = days_in_mon*fmon[mask]
+        return _scalar_if_one(cal_to_jd(year, mon) + day)
+    return _scalar_if_one(cal_to_jd(year, mon))
+
+
 def cal_to_jd(year, mon=1, day=1, gregorian=True):
     """Convert a date in the Julian or Gregorian calendars to the Julian Day
     Number (Meeus 7.1).
@@ -77,37 +144,34 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     year = np.atleast_1d(year)
     mon = np.atleast_1d(mon)
     day = np.atleast_1d(day).astype(np.float64)
-    if np.any(mon >= 13) or np.any(mon < 1):
-        raise ValueError('Month must be between 1 and 13')
-    if np.any(day > 31) or np.any(day < 1):
-        raise ValueError('Day must be between 1 and 31')
-    year, mon, day = map(np.array, np.broadcast_arrays(year, mon, day))
-    # For float years and month abuse the day variable
+
     fyear = year - year.astype('i')
-    fmon = mon - mon.astype('i')
-    if np.any(np.logical_and(fyear > 0, fmon > 0)):
-        raise ValueError('Cannot have float values for both year and month')
     mask = fyear > 0
     if np.any(mask):
-        year = year.astype('i')
-        days_in_year = cal_to_jd(year[mask] + 1) - cal_to_jd(year[mask])
-        day[mask] = days_in_year*fyear[mask]
-        day[~mask] = 0
-        return _scalar_if_one(cal_to_jd(year) + day)
+        raise ValueError('Year must be integer. Use frac_yr_to_jd instead.')
+    fmon = mon - mon.astype('i')
     mask = fmon > 0
     if np.any(mask):
-        mon = mon.astype('i')
-        next_mon = np.copy(mon) + 1
-        next_year = np.copy(year)
-        next_mon_mask = next_mon == 13
-        next_year[next_mon_mask] = next_year[next_mon_mask] + 1
-        next_mon[next_mon_mask] = 1
-        days_in_mon = cal_to_jd(next_year[mask],
-                                next_mon[mask]) - cal_to_jd(year[mask],
-                                                            mon[mask])
-        day[mask] = days_in_mon*fmon[mask]
-        day[~mask] = 0
-        return _scalar_if_one(cal_to_jd(year, mon) + day)
+        raise ValueError('Month must be integer. Use yr_frac_mon_to_jd instead.')
+    if np.any(mon > 12) or np.any(mon < 1):
+        raise ValueError('Month must be from 1 to 12')
+    if np.any(day > 31) or np.any(day < 1):
+        raise ValueError('Day must be from 1 to 31')
+    year, mon, day = map(np.array, np.broadcast_arrays(year, mon, day))
+
+    for thirtydays in [9, 4, 6, 11]:
+        daytestarr = mon == thirtydays
+        if np.any(day[daytestarr] > 30):
+            raise ValueError('Day must be from 1 to 30')
+
+    leapyeartest = np.atleast_1d(is_leap_year(year, gregorian))
+
+    if np.any(np.logical_and(day[leapyeartest] > 29, mon[leapyeartest] == 2)):
+        raise ValueError('Day must be from 1 to 29')
+    if np.any(np.logical_and(day[~leapyeartest] > 28,
+                             mon[~leapyeartest] == 2)):
+        raise ValueError('Day must be from 1 to 28')
+
     testarr = mon <= 2
     year[testarr] -= 1
     mon[testarr] += 12
