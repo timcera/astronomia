@@ -358,7 +358,7 @@ class Lunar:
             arg = tD * D + tM * M + tM1 * M1 + tF * F
             if abs(tM) == 1:
                 tl *= E
-            elif abs(tM == 2):
+            elif abs(tM) == 2:
                 tl *= E2
             lsum += tl * np.sin(arg)
 
@@ -404,7 +404,7 @@ class Lunar:
             arg = tD*D + tM*M + tM1*M1 + tF*F
             if abs(tM) == 1:
                 tr *= E
-            elif abs(tM == 2):
+            elif abs(tM) == 2:
                 tr *= E2
             rsum += tr * np.cos(arg)
 
