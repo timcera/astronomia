@@ -87,7 +87,7 @@ def rise(jd, raList, decList, h0, delta):
     if cosH0 > 1.0:  # never rises
         return None
 
-    H0 = np.acos(cosH0)
+    H0 = np.arccos(cosH0)
     m0 = (raList[1] + longitude - THETA0) / pi2
     m = m0 - H0 / pi2  # the only difference between rise() and settime()
     if m < 0:
@@ -150,7 +150,7 @@ def settime(jd, raList, decList, h0, delta):
     if cosH0 > 1.0:  # never rises
         return None
 
-    H0 = np.acos(cosH0)
+    H0 = np.arccos(cosH0)
     m0 = (raList[1] + longitude - THETA0) / pi2
     m = m0 + H0 / pi2  # the only difference between rise() and settime()
     if m < 0:
@@ -238,6 +238,6 @@ def moon_rst_altitude(r):
 
     """
     # horizontal parallax
-    parallax = np.asin(earth_equ_radius / r)
+    parallax = np.arcsin(earth_equ_radius / r)
 
     return 0.7275 * parallax + standard_rst_altitude

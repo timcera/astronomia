@@ -402,7 +402,9 @@ def is_dst(julian_day):
     import datetime
 
     year, mon, day = jd_to_cal(julian_day)
+    day = int(day)
     hr, minute, second = fday_to_hms(julian_day)
+    second = int(second)
 
     stamp = datetime.datetime(year, mon, day, hr, minute, second)
     return time.localtime(time.mktime(stamp.timetuple())).tm_isdst == 1
@@ -496,19 +498,21 @@ def lt_to_str(julian_day, zone="", level="second"):
     hour, minute, sec = fday_to_hms(fday)
     sec = int(sec)
 
-    month = astronomia.globals.month_names[mon-1]
-
     if level == "second":
-        return "%d-%s-%02d %02d:%02d:%02d %s" % (year, month, iday,
-                                                 hour, minute, sec, zone)
+        return "%d-%02d-%02d %02d:%02d:%02d %s" % (year, mon, iday,
+                                                   hour, minute, sec,
+                                                   zone)
     if level == "minute":
-        return "%d-%s-%02d %02d:%02d %s" % (year, month, iday,
-                                            hour, minute, zone)
+        return "%d-%02d-%02d %02d:%02d %s" % (year, mon, iday,
+                                              hour, minute,
+                                              zone)
     if level == "hour":
-        return "%d-%s-%02d %02d %s" % (year, month, iday, hour, zone)
+        return "%d-%02d-%02d %02d %s" % (year, mon, iday,
+                                         hour,
+                                         zone)
     if level == "day":
-        return "%d-%s-%02d" % (year, astronomia.globals.month_names[mon-1],
-                               iday)
+        return "%d-%02d-%02d" % (year, mon, iday)
+
     raise Error("unknown time level = " + level)
 
 

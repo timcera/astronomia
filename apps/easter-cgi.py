@@ -46,7 +46,6 @@ import time
 sys.path.append('/home/groups/a/as/astronomia/lib/python')
 
 from astronomia.calendar import easter
-from astronomia.globals import month_names
 
 form = cgi.FieldStorage()
 
@@ -56,18 +55,18 @@ form = cgi.FieldStorage()
 def display_form():
     fields = time.localtime(time.time())
     year = fields[0]
-    
-    print('Content-type: text/html') 
-    print()                               
+
+    print('Content-type: text/html')
+    print()
     print('<HEAD>')
     print('<TITLE>Astronomia Easter Parameters</TITLE>')
     print('</HEAD>')
-    
+
     print('<BODY>')
     print('<H1>Astronomia Easter Parameters</H1>')
-    
+
     print('<FORM action="http://astronomia.sourceforge.net/cgi-bin/easter-cgi.py" method="post">')
-    
+
     print('<TABLE>')
     print('<TR>')
     print('<TD><LABEL for="starting_year">Starting year</LABEL></TD>')
@@ -81,11 +80,11 @@ def display_form():
 
     print('<INPUT type="checkbox" checked name="gregorian_calendar" value="1"> Gregorian calendar<BR>')
     print('<INPUT type="checkbox" checked name="julian_calendar" value="1"> Julian calendar<BR>')
-    
+
     print('<INPUT type="submit" value="Run"> <INPUT type="reset">')
- 
+
     print('<INPUT type="hidden" name="results" value="1">')
- 
+
     print('</FORM>')
     print('</BODY>')
 
@@ -104,8 +103,8 @@ def display_error(msg):
 # Display the results
 #
 def display_results():
-    print('Content-type: text/html') 
-    print()                               
+    print('Content-type: text/html')
+    print()
     print('<HEAD>')
     print('<TITLE>Astronomia Easter Results</TITLE>')
     print('</HEAD>')
@@ -173,26 +172,26 @@ def display_results():
         print('<TR>')
         if gregorian_calendar:
             month, day = easter(year, True)
-            print('<TD><TT>%02d-%s-%d</TT></TD>' % (day, month_names[month-1], year))
+            print('<TD><TT>%02d-%02d-%d</TT></TD>' % (day, month, year))
         if julian_calendar:
             month, day = easter(year, False)
-            print('<TD><TT>%02d-%s-%d</TT></TD>' % (day, month_names[month-1], year))
+            print('<TD><TT>%02d-%02d-%d</TT></TD>' % (day, month, year))
         print('</TR>')
     print('</TABLE>')
 
     # handy diagnostic routines
     """
     print "<H1>print_environ</H1>"
-    cgi.print_environ() 
+    cgi.print_environ()
     print "<H1>print_directory</H1>"
-    cgi.print_directory() 
+    cgi.print_directory()
     print "<H1>print_environ_usage</H1>"
     cgi.print_environ_usage()
     print "<H1>FieldStorage</H1>"
     #form = cgi.FieldStorage()
     cgi.print_form(form)
     """
-    
+
     print('</BODY>')
 
 #

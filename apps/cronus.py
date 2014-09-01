@@ -58,8 +58,8 @@ from astronomia.equinox import equinox_approx, equinox
 from astronomia.nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
 from astronomia.riseset import rise, settime, transit, moon_rst_altitude
 from astronomia.sun import Sun, aberration_low
-from astronomia.util import ecl_to_equ
-from astronomia.vsop87d import VSOP87d, geocentric_planet, vsop_to_fk5, planet_names
+from astronomia.coordinates import ecl_to_equ
+from astronomia.planets import VSOP87d, geocentric_planet, vsop_to_fk5, planet_names
 from astronomia.util import load_params
 import astronomia.globals
 
@@ -125,7 +125,7 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-20s %s %s rises" % (lt_to_str(lt, "", "minute"), zone, obj.name)
+            str = "%-19s %s %s rises" % (lt_to_str(lt, "", "minute"), zone, obj.name)
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "rise")
@@ -134,7 +134,7 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-20s %s %s sets" % (lt_to_str(lt, "", "minute"), zone, obj.name)
+            str = "%-19s %s %s sets" % (lt_to_str(lt, "", "minute"), zone, obj.name)
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "set")
@@ -143,7 +143,7 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-24s %s transits" % (lt_to_str(lt, zone), obj.name)
+            str = "%-23s %s transits" % (lt_to_str(lt, zone), obj.name)
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "transit")
