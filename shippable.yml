@@ -20,8 +20,6 @@ before_install:
   - source $HOME/bldve/bin/activate
 
 install:
-  # Would be nice to just have argparse installed for 2.6, but don't
-  # know a way to put the logic inside the shippable.yml
   - pip install numpy nose coverage
   - python setup.py install
 
@@ -30,7 +28,7 @@ before_script:
   - mkdir -p shippable/codecoverage
 
 script:
-  - nosetests --with-coverage --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml
-  - which python && coverage xml --include="ts*/*" --omit="tests/*" --omit=".tox/*" -o shippable/codecoverage/coverage.xml 
+  - nosetests --with-coverage --coverage-package=astronomia --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml
+  - coverage xml --include="ts*/*" --omit="tests/*" --omit=".tox/*" -o shippable/codecoverage/coverage.xml 
 
 cache: true
