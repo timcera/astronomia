@@ -1,0 +1,36 @@
+language: python
+
+# build_image: shippableimages/ubuntu1204_python
+
+python:
+  - 2.6
+  - 2.7
+  - 3.2
+  - 3.3
+  - 3.4
+
+before_install:
+  - env
+  # In order to install matplotlib
+  - sudo apt-get install -y python${VIRTUALENV_PYTHON}-dev 
+
+  # set up a virtualenv and activate the python version that you want to use
+  - mkdir -p $HOME/bldve/
+  - virtualenv -p $SHIPPABLE_PYTHON  $HOME/bldve/
+  - source $HOME/bldve/bin/activate
+
+install:
+  # Would be nice to just have argparse installed for 2.6, but don't
+  # know a way to put the logic inside the shippable.yml
+  - pip install numpy nose
+  - python setup.py install
+
+before_script:
+  - mkdir -p shippable/testresults
+  - mkdir -p shippable/codecoverage
+
+script:
+  - nosetests --with-coverage --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml
+  - which python && coverage xml --include="ts*/*" --omit="tests/*" --omit=".tox/*" -o shippable/codecoverage/coverage.xml 
+
+cache: true
