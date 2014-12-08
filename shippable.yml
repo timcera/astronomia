@@ -22,7 +22,7 @@ before_install:
 install:
   # Would be nice to just have argparse installed for 2.6, but don't
   # know a way to put the logic inside the shippable.yml
-  - pip install numpy nose
+  - pip install numpy nose coverage
   - python setup.py install
 
 before_script:
