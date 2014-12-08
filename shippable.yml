@@ -28,6 +28,8 @@ before_script:
   - mkdir -p shippable/codecoverage
 
 script:
-    - nosetests --with-coverage --cover-package=astronomia --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml --cover-xml-file=shippable/codecoverage/coverage.xml 
+  - nosetests --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml 
+  - coverage run --branch --include="astronomia/*" --omit="tests/*" --omit=".tox/*"
+  - coverage xml -o shippable/codecoverage/coverage.xml 
 
 cache: true
