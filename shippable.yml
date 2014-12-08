@@ -29,7 +29,7 @@ before_script:
 
 script:
   - nosetests --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml 
-  - coverage run --branch --include="astronomia/*" --omit="tests/*" --omit=".tox/*"
+  - coverage run --branch --include="astronomia/*" --omit="tests/*" --omit=".tox/*" nosetests
   - coverage xml -o shippable/codecoverage/coverage.xml 
 
 cache: true
