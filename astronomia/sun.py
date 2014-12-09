@@ -31,6 +31,7 @@ from astronomia.calendar import jd_to_jcent
 from astronomia.util import polynomial, d_to_r, modpi2, dms_to_d, \
     _scalar_if_one
 from astronomia.planets import VSOP87d
+from astronomia import globals as globls
 
 
 class Error(Exception):
@@ -236,8 +237,8 @@ def aberration_low(R):
     return -_lk4 / R
 
 def rise(year, month, day,
-         longitude=astronomia.globals.longitude,
-         latitude=astronomia.globals.latitude,
+         longitude=globls.longitude,
+         latitude=globls.latitude,
          gregorian=True):
 
     from astronomia.constants import days_per_second, standard_rst_altitude, sun_rst_altitude
