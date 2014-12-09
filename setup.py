@@ -16,12 +16,11 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 readme = open('README.rst').read()
-history = open('CHANGES.rst').read().replace('.. :changelog:', '')
 
 setup(name='astronomia',
       version=open("VERSION").readline().strip(),
       description="Library for calculation of ephemeris and other astronomical calculations",
-      long_description=readme + '\n\n' + history,
+      long_description=readme + '\n\n',
       classifiers=['Environment :: Console',
                    'Intended Audience :: Developers',
                    'Intended Audience :: Science/Research',

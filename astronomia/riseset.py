@@ -40,7 +40,7 @@ from astronomia.calendar import sidereal_time_greenwich
 from astronomia.constants import seconds_per_day, pi2, earth_equ_radius, \
     standard_rst_altitude
 from astronomia.dynamical import deltaT_seconds
-from astronomia.util import d_to_r, interpolate_angle3, diff_angle, r_to_d, \
+from astronomia.util import d_to_r, interpolate_angle3, diff_angle,  \
     modpi2, interpolate3
 from astronomia.coordinates import equ_to_horiz
 import astronomia.globals
@@ -52,6 +52,58 @@ class Error(Exception):
 
 
 _k1 = d_to_r(360.985647)
+
+
+def _riseset(jd, raList, decList, h0, delta, mode,
+             longitude=astronomia.globals.longitude,
+             latitude=astronomia.globals.latitude):
+    # Private function since rise/set so similar
+
+    THETA0 = sidereal_time_greenwich(jd)
+    deltaT_days = deltaT_seconds(jd) / seconds_per_day
+
+    cosH0 = (np.sin(h0) - np.sin(latitude)*np.sin(decList[1])) / (
+        np.cos(latitude)*np.cos(decList[1]))
+    #
+    # future: return some indicator when the object is circumpolar or always
+    # below the horizon.
+    #
+    if cosH0 < -1.0:  # circumpolar
+        return None
+    if cosH0 > 1.0:  # never rises
+        return None
+
+    H0 = np.arccos(cosH0)
+    m0 = (raList[1] + longitude - THETA0) / pi2
+    if mode == 'rise':
+        m = m0 - H0 / pi2  # the only difference between rise() and settime()
+    elif mode == 'set':
+        m = m0 + H0 / pi2  # the only difference between rise() and settime()
+    if m < 0:
+        m += 1
+    elif m > 1:
+        m -= 1
+    if not 0 <= m <= 1:
+        raise Error("m is out of range = " + str(m))
+    for bailout in range(20):
+        m0 = m
+        theta0 = modpi2(THETA0 + _k1 * m)
+        n = m + deltaT_days
+        if not -1 < n < 1:
+            return None  # Bug: this is where we drop some events
+        ra = interpolate_angle3(n, raList)
+        dec = interpolate3(n, decList)
+        H = theta0 - longitude - ra
+#        if H > pi:
+#            H = H - pi2
+        H = diff_angle(0.0, H)
+        A, h = equ_to_horiz(H, dec)
+        dm = (h - h0) / (pi2 * np.cos(dec) * np.cos(latitude) * np.sin(H))
+        m += dm
+        if abs(m - m0) < delta:
+            return jd + m
+
+    raise Error("bailout")
 
 
 def rise(jd, raList, decList, h0, delta):
@@ -71,50 +123,7 @@ def rise(jd, raList, decList, h0, delta):
       - Julian Day of the rise time
 
     """
-    longitude = astronomia.globals.longitude
-    latitude = astronomia.globals.latitude
-    THETA0 = sidereal_time_greenwich(jd)
-    deltaT_days = deltaT_seconds(jd) / seconds_per_day
-
-    cosH0 = (np.sin(h0) - np.sin(latitude)*np.sin(decList[1])) / (
-        np.cos(latitude)*np.cos(decList[1]))
-    #
-    # future: return some indicator when the object is circumpolar or always
-    # below the horizon.
-    #
-    if cosH0 < -1.0:  # circumpolar
-        return None
-    if cosH0 > 1.0:  # never rises
-        return None
-
-    H0 = np.arccos(cosH0)
-    m0 = (raList[1] + longitude - THETA0) / pi2
-    m = m0 - H0 / pi2  # the only difference between rise() and settime()
-    if m < 0:
-        m += 1
-    elif m > 1:
-        m -= 1
-    if not 0 <= m <= 1:
-        raise Error("m is out of range = " + str(m))
-    for bailout in range(20):
-        m0 = m
-        theta0 = modpi2(THETA0 + _k1 * m)
-        n = m + deltaT_days
-        if not -1 < n < 1:
-            return None  # Bug: this is where we drop some events
-        ra = interpolate_angle3(n, raList)
-        dec = interpolate3(n, decList)
-        H = theta0 - longitude - ra
-#        if H > pi:
-#            H = H - pi2
-        H = diff_angle(0.0, H)
-        A, h = equ_to_horiz(H, dec)
-        dm = (h - h0) / (pi2 * np.cos(dec) * np.cos(latitude) * np.sin(H))
-        m += dm
-        if abs(m - m0) < delta:
-            return jd + m
-
-    raise Error("bailout")
+    _riseset(jd, raList, decList, h0, delta, 'rise')
 
 
 def settime(jd, raList, decList, h0, delta):
@@ -134,50 +143,7 @@ def settime(jd, raList, decList, h0, delta):
       - Julian Day of the set time
 
     """
-    longitude = astronomia.globals.longitude
-    latitude = astronomia.globals.latitude
-    THETA0 = sidereal_time_greenwich(jd)
-    deltaT_days = deltaT_seconds(jd) / seconds_per_day
-
-    cosH0 = (np.sin(h0) - np.sin(latitude)*np.sin(decList[1])) / (
-        np.cos(latitude)*np.cos(decList[1]))
-    #
-    # future: return some indicator when the object is circumpolar or always
-    # below the horizon.
-    #
-    if cosH0 < -1.0:  # circumpolar
-        return None
-    if cosH0 > 1.0:  # never rises
-        return None
-
-    H0 = np.arccos(cosH0)
-    m0 = (raList[1] + longitude - THETA0) / pi2
-    m = m0 + H0 / pi2  # the only difference between rise() and settime()
-    if m < 0:
-        m += 1
-    elif m > 1:
-        m -= 1
-    if not 0 <= m <= 1:
-        raise Error("m is out of range = " + str(m))
-    for bailout in range(20):
-        m0 = m
-        theta0 = modpi2(THETA0 + _k1 * m)
-        n = m + deltaT_days
-        if not -1 < n < 1:
-            return None  # Bug: this is where we drop some events
-        ra = interpolate_angle3(n, raList)
-        dec = interpolate3(n, decList)
-        H = theta0 - longitude - ra
-#        if H > pi:
-#            H = H - pi2
-        H = diff_angle(0.0, H)
-        A, h = equ_to_horiz(H, dec)
-        dm = (h - h0) / (pi2 * np.cos(dec) * np.cos(latitude) * np.sin(H))
-        m += dm
-        if abs(m - m0) < delta:
-            return jd + m
-
-    raise Error("bailout")
+    _riseset(jd, raList, decList, h0, delta, 'set')
 
 
 def transit(jd, raList, delta):
@@ -228,7 +194,7 @@ def transit(jd, raList, delta):
 
 
 def moon_rst_altitude(r):
-    """ Returnn the standard altitude of the Moon.
+    """ Return the standard altitude of the Moon.
 
     Arguments:
       - `r` : Distance between the centers of the Earth and Moon, in km.
