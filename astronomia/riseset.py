@@ -194,7 +194,7 @@ def transit(jd, raList, delta):
 
 
 def moon_rst_altitude(r):
-    """ Returnn the standard altitude of the Moon.
+    """ Return the standard altitude of the Moon.
 
     Arguments:
       - `r` : Distance between the centers of the Earth and Moon, in km.
