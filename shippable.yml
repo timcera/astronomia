@@ -1,7 +1,5 @@
 language: python
 
-# build_image: shippableimages/ubuntu1204_python
-
 python:
   - 2.6
   - 2.7
@@ -11,12 +9,11 @@ python:
 
 before_install:
   - env
-  # In order to install matplotlib
   - sudo apt-get install -y python${VIRTUALENV_PYTHON}-dev 
 
   # set up a virtualenv and activate the python version that you want to use
   - mkdir -p $HOME/bldve/
-  - virtualenv -p $SHIPPABLE_PYTHON  $HOME/bldve/
+  - virtualenv -p $SHIPPABLE_PYTHON $HOME/bldve/
   - source $HOME/bldve/bin/activate
 
 install:
@@ -28,12 +25,11 @@ before_script:
   - mkdir -p shippable/codecoverage
 
 script:
-  - nosetests --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml --with-coverage --cover-tests --cover-package=astronomia --cover-branches --cover-erase #--cover-xml-file=shippable/codecoverage/coverage.xml 
-    #  - coverage run --branch --include="astronomia/*" --omit="tests/*" --omit=".tox/*" nosetests
+  - oldIFS="${IFS}"
+  - IFS='/' read -a arr <<< "${REPO_NAME}"
+  - PKG="${arr[1]}"
+  - IFS="${oldIFS}"
+  - nosetests --with-doctest --with-xunit --xunit-file=shippable/testresults/nosetests.xml --with-coverage --cover-tests --cover-package="${PKG}" --cover-branches --cover-erase #--cover-xml-file=shippable/codecoverage/coverage.xml 
   - coverage xml -o shippable/codecoverage/coverage.xml 
-
-after_script:
-  - pip install codecov
-  - codecov --token=9d565dfe-7497-4364-90eb-88ac799dfa81
 
 cache: true
