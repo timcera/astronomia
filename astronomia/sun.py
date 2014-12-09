@@ -234,3 +234,40 @@ def aberration_low(R):
 
     """
     return -_lk4 / R
+
+def rise(year, month, day,
+         longitude=astronomia.globals.longitude,
+         latitude=astronomia.globals.latitude,
+         gregorian=True):
+
+    from astronomia.constants import days_per_second, standard_rst_altitude, sun_rst_altitude
+
+    jd = calendar.cal_to_jd(year, month, day, gregorian=gregorian)
+
+    #
+    # Sun
+    #
+    l, b, r = sun.dimension3(jd)
+
+    # correct vsop coordinates
+    l, b = vsop_to_fk5(jd, l, b)
+
+    # nutation in longitude
+    l += deltaPsi
+
+    # aberration
+    l += aberration_low(r)
+
+    # equatorial coordinates
+    ra, dec = ecl_to_equ(l, b, eps)
+
+    obj = rstDict["Sun"]
+    del obj.raList[0]
+    del obj.decList[0]
+    del obj.h0List[0]
+    obj.raList.append(ra)
+    obj.decList.append(dec)
+    obj.h0List.append(sun_rst_altitude)
+
+
+
