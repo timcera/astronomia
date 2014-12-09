@@ -32,4 +32,8 @@ script:
     #  - coverage run --branch --include="astronomia/*" --omit="tests/*" --omit=".tox/*" nosetests
   - coverage xml -o shippable/codecoverage/coverage.xml 
 
+after_script:
+  - pip install codecov
+  - codecov --token=9d565dfe-7497-4364-90eb-88ac799dfa81
+
 cache: true
