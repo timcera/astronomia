@@ -1,3 +1,4 @@
+.. include:: ../BADGES.rst
 Models and Accuracy
 ===================
 

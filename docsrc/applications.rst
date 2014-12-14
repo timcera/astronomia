@@ -1,3 +1,4 @@
+.. include:: ../BADGES.rst
 Applications
 ============
 check_equinox: Check the accuracy of the

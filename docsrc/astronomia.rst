@@ -1,3 +1,4 @@
+.. include:: ../BADGES.rst
 astronomia Package
 ==================
 
