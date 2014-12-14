@@ -55,3 +55,10 @@ forked Astronomia.  I have since fixed many bugs and added features.  The most
 important added feature is the ability for most functions to work with array
 inputs.  Bill McClain had dual Python and 'C' code, but I focused only on the
 Python code, updating with newer data and equations as I found them.
+
+
+.. image:: https://coveralls.io/repos/timcera/pyslice/badge.png?branch=master
+  :target: https://coveralls.io/r/timcera/pyslice?branch=master
+  :height: 0
+  :width: 0
+  
