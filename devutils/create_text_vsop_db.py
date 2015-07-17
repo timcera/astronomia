@@ -26,9 +26,9 @@ from __future__ import print_function
 Create a text version of the VSOP87d database.
 
 Usage:
-    
+
     ./create_text_vsop_db.py > vsop87d.txt   # or whatever path/file.
-    
+
 IMPORTANT: A text version of the database is provided with the Astronomia
 package. You need to run this program ONLY if for some reason you want
 to recreate that file.
@@ -50,7 +50,7 @@ it from a directory containing these files:
     http://cdsweb.u-strasbg.fr/cgi-bin/Cat?VI/81
 
 The program will read each file, select the data required and combine all
-of them into a format expected by the Astronomia vsop87d module. 
+of them into a format expected by the Astronomia vsop87d module.
 
 Results are written to standard output; redirect them into a file in your
 data directory and enter that path/file name into the astronomia_params.txt

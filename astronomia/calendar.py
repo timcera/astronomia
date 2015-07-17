@@ -1,6 +1,3 @@
-
-from __future__ import division
-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -74,7 +71,7 @@ def frac_yr_to_jd(year, gregorian=True):
     """
     year = np.atleast_1d(year)
     day = np.atleast_1d(0.0).astype(np.float64)
-    year, day = map(np.array, np.broadcast_arrays(year, day))
+    year, day = list(map(np.array, np.broadcast_arrays(year, day)))
     # For float years abuse the day variable
     fyear = year - year.astype('i')
     mask = fyear > 0
@@ -105,8 +102,8 @@ def yr_frac_mon_to_jd(year, mon, gregorian=True):
     year = np.atleast_1d(year)
     mon = np.atleast_1d(mon).astype(np.float64)
     day = np.atleast_1d(0.0).astype(np.float64)
-    year, mon, day = map(np.array, np.broadcast_arrays(year,
-                         mon, day))
+    year, mon, day = list(map(np.array, np.broadcast_arrays(year,
+                         mon, day)))
     fmon = mon - mon.astype('i')
     mask = fmon > 0
     if np.any(mask):
@@ -157,7 +154,7 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
         raise ValueError('Month must be from 1 to 12')
     if np.any(day > 31) or np.any(day < 1):
         raise ValueError('Day must be from 1 to 31')
-    year, mon, day = map(np.array, np.broadcast_arrays(year, mon, day))
+    year, mon, day = list(map(np.array, np.broadcast_arrays(year, mon, day)))
 
     for thirtydays in [9, 4, 6, 11]:
         daytestarr = mon == thirtydays

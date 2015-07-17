@@ -28,8 +28,8 @@ around the time of summer solstice?
 
 Usage:
 
-    ./check_perihelion.py 
-    
+    ./check_perihelion.py
+
 """
 
 from astronomia.constants import days_per_second, km_per_au

@@ -27,13 +27,13 @@ Compare the loading time of text and binary VSOp87d databases.
 
 Usage:
 
-    ./time_vsop_db_loads.py 
-    
+    ./time_vsop_db_loads.py
+
 Result: the binary version is only slightly faster than the text
-version. Later: after modifying load_vsop87d_text_db() to use 
-one readlines() call instead of many readline() calls, the 
+version. Later: after modifying load_vsop87d_text_db() to use
+one readlines() call instead of many readline() calls, the
 text and binary times are about the same.
-        
+
 """
 import time
 from astronomia.util import load_params

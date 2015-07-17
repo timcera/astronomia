@@ -173,18 +173,18 @@ form = cgi.FieldStorage()
 def display_form():
     fields = time.localtime(time.time())
     year = fields[0]
-    
-    print('Content-type: text/html') 
-    print()                               
+
+    print('Content-type: text/html')
+    print()
     print('<HEAD>')
     print('<TITLE>Astronomia Solstice Parameters</TITLE>')
     print('</HEAD>')
-    
+
     print('<BODY>')
     print('<H1>Astronomia Solstice Parameters</H1>')
-    
+
     print('<FORM action="http://astronomia.sourceforge.net/cgi-bin/solstice-cgi.py" method="post">')
-    
+
     print('<TABLE>')
     print('<TR>')
     print('<TD><LABEL for="starting_year">Starting year</LABEL></TD>')
@@ -217,9 +217,9 @@ def display_form():
     print('</TABLE>')
 
     print('<INPUT type="submit" value="Run"> <INPUT type="reset">')
- 
+
     print('<INPUT type="hidden" name="results" value="1">')
- 
+
     print('</FORM>')
     print('</BODY>')
 
@@ -248,8 +248,8 @@ def display_results():
     astronomia.globals.vsop87d_text_path = '/home/groups/a/as/astronomia/data/vsop87d.txt'
     astronomia.globals.vsop87d_binary_path = '/home/groups/a/as/astronomia/data/vsop87d.dat'
 
-    print('Content-type: text/html') 
-    print()                               
+    print('Content-type: text/html')
+    print()
     print('<HEAD>')
     print('<TITLE>Astronomia Solstice Results</TITLE>')
     print('</HEAD>')
@@ -317,16 +317,16 @@ def display_results():
     # handy diagnostic routines
     """
     print "<H1>print_environ</H1>"
-    cgi.print_environ() 
+    cgi.print_environ()
     print "<H1>print_directory</H1>"
-    cgi.print_directory() 
+    cgi.print_directory()
     print "<H1>print_environ_usage</H1>"
     cgi.print_environ_usage()
     print "<H1>FieldStorage</H1>"
     #form = cgi.FieldStorage()
     cgi.print_form(form)
     """
-    
+
     print('</BODY>')
 
 #

@@ -65,7 +65,7 @@ elif len(sys.argv) < 4:
 else:
     print(__doc__)
     sys.exit()
-    
+
 load_params()
 #sun = Sun() # load the database here so we don't get a message later
 

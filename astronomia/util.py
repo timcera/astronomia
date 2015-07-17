@@ -1,3 +1,6 @@
+
+from __future__ import print_function
+
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
