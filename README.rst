@@ -36,7 +36,7 @@ Astronomia will work with Python 2.6+ and 3.0+.
 
 Documentation
 ~~~~~~~~~~~~~
-Reference documentation is at http://pythonhosted.org/astronomia/
+Reference documentation is at :ref:`astronomia_documentation`.
 
 Installation
 ~~~~~~~~~~~~
@@ -57,7 +57,7 @@ To use Astronomia in a project::
 
 	import astronomia
 
-Refer to the API Documentation at http://pythonhosted.org/astronomia/
+Refer to the API Documentation at :ref:`astronomia_documentation`.
 
 Development
 ~~~~~~~~~~~

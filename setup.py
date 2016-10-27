@@ -17,6 +17,14 @@ if sys.argv[-1] == 'publish':
 
 readme = open('README.rst').read()
 
+install_requires = [
+    # List your project dependencies here.
+    # For more details, see:
+    # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
+    'mando >= 0.4',
+    'tstoolbox',
+]
+
 setup(name='astronomia',
       version=open("VERSION").readline().strip(),
       description="Library for calculation of ephemeris and other astronomical calculations",
@@ -36,19 +44,18 @@ setup(name='astronomia',
       keywords='ephemeris astronomy',
       author='Tim Cera, P.E.',
       author_email='tim@cerazone.net',
-      url='http://timcera.bitbucket.org/',
+      url='http://timcera.bitbucket.org/astronomia/docsrc/index.html',
       license='GPL2',
       packages=['astronomia'],
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          # -*- Extra requirements: -*-
-          ],
+      install_requires=install_requires,
       scripts=['apps/solstice.py', 'apps/check_perihelion.py',
           'apps/cronus.py', 'apps/easter-cgi.py', 'apps/solstice-cgi.py'],
       data_files=[(os.path.join('share', 'astronomia'), ['apps/astronomia_params.txt'])],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      entry_points={
+          'console_scripts':
+              ['astronomia=astronomia.astronomia:main']
+      },
       test_suite='tests',
       )

@@ -1,11 +1,14 @@
 .. include:: ../BADGES.rst
-Astronomia Documentation
-========================
-This is the home page for Astronomia.  Astronomia is a small Python library for
+
+.. _astronomia_documentation:   
+
+astronomia
+==========
+This is the home page for astronomia.  astronomia is a small Python library for
 calculating the ephemeris of the Sun, Moon, and planets.  It also has some
 utilities for working with time and angles.
 
-Astronomia will work with Python 2.6+ and 3.0+.
+astronomia will work with Python 2.6+ and 3.0+.
 
 Table of Contents
 -----------------

@@ -270,5 +270,3 @@ def rise(year, month, day,
     obj.decList.append(dec)
     obj.h0List.append(sun_rst_altitude)
 
-
-
