@@ -23,8 +23,8 @@ Table of Contents
    todo
    license
 
-API Documentation
------------------
+Python API Documentation
+------------------------
 
 .. toctree::
    :maxdepth: 2
@@ -32,7 +32,7 @@ API Documentation
    astronomia
    function_summary
 
-Related Work
-------------
+Other Projects
+--------------
 http://timcera.bitbucket.org
 
