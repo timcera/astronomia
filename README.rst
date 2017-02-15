@@ -6,15 +6,11 @@
     :target: https://coveralls.io/r/timcera/astronomia?branch=master
     :height: 20
 
-.. image:: https://pypip.in/v/astronomia/badge.png?style=flat
+.. image:: http://img.shields.io/pypi/v/astronomia.svg
     :alt: Latest release
     :target: https://pypi.python.org/pypi/astronomia
 
-.. image:: https://pypip.in/d/astronomia/badge.png?style=flat
-    :alt: PyPI downloads count
-    :target: https://pypi.python.org/pypi/astronomia
-
-.. image:: https://pypip.in/license/astronomia/badge.png?style=flat
+.. image:: http://img.shields.io/badge/license-GPL-lightgrey.svg
     :alt: astronomia license
     :target: https://pypi.python.org/pypi/astronomia/
 
@@ -75,4 +71,3 @@ forked Astronomia.  I have since fixed many bugs and added features.  The most
 important added feature is the ability for most functions to work with array
 inputs.  Bill McClain had dual Python and 'C' code, but I focused only on the
 Python code, updating with newer data and equations as I found them.
-  

@@ -10,10 +10,6 @@
     :alt: Latest release
     :target: https://pypi.python.org/pypi/astronomia
 
-.. image:: https://img.shields.io/pypi/dm/astronomia.svg
-    :alt: PyPI downloads count
-    :target: https://pypi.python.org/pypi/astronomia
-
 .. image:: http://img.shields.io/badge/license-GPL-lightgrey.svg
     :alt: astronomia license
     :target: https://pypi.python.org/pypi/astronomia
