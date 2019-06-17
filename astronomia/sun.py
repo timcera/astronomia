@@ -49,6 +49,7 @@ class Sun:
     both coordinate systems.
 
     """
+
     def __init__(self):
         self.vsop = VSOP87d()
 
@@ -66,7 +67,7 @@ class Sun:
         T = jd_to_jcent(jd)
 
         # From astrolabe
-        #X = polynomial((d_to_r(100.466457),
+        # X = polynomial((d_to_r(100.466457),
         #                d_to_r(36000.7698278),
         #                d_to_r(0.00030322),
         #                d_to_r(0.000000020)), T)
@@ -76,9 +77,9 @@ class Sun:
         X = polynomial((d_to_r(100.4664567),
                         d_to_r(360007.6982779),
                         d_to_r(0.03032028),
-                        d_to_r(1.0/49931),
-                        d_to_r(-1.0/15300),
-                        d_to_r(-1.0/2000000)), T/10.0)
+                        d_to_r(1.0 / 49931),
+                        d_to_r(-1.0 / 15300),
+                        d_to_r(-1.0 / 2000000)), T / 10.0)
 
         X = modpi2(X + np.pi)
         return _scalar_if_one(X)
@@ -99,7 +100,7 @@ class Sun:
         X = polynomial((1012395.0,
                         6189.03,
                         1.63,
-                        0.012), (T + 1))/3600.0
+                        0.012), (T + 1)) / 3600.0
         X = d_to_r(X)
 
         X = modpi2(X)
@@ -142,6 +143,7 @@ class Sun:
         R = self.dimension(jd, "R")
         return L, B, R
 
+
 #
 # Constant terms
 #
@@ -151,7 +153,7 @@ _kL0 = (d_to_r(280.46646),
 _kM = (d_to_r(357.5291092),
        d_to_r(35999.0502909),
        d_to_r(-0.0001536),
-       d_to_r(1.0/24490000))
+       d_to_r(1.0 / 24490000))
 _kC = (d_to_r(1.914602),
        d_to_r(-0.004817),
        d_to_r(-0.000014))
@@ -236,6 +238,7 @@ def aberration_low(R):
     """
     return -_lk4 / R
 
+
 def rise(year, month, day,
          longitude=globls.longitude,
          latitude=globls.latitude,
@@ -269,4 +272,3 @@ def rise(year, month, day,
     obj.raList.append(ra)
     obj.decList.append(dec)
     obj.h0List.append(sun_rst_altitude)
-

@@ -7,6 +7,7 @@ from unittest import TestCase
 from astronomia.nutation import nutation_in_longitude, nutation_in_obliquity, obliquity, obliquity_hi
 from astronomia.util import d_to_dms, r_to_d
 
+
 class TestNutation(TestCase):
     def test_nut_in_lon(self):
         deltaPsi = nutation_in_longitude(2446895.5)
@@ -42,4 +43,3 @@ class TestNutation(TestCase):
         self.assertEqual(d, 23)
         self.assertEqual(m, 26)
         self.assertAlmostEqual(s, 27.407, places=3)
-

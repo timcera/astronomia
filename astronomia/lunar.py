@@ -46,6 +46,7 @@ class Error(Exception):
 #
 #    D, M, M1, F, l, r
 
+
 _tblLR = (
     (0,  0,  1,  0, 6288774, -20905355),
     (2,  0, -1,  0, 1274027,  -3699111),
@@ -192,7 +193,7 @@ def _constants(T):
     A3 = modpi2(polynomial(_kA3, T))
 
     E = polynomial([1.0, -0.002516, -0.0000074], T)
-    E2 = E*E
+    E2 = E * E
 
     return L1, D, M, M1, F, A1, A2, A3, E, E2
 
@@ -202,6 +203,12 @@ class Lunar:
 
     def mean_longitude_ascending_node(self, jd):
         """Return mean longitude of ascending node
+
+        Current implemention in astronomia is from:
+
+           PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+
+        Previous implementation.
 
         Another equation from:
            This routine is part of the International Astronomical Union's
@@ -222,11 +229,6 @@ class Lunar:
 
         *  Mean longitude of the ascending node of the Moon.
            OM  = MOD ( 450160.398036D0  -6962890.5431D0*T, TURNAS ) * DAS2R
-
-        Keeping above for documentation, but...
-        Current implemention in astronomia is from:
-
-           PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
         Arguments:
           - `jd` : julian Day
@@ -252,8 +254,8 @@ class Lunar:
             (d_to_r(83.3532465),
              d_to_r(4069.0137287),
              d_to_r(-0.0103200),
-             d_to_r(-1./80053),
-             d_to_r(1./18999000)
+             d_to_r(-1. / 80053),
+             d_to_r(1. / 18999000)
              ), T)
         return modpi2(X)
 
@@ -362,7 +364,7 @@ class Lunar:
                 tl *= E2
             lsum += tl * np.sin(arg)
 
-        lsum += 3958*np.sin(A1) + 1962*np.sin(L1 - F) + 318*np.sin(A2)
+        lsum += 3958 * np.sin(A1) + 1962 * np.sin(L1 - F) + 318 * np.sin(A2)
 
         nutinlong = nutation_in_longitude(jd)
         longitude = L1 + d_to_r(lsum / 1000000) + nutinlong
@@ -401,7 +403,7 @@ class Lunar:
 
         rsum = 0.0
         for tD, tM, tM1, tF, tl, tr in _tblLR:
-            arg = tD*D + tM*M + tM1*M1 + tF*F
+            arg = tD * D + tM * M + tM1 * M1 + tF * F
             if abs(tM) == 1:
                 tr *= E
             elif abs(tM) == 2:

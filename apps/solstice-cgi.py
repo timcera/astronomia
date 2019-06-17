@@ -170,6 +170,8 @@ form = cgi.FieldStorage()
 #
 # Collect the input parameters
 #
+
+
 def display_form():
     fields = time.localtime(time.time())
     year = fields[0]
@@ -226,6 +228,8 @@ def display_form():
 #
 # Display an error message
 #
+
+
 def display_error(msg):
     print('<HEAD>')
     print('<TITLE>Astronomia Solstice Error</TITLE>')
@@ -237,14 +241,18 @@ def display_error(msg):
 #
 # Display the results
 #
+
+
 def display_results():
     #
     # Assign the global parameters directly so we don't have to read a param file.
     #
     astronomia.globals.standard_timezone_name = form['standard_zone'].value
-    astronomia.globals.standard_timezone_offset = -standard_zone_hours[astronomia.globals.standard_timezone_name] / 24.0
+    astronomia.globals.standard_timezone_offset = - \
+        standard_zone_hours[astronomia.globals.standard_timezone_name] / 24.0
     astronomia.globals.daylight_timezone_name = form['daylight_zone'].value
-    astronomia.globals.daylight_timezone_offset = -daylight_zone_hours[astronomia.globals.daylight_timezone_name] / 24.0
+    astronomia.globals.daylight_timezone_offset = - \
+        daylight_zone_hours[astronomia.globals.daylight_timezone_name] / 24.0
     astronomia.globals.vsop87d_text_path = '/home/groups/a/as/astronomia/data/vsop87d.txt'
     astronomia.globals.vsop87d_binary_path = '/home/groups/a/as/astronomia/data/vsop87d.dat'
 
@@ -278,14 +286,16 @@ def display_results():
     # Make sure end_year >= starting_year.
     #
     if (ending_year < starting_year):
-        display_error('Ending year %d is earlier than starting year %d' % (ending_year, starting_year))
+        display_error('Ending year %d is earlier than starting year %d' %
+                      (ending_year, starting_year))
         return
 
     #
     # We can't go farther back than the first Julian Day number.
     #
     if (starting_year < -4712):
-        display_error('Starting year %d is earlier than 4713BC' % starting_year)
+        display_error('Starting year %d is earlier than 4713BC' %
+                      starting_year)
         return
 
     #
@@ -329,6 +339,7 @@ def display_results():
 
     print('</BODY>')
 
+
 #
 # Main routine. There is a hidden field "results" on the parameter form. If it
 # is not present, we display the form. If it is, we display the results.
@@ -337,6 +348,3 @@ if 'results' in form:
     display_results()
 else:
     display_form()
-
-
-

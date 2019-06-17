@@ -73,8 +73,8 @@ def d_to_dms(x):
 
     """
     frac, degrees = np.modf(x)
-    seconds, minutes = np.modf(frac*60)
-    return int(degrees), int(minutes), seconds*60
+    seconds, minutes = np.modf(frac * 60)
+    return int(degrees), int(minutes), seconds * 60
 
 
 #
@@ -141,7 +141,7 @@ def dms_to_d(deg, minute, sec):
     minute = np.atleast_1d(minute)
     sec = np.atleast_1d(sec)
     deg, minute, sec = np.broadcast_arrays(deg, minute, sec)
-    result = abs(deg) + abs(minute)/60.0 + abs(sec)/3600.0
+    result = abs(deg) + abs(minute) / 60.0 + abs(sec) / 3600.0
     if deg < 0 or minute < 0 or sec < 0:
         result = -result
     return _scalar_if_one(result)
@@ -166,7 +166,7 @@ def interpolate3(n, y):
     a = y[1] - y[0]
     b = y[2] - y[1]
     c = b - a
-    return y[1] + n/2 * (a + b + n*c)
+    return y[1] + n / 2 * (a + b + n * c)
 
 
 def interpolate_angle3(n, y):
@@ -192,7 +192,7 @@ def interpolate_angle3(n, y):
     a = diff_angle(y[0], y[1])
     b = diff_angle(y[1], y[2])
     c = diff_angle(a, b)
-    return y[1] + n/2 * (a + b + n*c)
+    return y[1] + n / 2 * (a + b + n * c)
 
 
 def load_params():
@@ -347,6 +347,7 @@ def polynomial(terms, x):
     """
     apolyfunc = np.polynomial.Polynomial(terms)
     return apolyfunc(x)
+
 
 #
 # Local constants

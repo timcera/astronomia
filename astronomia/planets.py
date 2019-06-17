@@ -37,6 +37,7 @@ class Error(Exception):
     """Local exception class"""
     pass
 
+
 #
 # Global values, readable from other modules
 #
@@ -63,6 +64,7 @@ class VSOP87d:
     of planetary terms.
 
     """
+
     def __init__(self):
         """ Load the database of planetary terms. This is actually done
         only once to save time and space.
@@ -95,12 +97,12 @@ class VSOP87d:
         jd = np.atleast_1d(jd)
         X = 0.0
         tauN = 1.0
-        tau = jd_to_jcent(jd)/10.0
+        tau = jd_to_jcent(jd) / 10.0
         c = _planets[(planet, dim)]
 
         for s in c:
-            X += np.sum([A*np.cos(B + C*tau) for A, B, C in s])*tauN
-            tauN = tauN*tau  # last calculation is wasted
+            X += np.sum([A * np.cos(B + C * tau) for A, B, C in s]) * tauN
+            tauN = tauN * tau  # last calculation is wasted
 
         if dim == "L":
             X = modpi2(X)
@@ -157,8 +159,8 @@ def vsop_to_fk5(jd, L, B):
     L1 = polynomial([L, _k0, _k1], T)
     cosL1 = np.cos(L1)
     sinL1 = np.sin(L1)
-    deltaL = _k2 + _k3*(cosL1 + sinL1)*np.tan(B)
-    deltaB = _k3*(cosL1 - sinL1)
+    deltaL = _k2 + _k3 * (cosL1 + sinL1) * np.tan(B)
+    deltaB = _k3 * (cosL1 - sinL1)
     return _scalar_if_one(modpi2(L + deltaL)), _scalar_if_one(B + deltaB)
 
 
@@ -199,18 +201,18 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
         # rectangular offset
         cosB0 = np.cos(B0)
         cosB = np.cos(B)
-        x = R*cosB*np.cos(L) - R0*cosB0*np.cos(L0)
-        y = R*cosB*np.sin(L) - R0*cosB0*np.sin(L0)
-        z = R*np.sin(B) - R0*np.sin(B0)
+        x = R * cosB * np.cos(L) - R0 * cosB0 * np.cos(L0)
+        y = R * cosB * np.sin(L) - R0 * cosB0 * np.sin(L0)
+        z = R * np.sin(B) - R0 * np.sin(B0)
 
         # geocentric geometric ecliptic coordinates of the planet
-        x2 = x*x
-        y2 = y*y
+        x2 = x * x
+        y2 = y * y
         l = np.arctan2(y, x)
         b = np.arctan2(z, np.sqrt(x2 + y2))
 
         # distance to planet in AU
-        dist = np.sqrt(x2 + y2 + z*z)
+        dist = np.sqrt(x2 + y2 + z * z)
 
         # light time in days
         tau = 0.0057755183 * dist

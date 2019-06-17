@@ -1224,7 +1224,7 @@ def deltaT_seconds(jd):
         idx = bisect(_tbl, (jd, 0))
         try:
             jd1, secs1 = _tbl[idx]
-            jd0, secs0 = _tbl[idx-1]
+            jd0, secs0 = _tbl[idx - 1]
             # simple linear interpolation between two values
             return ((jd - jd0) * (secs1 - secs0) / (jd1 - jd0)) + secs0
         except IndexError:
@@ -1242,12 +1242,12 @@ def deltaT_seconds(jd):
     # Decided to keep for completeness.
 
     # Wants middle of month... accurate enough?
-    y = yr + (mo - 0.5)/12
+    y = yr + (mo - 0.5) / 12
     if (yr < -500):
-        t = (y - 1820)/100.0
+        t = (y - 1820) / 100.0
         result = polynomial([-20, 0, 32], t)
     elif (yr < 500):
-        t = y/100.0
+        t = y / 100.0
         result = polynomial([10583.6,
                              -1014.41,
                              33.78311,
@@ -1256,7 +1256,7 @@ def deltaT_seconds(jd):
                              0.022174192,
                              0.0090316521], t)
     elif (yr < 1600):
-        t = (y - 1000)/100.0
+        t = (y - 1000) / 100.0
         result = polynomial([1574.2,
                              -556.01,
                              71.23472,
@@ -1265,13 +1265,13 @@ def deltaT_seconds(jd):
                              -0.005050998,
                              0.0083572073], t)
     elif (yr < 1700):
-        t = (y - 1600)/100.0
-        result = polynomial([120, -98.08, -153.2, 1/0.007129], t)
+        t = (y - 1600) / 100.0
+        result = polynomial([120, -98.08, -153.2, 1 / 0.007129], t)
     elif (yr < 1800):
-        t = (y - 1700)/100.0
-        result = polynomial([8.83, 16.03, -59.285, 133.36, -1/0.01174], t)
+        t = (y - 1700) / 100.0
+        result = polynomial([8.83, 16.03, -59.285, 133.36, -1 / 0.01174], t)
     elif (yr < 1860):
-        t = (y - 1800)/100.0
+        t = (y - 1800) / 100.0
         result = polynomial([13.72,
                              -33.2447,
                              68.612,
@@ -1281,27 +1281,27 @@ def deltaT_seconds(jd):
                              -169900,
                              87500], t)
     elif (yr < 1900):
-        t = (y - 1860)/100.0
+        t = (y - 1860) / 100.0
         result = polynomial([7.62,
                              57.37,
                              -2517.54,
                              16806.68,
                              -44736.24,
-                             1/0.0000233174], t)
+                             1 / 0.0000233174], t)
     elif (yr < 1920):
-        t = (y - 1900)/100.0
+        t = (y - 1900) / 100.0
         result = polynomial([-2.79, 149.4119, -598.939, 6196.6, -19700], t)
     elif (yr < 1941):
-        t = (y - 1920)/100.0
+        t = (y - 1920) / 100.0
         result = polynomial([21.20, 84.493, -761.00, 2093.6], t)
     elif (yr < 1961):
-        t = (y - 1950)/100.0
-        result = polynomial([29.07, 40.7, -1/0.0233, 1/0.002547], t)
+        t = (y - 1950) / 100.0
+        result = polynomial([29.07, 40.7, -1 / 0.0233, 1 / 0.002547], t)
     elif (yr < 1986):
-        t = (y - 1975)/100.0
-        result = polynomial([45.45, 106.7, -1/0.026, -1/0.000718], t)
+        t = (y - 1975) / 100.0
+        result = polynomial([45.45, 106.7, -1 / 0.026, -1 / 0.000718], t)
     elif (yr < 2005):
-        t = (y - 2000)/100.0
+        t = (y - 2000) / 100.0
         result = polynomial([63.86,
                              33.45,
                              -603.74,
@@ -1309,16 +1309,16 @@ def deltaT_seconds(jd):
                              65181.4,
                              237359.9], t)
     elif (yr < 2050):
-        t = (y - 2000)/100.0
+        t = (y - 2000) / 100.0
         result = polynomial([62.92, 32.217, 55.89], t)
     elif (yr < 2150):
-        t = (y - 1820)/100.0
-        result = -20.0 + 32.0*(t)**2 - 0.5628*(2150 - y)
+        t = (y - 1820) / 100.0
+        result = -20.0 + 32.0 * (t)**2 - 0.5628 * (2150 - y)
     else:
-        t = (y - 1820)/100.0
+        t = (y - 1820) / 100.0
         result = polynomial([-20.0, 0.0, 32.0], t)
 
-    result = result + (-0.000012932*(y - 1955)**2)
+    result = result + (-0.000012932 * (y - 1955)**2)
     return result
 
 

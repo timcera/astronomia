@@ -62,8 +62,8 @@ def _riseset(jd, raList, decList, h0, delta, mode,
     THETA0 = sidereal_time_greenwich(jd)
     deltaT_days = deltaT_seconds(jd) / seconds_per_day
 
-    cosH0 = (np.sin(h0) - np.sin(latitude)*np.sin(decList[1])) / (
-        np.cos(latitude)*np.cos(decList[1]))
+    cosH0 = (np.sin(h0) - np.sin(latitude) * np.sin(decList[1])) / (
+        np.cos(latitude) * np.cos(decList[1]))
     #
     # future: return some indicator when the object is circumpolar or always
     # below the horizon.
@@ -185,7 +185,7 @@ def transit(jd, raList, delta):
 #        if H > pi:
 #            H = H - pi2
         H = diff_angle(0.0, H)
-        dm = -H/pi2
+        dm = -H / pi2
         m += dm
         if abs(m - m0) < delta:
             return jd + m

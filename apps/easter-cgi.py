@@ -52,6 +52,8 @@ form = cgi.FieldStorage()
 #
 # Collect the input parameters
 #
+
+
 def display_form():
     fields = time.localtime(time.time())
     year = fields[0]
@@ -91,6 +93,8 @@ def display_form():
 #
 # Display an error message
 #
+
+
 def display_error(msg):
     print('<HEAD>')
     print('<TITLE>Astronomia Easter Error</TITLE>')
@@ -102,6 +106,8 @@ def display_error(msg):
 #
 # Display the results
 #
+
+
 def display_results():
     print('Content-type: text/html')
     print()
@@ -133,14 +139,16 @@ def display_results():
     # Make sure end_year >= starting_year.
     #
     if (ending_year < starting_year):
-        display_error('Ending year %d is earlier than starting year %d' % (ending_year, starting_year))
+        display_error('Ending year %d is earlier than starting year %d' %
+                      (ending_year, starting_year))
         return
 
     #
     # We can't go farther back than the first Julian Day number.
     #
     if (starting_year < -4712):
-        display_error('Starting year %d is earlier than 4713BC' % starting_year)
+        display_error('Starting year %d is earlier than 4713BC' %
+                      starting_year)
         return
 
     julian_calendar = 'julian_calendar' in form
@@ -194,6 +202,7 @@ def display_results():
 
     print('</BODY>')
 
+
 #
 # Main routine. There is a hidden field "results" on the parameter form. If it
 # is not present, we display the form. If it is, we display the results.
@@ -202,6 +211,3 @@ if 'results' in form:
     display_results()
 else:
     display_form()
-
-
-

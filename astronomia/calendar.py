@@ -78,7 +78,7 @@ def frac_yr_to_jd(year, gregorian=True):
     if np.any(mask):
         year = year.astype('i')
         days_in_year = cal_to_jd(year[mask] + 1) - cal_to_jd(year[mask])
-        day[mask] = days_in_year*fyear[mask]
+        day[mask] = days_in_year * fyear[mask]
         return _scalar_if_one(cal_to_jd(year) + day)
     return _scalar_if_one(cal_to_jd(year))
 
@@ -103,7 +103,7 @@ def yr_frac_mon_to_jd(year, mon, gregorian=True):
     mon = np.atleast_1d(mon).astype(np.float64)
     day = np.atleast_1d(0.0).astype(np.float64)
     year, mon, day = list(map(np.array, np.broadcast_arrays(year,
-                         mon, day)))
+                                                            mon, day)))
     fmon = mon - mon.astype('i')
     mask = fmon > 0
     if np.any(mask):
@@ -116,7 +116,7 @@ def yr_frac_mon_to_jd(year, mon, gregorian=True):
         days_in_mon = cal_to_jd(next_year[mask],
                                 next_mon[mask]) - cal_to_jd(year[mask],
                                                             mon[mask])
-        day[mask] = days_in_mon*fmon[mask]
+        day[mask] = days_in_mon * fmon[mask]
         return _scalar_if_one(cal_to_jd(year, mon) + day)
     return _scalar_if_one(cal_to_jd(year, mon))
 
@@ -149,7 +149,8 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     fmon = mon - mon.astype('i')
     mask = fmon > 0
     if np.any(mask):
-        raise ValueError('Month must be integer. Use yr_frac_mon_to_jd instead.')
+        raise ValueError(
+            'Month must be integer. Use yr_frac_mon_to_jd instead.')
     if np.any(mon > 12) or np.any(mon < 1):
         raise ValueError('Month must be from 1 to 12')
     if np.any(day > 31) or np.any(day < 1):
@@ -178,8 +179,8 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     else:
         B = 0
     return _scalar_if_one(
-        (365.25*(year + 4716)).astype(np.int64) +
-        (30.6001*(mon + 1)).astype(np.int64) + day + B - 1524.5)
+        (365.25 * (year + 4716)).astype(np.int64) +
+        (30.6001 * (mon + 1)).astype(np.int64) + day + B - 1524.5)
 
 
 def jd_to_cal(julian_day, gregorian=True):
@@ -529,9 +530,9 @@ def sidereal_time_greenwich(julian_day):
     T2 = T * T
     T3 = T2 * T
     theta0 = 280.46061837 + \
-        360.98564736629*(julian_day - 2451545.0) + \
-        0.000387933*T2 - \
-        T3/38710000
+        360.98564736629 * (julian_day - 2451545.0) + \
+        0.000387933 * T2 - \
+        T3 / 38710000
     result = d_to_r(theta0)
     return modpi2(result)
 

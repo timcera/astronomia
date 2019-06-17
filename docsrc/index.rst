@@ -34,5 +34,5 @@ Python API Documentation
 
 Other Projects
 --------------
-http://timcera.bitbucket.org
+http://timcera.bitbucket.io
 

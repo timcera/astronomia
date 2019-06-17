@@ -39,19 +39,20 @@ setup(name='astronomia',
                    'Programming Language :: Python :: 3',
                    'Programming Language :: Python :: 3.3',
                    'Topic :: Scientific/Engineering :: Astronomy',
-                   ], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+                   ],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='ephemeris astronomy',
       author='Tim Cera, P.E.',
       author_email='tim@cerazone.net',
-      url='http://timcera.bitbucket.org/astronomia/docsrc/index.html',
+      url='http://timcera.bitbucket.io/astronomia/docsrc/index.html',
       license='GPL2',
       packages=['astronomia'],
       include_package_data=True,
       zip_safe=False,
       install_requires=install_requires,
       scripts=['apps/solstice.py', 'apps/check_perihelion.py',
-          'apps/cronus.py', 'apps/easter-cgi.py', 'apps/solstice-cgi.py'],
-      data_files=[(os.path.join('share', 'astronomia'), ['apps/astronomia_params.txt'])],
+               'apps/cronus.py', 'apps/easter-cgi.py', 'apps/solstice-cgi.py'],
+      data_files=[(os.path.join('share', 'astronomia'),
+                   ['apps/astronomia_params.txt'])],
       entry_points={
           'console_scripts':
               ['astronomia=astronomia.astronomia:main']
