@@ -1,30 +1,38 @@
+dist: xenial
+
 language: python
 
 python:
-  - 3.4
   - 3.5
   - 3.6
   - 3.7
   - 3.8
 
+cache:
+  pip: true
+  directories:
+    - $HOME/.ccache  # https://github.com/travis-ci/travis-ci/issues/5853
+    - $HOME/.cache/matplotlib
+
 before_install:
-  - env
-  # - sudo apt-cache search python
+  - sudo apt-get -qq update
   # In order to install matplotlib
   - sudo apt-get install -y libpng-dev libfreetype6-dev python${VIRTUALENV_PYTHON}-dev libopenblas-dev liblapack-dev gfortran libatlas-dev
 
 install:
-  - if [[ "${TRAVIS_PYTHON_VERSION}" == "2.6" ]]; then pip install argparse; fi
-  - pip install wheel
-  - pip install numpy 
-  - pip install matplotlib
-  - pip install pandas
-  - pip install mando coverage
+  - pip install --upgrade wheel
+  - pip install --upgrade numpy 
+  - pip install --upgrade matplotlib
+  - pip install --upgrade pandas
+  - pip install --upgrade coveralls
+  - pip install --upgrade pytest
+  - pip install --upgrade pytest-cov
+  - pip install --upgrade pytest-mpl
   - python setup.py install
-  - pip install coveralls
 
 script:
-  - nosetests --with-doctest --with-coverage --cover-tests --cover-package=astronomia --cover-branches --cover-erase
+  - source activate $TRAVIS_PYTHON_VERSION
+  - pytest --cov astronomia --doctest-modules --ignore=docsrc --mpl
 
 after_success:
   - coveralls
