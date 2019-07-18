@@ -11,5 +11,8 @@
     :target: https://pypi.python.org/pypi/astronomia
 
 .. image:: http://img.shields.io/badge/license-GPL-lightgrey.svg
-    :alt: astronomia license
+    :alt: GPL license
     :target: https://pypi.python.org/pypi/astronomia
+.. image:: http://img.shields.io/pypi/dd/astronomia.svg
+    :alt: astronomia downloads
+    :target: https://pypi.python.org/pypi/astronomia/
