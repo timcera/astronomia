@@ -51,7 +51,7 @@ from astronomia.sun import Sun
 from astronomia.util import load_params
 import astronomia.globals
 
-tab = 4 * ' '
+tab = 4 * " "
 
 if len(sys.argv) < 2:
     print(__doc__)

@@ -44,7 +44,7 @@ import time
 #
 # This path is specific to SourceForge.
 #
-sys.path.append('/home/groups/a/as/astronomia/lib/python')
+sys.path.append("/home/groups/a/as/astronomia/lib/python")
 
 from astronomia.constants import days_per_second
 from astronomia.calendar import ut_to_lt, lt_to_str
@@ -55,115 +55,119 @@ from astronomia.util import load_params
 import astronomia.globals
 
 standard_zones = (
-    'GMT-12',
-    'GMT-11',
-    'GMT-10',
-    'GMT-9',
-    'PST',
-    'MST',
-    'CST',
-    'EST',
-    'GMT-4',
-    'GMT-3',
-    'GMT-2',
-    'GMT-1',
-    'GMT',
-    'GMT+1',
-    'GMT+2',
-    'GMT+3',
-    'GMT+4',
-    'GMT+5',
-    'GMT+6',
-    'GMT+7',
-    'GMT+8',
-    'GMT+9',
-    'GMT+10',
-    'GMT+11',
-    'GMT+12')
+    "GMT-12",
+    "GMT-11",
+    "GMT-10",
+    "GMT-9",
+    "PST",
+    "MST",
+    "CST",
+    "EST",
+    "GMT-4",
+    "GMT-3",
+    "GMT-2",
+    "GMT-1",
+    "GMT",
+    "GMT+1",
+    "GMT+2",
+    "GMT+3",
+    "GMT+4",
+    "GMT+5",
+    "GMT+6",
+    "GMT+7",
+    "GMT+8",
+    "GMT+9",
+    "GMT+10",
+    "GMT+11",
+    "GMT+12",
+)
 
 standard_zone_hours = {
-    'GMT-12': -12,
-    'GMT-11': -11,
-    'GMT-10': -10,
-    'GMT-9': -9,
-    'PST': -8,
-    'MST': -7,
-    'CST': -6,
-    'EST': -5,
-    'GMT-4': -4,
-    'GMT-3': -3,
-    'GMT-2': -2,
-    'GMT-1': -1,
-    'GMT': 0,
-    'GMT+1': 1,
-    'GMT+2': 2,
-    'GMT+3': 3,
-    'GMT+4': 4,
-    'GMT+5': 5,
-    'GMT+6': 6,
-    'GMT+7': 7,
-    'GMT+8': 8,
-    'GMT+9': 9,
-    'GMT+10': 10,
-    'GMT+11': 11,
-    'GMT+12': 12}
+    "GMT-12": -12,
+    "GMT-11": -11,
+    "GMT-10": -10,
+    "GMT-9": -9,
+    "PST": -8,
+    "MST": -7,
+    "CST": -6,
+    "EST": -5,
+    "GMT-4": -4,
+    "GMT-3": -3,
+    "GMT-2": -2,
+    "GMT-1": -1,
+    "GMT": 0,
+    "GMT+1": 1,
+    "GMT+2": 2,
+    "GMT+3": 3,
+    "GMT+4": 4,
+    "GMT+5": 5,
+    "GMT+6": 6,
+    "GMT+7": 7,
+    "GMT+8": 8,
+    "GMT+9": 9,
+    "GMT+10": 10,
+    "GMT+11": 11,
+    "GMT+12": 12,
+}
 
 daylight_zones = (
-    'GMT-12',
-    'GMT-11',
-    'GMT-10',
-    'GMT-9',
-    'GMT-8',
-    'PDT',
-    'MDT',
-    'CDT',
-    'EDT',
-    'GMT-3',
-    'GMT-2',
-    'GMT-1',
-    'GMT',
-    'GMT+1',
-    'GMT+2',
-    'GMT+3',
-    'GMT+4',
-    'GMT+5',
-    'GMT+6',
-    'GMT+7',
-    'GMT+8',
-    'GMT+9',
-    'GMT+10',
-    'GMT+11',
-    'GMT+12')
+    "GMT-12",
+    "GMT-11",
+    "GMT-10",
+    "GMT-9",
+    "GMT-8",
+    "PDT",
+    "MDT",
+    "CDT",
+    "EDT",
+    "GMT-3",
+    "GMT-2",
+    "GMT-1",
+    "GMT",
+    "GMT+1",
+    "GMT+2",
+    "GMT+3",
+    "GMT+4",
+    "GMT+5",
+    "GMT+6",
+    "GMT+7",
+    "GMT+8",
+    "GMT+9",
+    "GMT+10",
+    "GMT+11",
+    "GMT+12",
+)
 
 daylight_zone_hours = {
-    'GMT-12': -12,
-    'GMT-11': -11,
-    'GMT-10': -10,
-    'GMT-9': -9,
-    'GMT-8': -8,
-    'PDT': -7,
-    'MDT': -6,
-    'CDT': -5,
-    'EDT': -4,
-    'GMT-3': -3,
-    'GMT-2': -2,
-    'GMT-1': -1,
-    'GMT': 0,
-    'GMT+1': 1,
-    'GMT+2': 2,
-    'GMT+3': 3,
-    'GMT+4': 4,
-    'GMT+5': 5,
-    'GMT+6': 6,
-    'GMT+7': 7,
-    'GMT+8': 8,
-    'GMT+9': 9,
-    'GMT+10': 10,
-    'GMT+11': 11,
-    'GMT+12': 12}
+    "GMT-12": -12,
+    "GMT-11": -11,
+    "GMT-10": -10,
+    "GMT-9": -9,
+    "GMT-8": -8,
+    "PDT": -7,
+    "MDT": -6,
+    "CDT": -5,
+    "EDT": -4,
+    "GMT-3": -3,
+    "GMT-2": -2,
+    "GMT-1": -1,
+    "GMT": 0,
+    "GMT+1": 1,
+    "GMT+2": 2,
+    "GMT+3": 3,
+    "GMT+4": 4,
+    "GMT+5": 5,
+    "GMT+6": 6,
+    "GMT+7": 7,
+    "GMT+8": 8,
+    "GMT+9": 9,
+    "GMT+10": 10,
+    "GMT+11": 11,
+    "GMT+12": 12,
+}
 
-default_standard_zone = 'CST'
-default_daylight_zone = 'CDT'
+default_standard_zone = "CST"
+default_daylight_zone = "CDT"
 
 form = cgi.FieldStorage()
 
@@ -176,54 +180,63 @@ def display_form():
     fields = time.localtime(time.time())
     year = fields[0]
 
-    print('Content-type: text/html')
+    print("Content-type: text/html")
     print()
-    print('<HEAD>')
-    print('<TITLE>Astronomia Solstice Parameters</TITLE>')
-    print('</HEAD>')
+    print("<HEAD>")
+    print("<TITLE>Astronomia Solstice Parameters</TITLE>")
+    print("</HEAD>")
 
-    print('<BODY>')
-    print('<H1>Astronomia Solstice Parameters</H1>')
+    print("<BODY>")
+    print("<H1>Astronomia Solstice Parameters</H1>")
 
-    print('<FORM action="http://astronomia.sourceforge.net/cgi-bin/solstice-cgi.py" method="post">')
+    print(
+        '<FORM action="http://astronomia.sourceforge.net/cgi-bin/solstice-cgi.py" method="post">'
+    )
 
-    print('<TABLE>')
-    print('<TR>')
+    print("<TABLE>")
+    print("<TR>")
     print('<TD><LABEL for="starting_year">Starting year</LABEL></TD>')
-    print('<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="%d"></TD>' % (year - 5))
-    print('</TR>')
-    print('<TR>')
+    print(
+        '<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="%d"></TD>'
+        % (year - 5)
+    )
+    print("</TR>")
+    print("<TR>")
     print('<TD><LABEL for="ending_year">Ending year</LABEL></TD>')
-    print('<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="%d"></TD>' % (year + 5))
-    print('</TR>')
-    print('<TR>')
+    print(
+        '<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="%d"></TD>'
+        % (year + 5)
+    )
+    print("</TR>")
+    print("<TR>")
     print('<TD><LABEL for="standard_zone">Standard Time Zone</LABEL></TD>')
     print('<TD><SELECT name = "standard_zone">')
     for zone in standard_zones:
         if zone == default_standard_zone:
-            print('<OPTION SELECTED>' + zone + '</OPTION>')
+            print("<OPTION SELECTED>" + zone + "</OPTION>")
         else:
-            print('<OPTION>' + zone + '</OPTION>')
-    print('</SELECT></TD>')
-    print('</TR>')
-    print('<TR>')
+            print("<OPTION>" + zone + "</OPTION>")
+    print("</SELECT></TD>")
+    print("</TR>")
+    print("<TR>")
     print('<TD><LABEL for="daylight_zone">Daylight Time Zone</LABEL></TD>')
     print('<TD><SELECT name = "daylight_zone">')
     for zone in daylight_zones:
         if zone == default_daylight_zone:
-            print('<OPTION SELECTED>' + zone + '</OPTION>')
+            print("<OPTION SELECTED>" + zone + "</OPTION>")
         else:
-            print('<OPTION>' + zone + '</OPTION>')
-    print('</SELECT></TD>')
-    print('</TR>')
-    print('</TABLE>')
+            print("<OPTION>" + zone + "</OPTION>")
+    print("</SELECT></TD>")
+    print("</TR>")
+    print("</TABLE>")
 
     print('<INPUT type="submit" value="Run"> <INPUT type="reset">')
 
     print('<INPUT type="hidden" name="results" value="1">')
 
-    print('</FORM>')
-    print('</BODY>')
+    print("</FORM>")
+    print("</BODY>")
+
 
 #
 # Display an error message
@@ -231,12 +244,13 @@ def display_form():
 
 
 def display_error(msg):
-    print('<HEAD>')
-    print('<TITLE>Astronomia Solstice Error</TITLE>')
-    print('</HEAD>')
-    print('<BODY>')
-    print('<H1>', msg, '</H1>')
-    print('</BODY>')
+    print("<HEAD>")
+    print("<TITLE>Astronomia Solstice Error</TITLE>")
+    print("</HEAD>")
+    print("<BODY>")
+    print("<H1>", msg, "</H1>")
+    print("</BODY>")
+
 
 #
 # Display the results
@@ -247,28 +261,34 @@ def display_results():
     #
     # Assign the global parameters directly so we don't have to read a param file.
     #
-    astronomia.globals.standard_timezone_name = form['standard_zone'].value
-    astronomia.globals.standard_timezone_offset = - \
-        standard_zone_hours[astronomia.globals.standard_timezone_name] / 24.0
-    astronomia.globals.daylight_timezone_name = form['daylight_zone'].value
-    astronomia.globals.daylight_timezone_offset = - \
-        daylight_zone_hours[astronomia.globals.daylight_timezone_name] / 24.0
-    astronomia.globals.vsop87d_text_path = '/home/groups/a/as/astronomia/data/vsop87d.txt'
-    astronomia.globals.vsop87d_binary_path = '/home/groups/a/as/astronomia/data/vsop87d.dat'
+    astronomia.globals.standard_timezone_name = form["standard_zone"].value
+    astronomia.globals.standard_timezone_offset = (
+        -standard_zone_hours[astronomia.globals.standard_timezone_name] / 24.0
+    )
+    astronomia.globals.daylight_timezone_name = form["daylight_zone"].value
+    astronomia.globals.daylight_timezone_offset = (
+        -daylight_zone_hours[astronomia.globals.daylight_timezone_name] / 24.0
+    )
+    astronomia.globals.vsop87d_text_path = (
+        "/home/groups/a/as/astronomia/data/vsop87d.txt"
+    )
+    astronomia.globals.vsop87d_binary_path = (
+        "/home/groups/a/as/astronomia/data/vsop87d.dat"
+    )
 
-    print('Content-type: text/html')
+    print("Content-type: text/html")
     print()
-    print('<HEAD>')
-    print('<TITLE>Astronomia Solstice Results</TITLE>')
-    print('</HEAD>')
+    print("<HEAD>")
+    print("<TITLE>Astronomia Solstice Results</TITLE>")
+    print("</HEAD>")
 
     #
     # To do: We should validate the integer values
     #
     # If no starting_year, start with 5 years ago.
     #
-    if 'starting_year' in form:
-        starting_year = int(form['starting_year'].value)
+    if "starting_year" in form:
+        starting_year = int(form["starting_year"].value)
     else:
         fields = time.localtime(time.time())
         year = fields[0]
@@ -277,52 +297,53 @@ def display_results():
     #
     # If no ending_year, end 10 years after the starting_year.
     #
-    if 'ending_year' in form:
-        ending_year = int(form['ending_year'].value)
+    if "ending_year" in form:
+        ending_year = int(form["ending_year"].value)
     else:
         ending_year = starting_year + 10
 
     #
     # Make sure end_year >= starting_year.
     #
-    if (ending_year < starting_year):
-        display_error('Ending year %d is earlier than starting year %d' %
-                      (ending_year, starting_year))
+    if ending_year < starting_year:
+        display_error(
+            "Ending year %d is earlier than starting year %d"
+            % (ending_year, starting_year)
+        )
         return
 
     #
     # We can't go farther back than the first Julian Day number.
     #
-    if (starting_year < -4712):
-        display_error('Starting year %d is earlier than 4713BC' %
-                      starting_year)
+    if starting_year < -4712:
+        display_error("Starting year %d is earlier than 4713BC" % starting_year)
         return
 
     #
     # Finally, we display the results.
     #
-    print('<BODY>')
-    print('<H1>Astronomia Solstice Results</H1>')
+    print("<BODY>")
+    print("<H1>Astronomia Solstice Results</H1>")
 
-    print('<TABLE BORDER>')
+    print("<TABLE BORDER>")
 
-    print('<TR>')
-    print('<TH>Vernal Equinox</TH>')
-    print('<TH>Summer Solstice</TH>')
-    print('<TH>Autumnal Equinox</TH>')
-    print('<TH>Winter Solstice</TH>')
-    print('</TR>')
+    print("<TR>")
+    print("<TH>Vernal Equinox</TH>")
+    print("<TH>Summer Solstice</TH>")
+    print("<TH>Autumnal Equinox</TH>")
+    print("<TH>Winter Solstice</TH>")
+    print("</TR>")
 
     for year in range(starting_year, ending_year + 1):
-        print('<TR>')
+        print("<TR>")
         for season in astronomia.globals.season_names:
             approx_jd = equinox_approx(year, season)
             jd = equinox(approx_jd, season, days_per_second)
             ut = dt_to_ut(jd)
             lt, zone = ut_to_lt(ut)
-            print('<TD>' + lt_to_str(lt, zone) + '</TD>')
-        print('</TR>')
-    print('</TABLE>')
+            print("<TD>" + lt_to_str(lt, zone) + "</TD>")
+        print("</TR>")
+    print("</TABLE>")
 
     # handy diagnostic routines
     """
@@ -337,14 +358,14 @@ def display_results():
     cgi.print_form(form)
     """
 
-    print('</BODY>')
+    print("</BODY>")
 
 
 #
 # Main routine. There is a hidden field "results" on the parameter form. If it
 # is not present, we display the form. If it is, we display the results.
 #
-if 'results' in form:
+if "results" in form:
     display_results()
 else:
     display_form()

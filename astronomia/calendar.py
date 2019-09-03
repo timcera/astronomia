@@ -44,13 +44,14 @@ from math import modf
 
 import numpy as np
 
-from astronomia.util import d_to_r, modpi2, _scalar_if_one
-from astronomia.constants import minutes_per_day, seconds_per_day
-import astronomia.globals
+from .util import d_to_r, modpi2, _scalar_if_one
+from .constants import minutes_per_day, seconds_per_day
+from . import globals as globls
 
 
 class Error(Exception):
     """local exception class"""
+
     pass
 
 
@@ -73,10 +74,10 @@ def frac_yr_to_jd(year, gregorian=True):
     day = np.atleast_1d(0.0).astype(np.float64)
     year, day = list(map(np.array, np.broadcast_arrays(year, day)))
     # For float years abuse the day variable
-    fyear = year - year.astype('i')
+    fyear = year - year.astype("i")
     mask = fyear > 0
     if np.any(mask):
-        year = year.astype('i')
+        year = year.astype("i")
         days_in_year = cal_to_jd(year[mask] + 1) - cal_to_jd(year[mask])
         day[mask] = days_in_year * fyear[mask]
         return _scalar_if_one(cal_to_jd(year) + day)
@@ -102,20 +103,19 @@ def yr_frac_mon_to_jd(year, mon, gregorian=True):
     year = np.atleast_1d(year)
     mon = np.atleast_1d(mon).astype(np.float64)
     day = np.atleast_1d(0.0).astype(np.float64)
-    year, mon, day = list(map(np.array, np.broadcast_arrays(year,
-                                                            mon, day)))
-    fmon = mon - mon.astype('i')
+    year, mon, day = list(map(np.array, np.broadcast_arrays(year, mon, day)))
+    fmon = mon - mon.astype("i")
     mask = fmon > 0
     if np.any(mask):
-        mon = mon.astype('i')
+        mon = mon.astype("i")
         next_mon = np.copy(mon) + 1
         next_year = np.copy(year)
         next_mon_mask = next_mon == 13
         next_year[next_mon_mask] = next_year[next_mon_mask] + 1
         next_mon[next_mon_mask] = 1
-        days_in_mon = cal_to_jd(next_year[mask],
-                                next_mon[mask]) - cal_to_jd(year[mask],
-                                                            mon[mask])
+        days_in_mon = cal_to_jd(next_year[mask], next_mon[mask]) - cal_to_jd(
+            year[mask], mon[mask]
+        )
         day[mask] = days_in_mon * fmon[mask]
         return _scalar_if_one(cal_to_jd(year, mon) + day)
     return _scalar_if_one(cal_to_jd(year, mon))
@@ -142,33 +142,31 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     mon = np.atleast_1d(mon)
     day = np.atleast_1d(day).astype(np.float64)
 
-    fyear = year - year.astype('i')
+    fyear = year - year.astype("i")
     mask = fyear > 0
     if np.any(mask):
-        raise ValueError('Year must be integer. Use frac_yr_to_jd instead.')
-    fmon = mon - mon.astype('i')
+        raise ValueError("Year must be integer. Use frac_yr_to_jd instead.")
+    fmon = mon - mon.astype("i")
     mask = fmon > 0
     if np.any(mask):
-        raise ValueError(
-            'Month must be integer. Use yr_frac_mon_to_jd instead.')
+        raise ValueError("Month must be integer. Use yr_frac_mon_to_jd instead.")
     if np.any(mon > 12) or np.any(mon < 1):
-        raise ValueError('Month must be from 1 to 12')
+        raise ValueError("Month must be from 1 to 12")
     if np.any(day > 31) or np.any(day < 1):
-        raise ValueError('Day must be from 1 to 31')
+        raise ValueError("Day must be from 1 to 31")
     year, mon, day = list(map(np.array, np.broadcast_arrays(year, mon, day)))
 
     for thirtydays in [9, 4, 6, 11]:
         daytestarr = mon == thirtydays
         if np.any(day[daytestarr] > 30):
-            raise ValueError('Day must be from 1 to 30')
+            raise ValueError("Day must be from 1 to 30")
 
     leapyeartest = np.atleast_1d(is_leap_year(year, gregorian))
 
     if np.any(np.logical_and(day[leapyeartest] > 29, mon[leapyeartest] == 2)):
-        raise ValueError('Day must be from 1 to 29')
-    if np.any(np.logical_and(day[~leapyeartest] > 28,
-                             mon[~leapyeartest] == 2)):
-        raise ValueError('Day must be from 1 to 28')
+        raise ValueError("Day must be from 1 to 29")
+    if np.any(np.logical_and(day[~leapyeartest] > 28, mon[~leapyeartest] == 2)):
+        raise ValueError("Day must be from 1 to 28")
 
     testarr = mon <= 2
     year[testarr] -= 1
@@ -179,8 +177,12 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     else:
         B = 0
     return _scalar_if_one(
-        (365.25 * (year + 4716)).astype(np.int64) +
-        (30.6001 * (mon + 1)).astype(np.int64) + day + B - 1524.5)
+        (365.25 * (year + 4716)).astype(np.int64)
+        + (30.6001 * (mon + 1)).astype(np.int64)
+        + day
+        + B
+        - 1524.5
+    )
 
 
 def jd_to_cal(julian_day, gregorian=True):
@@ -266,8 +268,11 @@ def cal_to_day_of_year(year, mon, day, gregorian=True):
     K[:] = 2
     K[np.atleast_1d(is_leap_year(year, gregorian))] = 1
     return _scalar_if_one(
-        (275 * mon / 9.0).astype(np.int64) -
-        (K * ((mon + 9) / 12.0).astype(np.int64)) + day - 30)
+        (275 * mon / 9.0).astype(np.int64)
+        - (K * ((mon + 9) / 12.0).astype(np.int64))
+        + day
+        - 30
+    )
 
 
 def day_of_year_to_cal(year, N, gregorian=True):
@@ -294,8 +299,12 @@ def day_of_year_to_cal(year, N, gregorian=True):
     K[np.atleast_1d(is_leap_year(year, gregorian))] = 1
     mon = (9 * (K + N) / 275.0 + 0.98).astype(np.int64)
     mon[N < 32] = 1
-    day = (N - (275 * mon / 9.0).astype(np.int64) +
-           K * ((mon + 9) / 12.0).astype(np.int64) + 30).astype(np.int64)
+    day = (
+        N
+        - (275 * mon / 9.0).astype(np.int64)
+        + K * ((mon + 9) / 12.0).astype(np.int64)
+        + 30
+    ).astype(np.int64)
     return _scalar_if_one(mon), _scalar_if_one(day)
 
 
@@ -379,7 +388,7 @@ def hms_to_fday(hr, mn, sec):
     mn = np.atleast_1d(mn)
     sec = np.atleast_1d(sec)
     hr, mn, sec = np.broadcast_arrays(hr, mn, sec)
-    return ((hr / 24.0) + (mn / minutes_per_day) + (sec / seconds_per_day))
+    return (hr / 24.0) + (mn / minutes_per_day) + (sec / seconds_per_day)
 
 
 def is_dst(julian_day):
@@ -429,8 +438,8 @@ def is_leap_year(year, gregorian=True):
         y = np.fmod(year, 100)
         z = np.fmod(year, 400)
         return _scalar_if_one(
-            np.logical_and(np.logical_not(x),
-                           np.logical_or(y, np.logical_not(z))))
+            np.logical_and(np.logical_not(x), np.logical_or(y, np.logical_not(z)))
+        )
     else:
         return _scalar_if_one(x == 0)
 
@@ -497,17 +506,19 @@ def lt_to_str(julian_day, zone="", level="second"):
     sec = int(sec)
 
     if level == "second":
-        return "%d-%02d-%02d %02d:%02d:%02d %s" % (year, mon, iday,
-                                                   hour, minute, sec,
-                                                   zone)
+        return "%d-%02d-%02d %02d:%02d:%02d %s" % (
+            year,
+            mon,
+            iday,
+            hour,
+            minute,
+            sec,
+            zone,
+        )
     if level == "minute":
-        return "%d-%02d-%02d %02d:%02d %s" % (year, mon, iday,
-                                              hour, minute,
-                                              zone)
+        return "%d-%02d-%02d %02d:%02d %s" % (year, mon, iday, hour, minute, zone)
     if level == "hour":
-        return "%d-%02d-%02d %02d %s" % (year, mon, iday,
-                                         hour,
-                                         zone)
+        return "%d-%02d-%02d %02d %s" % (year, mon, iday, hour, zone)
     if level == "day":
         return "%d-%02d-%02d" % (year, mon, iday)
 
@@ -529,10 +540,12 @@ def sidereal_time_greenwich(julian_day):
     T = jd_to_jcent(julian_day)
     T2 = T * T
     T3 = T2 * T
-    theta0 = 280.46061837 + \
-        360.98564736629 * (julian_day - 2451545.0) + \
-        0.000387933 * T2 - \
-        T3 / 38710000
+    theta0 = (
+        280.46061837
+        + 360.98564736629 * (julian_day - 2451545.0)
+        + 0.000387933 * T2
+        - T3 / 38710000
+    )
     result = d_to_r(theta0)
     return modpi2(result)
 
@@ -551,11 +564,11 @@ def ut_to_lt(julian_day):
 
     """
     if is_dst(julian_day):
-        zone = astronomia.globals.daylight_timezone_name
-        offset = astronomia.globals.daylight_timezone_offset
+        zone = globls.daylight_timezone_name
+        offset = globls.daylight_timezone_offset
     else:
-        zone = astronomia.globals.standard_timezone_name
-        offset = astronomia.globals.standard_timezone_offset
+        zone = globls.standard_timezone_name
+        offset = globls.standard_timezone_offset
 
     julian_day = julian_day - offset
     return julian_day, zone

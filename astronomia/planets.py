@@ -26,23 +26,31 @@
 
 import numpy as np
 
-from astronomia.constants import pi2
-from astronomia.calendar import jd_to_jcent
-from astronomia.util import d_to_r, dms_to_d, polynomial, modpi2, diff_angle, \
-    _scalar_if_one
-from astronomia.coordinates import ecl_to_equ
+from .constants import pi2
+from .calendar import jd_to_jcent
+from .util import d_to_r, dms_to_d, polynomial, modpi2, diff_angle, _scalar_if_one
+from .coordinates import ecl_to_equ
 
 
 class Error(Exception):
     """Local exception class"""
+
     pass
 
 
 #
 # Global values, readable from other modules
 #
-planet_names = ("Mercury", "Venus", "Earth", "Mars", "Jupiter",
-                "Saturn", "Uranus", "Neptune")
+planet_names = (
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+)
 coordinate_names = ("L", "B", "R")
 
 #
@@ -135,7 +143,7 @@ class VSOP87d:
 _k0 = d_to_r(-1.397)
 _k1 = d_to_r(-0.00031)
 _k2 = d_to_r(dms_to_d(0, 0, -0.09033))
-_k3 = d_to_r(dms_to_d(0, 0,  0.03916))
+_k3 = d_to_r(dms_to_d(0, 0, 0.03916))
 
 
 def vsop_to_fk5(jd, L, B):
@@ -247,4 +255,4 @@ def load_vsop87d_text_db():
 
     """
     global _planets
-    from astronomia.vsop87d_dict import _planets
+    from .vsop87d_dict import _planets

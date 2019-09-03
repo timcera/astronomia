@@ -1,11 +1,17 @@
-'''
+"""
 Tests for the elp2000 functions.
-'''
+"""
 
 from unittest import TestCase
 
 from astronomia.util import d_to_r, r_to_d
-from astronomia.calendar import cal_to_jd, jd_to_cal, jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal
+from astronomia.calendar import (
+    cal_to_jd,
+    jd_to_cal,
+    jd_to_day_of_week,
+    cal_to_day_of_year,
+    day_of_year_to_cal,
+)
 from astronomia.coordinates import ecl_to_equ
 
 
@@ -66,7 +72,6 @@ class TestUtil(TestCase):
         self.assertAlmostEqual(day, 28.63)
 
     def test_ecl_to_equ(self):
-        ra, dec = ecl_to_equ(d_to_r(113.215630), d_to_r(
-            6.684170), d_to_r(23.4392911))
+        ra, dec = ecl_to_equ(d_to_r(113.215630), d_to_r(6.684170), d_to_r(23.4392911))
         self.assertAlmostEqual(r_to_d(ra), 116.328942, places=5)
         self.assertAlmostEqual(r_to_d(dec), 28.026183, places=6)

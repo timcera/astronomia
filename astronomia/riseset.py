@@ -36,34 +36,41 @@ Bug: each of the routines drops some events which occur near 0hr UT.
 
 import numpy as np
 
-from astronomia.calendar import sidereal_time_greenwich
-from astronomia.constants import seconds_per_day, pi2, earth_equ_radius, \
-    standard_rst_altitude
-from astronomia.dynamical import deltaT_seconds
-from astronomia.util import d_to_r, interpolate_angle3, diff_angle,  \
-    modpi2, interpolate3
-from astronomia.coordinates import equ_to_horiz
-import astronomia.globals
+from .calendar import sidereal_time_greenwich
+from .constants import seconds_per_day, pi2, earth_equ_radius, standard_rst_altitude
+from .dynamical import deltaT_seconds
+from .util import d_to_r, interpolate_angle3, diff_angle, modpi2, interpolate3
+from .coordinates import equ_to_horiz
+from . import globals as globls
 
 
 class Error(Exception):
     """local exception class"""
+
     pass
 
 
 _k1 = d_to_r(360.985647)
 
 
-def _riseset(jd, raList, decList, h0, delta, mode,
-             longitude=astronomia.globals.longitude,
-             latitude=astronomia.globals.latitude):
+def _riseset(
+    jd,
+    raList,
+    decList,
+    h0,
+    delta,
+    mode,
+    longitude=globls.longitude,
+    latitude=globls.latitude,
+):
     # Private function since rise/set so similar
 
     THETA0 = sidereal_time_greenwich(jd)
     deltaT_days = deltaT_seconds(jd) / seconds_per_day
 
     cosH0 = (np.sin(h0) - np.sin(latitude) * np.sin(decList[1])) / (
-        np.cos(latitude) * np.cos(decList[1]))
+        np.cos(latitude) * np.cos(decList[1])
+    )
     #
     # future: return some indicator when the object is circumpolar or always
     # below the horizon.
@@ -75,9 +82,9 @@ def _riseset(jd, raList, decList, h0, delta, mode,
 
     H0 = np.arccos(cosH0)
     m0 = (raList[1] + longitude - THETA0) / pi2
-    if mode == 'rise':
+    if mode == "rise":
         m = m0 - H0 / pi2  # the only difference between rise() and settime()
-    elif mode == 'set':
+    elif mode == "set":
         m = m0 + H0 / pi2  # the only difference between rise() and settime()
     if m < 0:
         m += 1
@@ -94,8 +101,8 @@ def _riseset(jd, raList, decList, h0, delta, mode,
         ra = interpolate_angle3(n, raList)
         dec = interpolate3(n, decList)
         H = theta0 - longitude - ra
-#        if H > pi:
-#            H = H - pi2
+        #        if H > pi:
+        #            H = H - pi2
         H = diff_angle(0.0, H)
         A, h = equ_to_horiz(H, dec)
         dm = (h - h0) / (pi2 * np.cos(dec) * np.cos(latitude) * np.sin(H))
@@ -123,7 +130,7 @@ def rise(jd, raList, decList, h0, delta):
       - Julian Day of the rise time
 
     """
-    _riseset(jd, raList, decList, h0, delta, 'rise')
+    _riseset(jd, raList, decList, h0, delta, "rise")
 
 
 def settime(jd, raList, decList, h0, delta):
@@ -143,7 +150,7 @@ def settime(jd, raList, decList, h0, delta):
       - Julian Day of the set time
 
     """
-    _riseset(jd, raList, decList, h0, delta, 'set')
+    _riseset(jd, raList, decList, h0, delta, "set")
 
 
 def transit(jd, raList, delta):
@@ -163,7 +170,7 @@ def transit(jd, raList, delta):
     # future: report both upper and lower culmination, and transits of objects
     # below the horizon
     #
-    longitude = astronomia.globals.longitude
+    longitude = globls.longitude
     THETA0 = sidereal_time_greenwich(jd)
     deltaT_days = deltaT_seconds(jd) / seconds_per_day
 
@@ -182,8 +189,8 @@ def transit(jd, raList, delta):
             return None  # Bug: this is where we drop some events
         ra = interpolate_angle3(n, raList)
         H = theta0 - longitude - ra
-#        if H > pi:
-#            H = H - pi2
+        #        if H > pi:
+        #            H = H - pi2
         H = diff_angle(0.0, H)
         dm = -H / pi2
         m += dm

@@ -27,15 +27,15 @@
 """
 import numpy as np
 
-from astronomia.calendar import jd_to_jcent
-from astronomia.util import polynomial, d_to_r, modpi2, dms_to_d, \
-    _scalar_if_one
-from astronomia.planets import VSOP87d
-from astronomia import globals as globls
+from .calendar import jd_to_jcent
+from .util import polynomial, d_to_r, modpi2, dms_to_d, _scalar_if_one
+from .planets import VSOP87d
+from . import globals as globls
 
 
 class Error(Exception):
     """Local exception class"""
+
     pass
 
 
@@ -74,12 +74,17 @@ class Sun:
 
         # From AA, Naughter
         # Takes T/10.0
-        X = polynomial((d_to_r(100.4664567),
-                        d_to_r(360007.6982779),
-                        d_to_r(0.03032028),
-                        d_to_r(1.0 / 49931),
-                        d_to_r(-1.0 / 15300),
-                        d_to_r(-1.0 / 2000000)), T / 10.0)
+        X = polynomial(
+            (
+                d_to_r(100.4664567),
+                d_to_r(360007.6982779),
+                d_to_r(0.03032028),
+                d_to_r(1.0 / 49931),
+                d_to_r(-1.0 / 15300),
+                d_to_r(-1.0 / 2000000),
+            ),
+            T / 10.0,
+        )
 
         X = modpi2(X + np.pi)
         return _scalar_if_one(X)
@@ -97,10 +102,7 @@ class Sun:
         jd = np.atleast_1d(jd)
         T = jd_to_jcent(jd)
 
-        X = polynomial((1012395.0,
-                        6189.03,
-                        1.63,
-                        0.012), (T + 1)) / 3600.0
+        X = polynomial((1012395.0, 6189.03, 1.63, 0.012), (T + 1)) / 3600.0
         X = d_to_r(X)
 
         X = modpi2(X)
@@ -147,16 +149,14 @@ class Sun:
 #
 # Constant terms
 #
-_kL0 = (d_to_r(280.46646),
-        d_to_r(36000.76983),
-        d_to_r(0.0003032))
-_kM = (d_to_r(357.5291092),
-       d_to_r(35999.0502909),
-       d_to_r(-0.0001536),
-       d_to_r(1.0 / 24490000))
-_kC = (d_to_r(1.914602),
-       d_to_r(-0.004817),
-       d_to_r(-0.000014))
+_kL0 = (d_to_r(280.46646), d_to_r(36000.76983), d_to_r(0.0003032))
+_kM = (
+    d_to_r(357.5291092),
+    d_to_r(35999.0502909),
+    d_to_r(-0.0001536),
+    d_to_r(1.0 / 24490000),
+)
+_kC = (d_to_r(1.914602), d_to_r(-0.004817), d_to_r(-0.000014))
 
 _ck3 = d_to_r(0.019993)
 _ck4 = d_to_r(-0.000101)
@@ -182,9 +182,11 @@ def longitude_radius_low(jd):
     L0 = polynomial(_kL0, T)
     M = polynomial(_kM, T)
     er = polynomial((0.016708634, -0.000042037, -0.0000001267), T)
-    C = polynomial(_kC, T) * np.sin(M) \
-        + (_ck3 - _ck4 * T) * np.sin(2 * M) \
+    C = (
+        polynomial(_kC, T) * np.sin(M)
+        + (_ck3 - _ck4 * T) * np.sin(2 * M)
         + _ck5 * np.sin(3 * M)
+    )
     L = modpi2(L0 + C)
     v = M + C
     R = 1.000001018 * (1 - er * er) / (1 + er * np.cos(v))
@@ -239,12 +241,20 @@ def aberration_low(R):
     return -_lk4 / R
 
 
-def rise(year, month, day,
-         longitude=globls.longitude,
-         latitude=globls.latitude,
-         gregorian=True):
+def rise(
+    year,
+    month,
+    day,
+    longitude=globls.longitude,
+    latitude=globls.latitude,
+    gregorian=True,
+):
 
-    from astronomia.constants import days_per_second, standard_rst_altitude, sun_rst_altitude
+    from .astronomia.constants import (
+        days_per_second,
+        standard_rst_altitude,
+        sun_rst_altitude,
+    )
 
     jd = calendar.cal_to_jd(year, month, day, gregorian=gregorian)
 

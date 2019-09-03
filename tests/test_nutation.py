@@ -1,10 +1,15 @@
-'''
+"""
 Tests for the elp2000 functions.
-'''
+"""
 
 from unittest import TestCase
 
-from astronomia.nutation import nutation_in_longitude, nutation_in_obliquity, obliquity, obliquity_hi
+from astronomia.nutation import (
+    nutation_in_longitude,
+    nutation_in_obliquity,
+    obliquity,
+    obliquity_hi,
+)
 from astronomia.util import d_to_dms, r_to_d
 
 

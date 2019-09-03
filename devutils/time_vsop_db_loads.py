@@ -45,4 +45,3 @@ print("reading text database...")
 t0 = time.time()
 load_vsop87d_text_db()
 print(time.time() - t0, "seconds")
-

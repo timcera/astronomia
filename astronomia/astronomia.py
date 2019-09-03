@@ -1,8 +1,3 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-
 import os
 import sys
 
@@ -16,14 +11,10 @@ from tstoolbox.tstoolbox import createts
 
 
 @mando.command(formatter_class=RSTHelpFormatter)
-def right_ascension(latitude,
-                    longitude,
-                    body,
-                    input_ts=None,
-                    start_date=None,
-                    end_date=None,
-                    freq=None):
-    '''Print out right ascension.
+def right_ascension(
+    latitude, longitude, body, input_ts=None, start_date=None, end_date=None, freq=None
+):
+    """Print out right ascension.
 
     :param body <str>:  Celestial body, one of ['sun', 'moon',
         'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus',
@@ -37,24 +28,18 @@ def right_ascension(latitude,
     :param freq:  To use this form --start_date and --end_date must be
         supplied also.  The pandas date offset code used to create the
         index.
-    '''
-    usets = createts(input_ts=input_ts,
-                     start_date=start_date,
-                     end_date=end_date,
-                     freq=freq)
+    """
+    usets = createts(
+        input_ts=input_ts, start_date=start_date, end_date=end_date, freq=freq
+    )
     pass
 
 
 @mando.command(formatter_class=RSTHelpFormatter)
-def risesettransit(latitude,
-                   longitude,
-                   start_date,
-                   end_date,
-                   body,
-                   h0=0,
-                   times='rise,set'
-                   ):
-    '''Print out rise, set, and/or transit times.
+def risesettransit(
+    latitude, longitude, start_date, end_date, body, h0=0, times="rise,set"
+):
+    """Print out rise, set, and/or transit times.
 
     :param latitude <float>:  Earth observer latitude in decimal degrees
     :param longitude <float>:  Earth observer longitude in decimal degrees
@@ -80,7 +65,7 @@ def risesettransit(latitude,
             "transit" for the transit time
 
         Defaults to "rise,set".
-    '''
+    """
     start_date = tsutils.parsedate(start_date)
     end_date = tsutils.parsedate(end_date)
 
@@ -122,15 +107,14 @@ def risesettransit(latitude,
             # equatorial coordinates
             ra, dec = ecl_to_equ(l, b, eps)
         else:
-            ra, dec = geocentric_planet(
-                jd, planet, deltaPsi, eps, days_per_second)
+            ra, dec = geocentric_planet(jd, planet, deltaPsi, eps, days_per_second)
 
 
 def main():
-    if not os.path.exists('debug_astronomia'):
+    if not os.path.exists("debug_astronomia"):
         sys.tracebacklimit = 0
     mando.main()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

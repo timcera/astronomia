@@ -61,66 +61,75 @@ file as the value of "vsop87d_text_path".
 # Here are file format notes from the original VSOP distribution.
 #
 
-#HEADER RECORD
-#=============
-#Specifications :
-#- iv : code of VSOP87 version               integer     i1  col.18
-#- bo : name of body                         character   a7  col.23-29
-#- ic : index of coordinate                  integer     i1  col.42
-#- it : degree alpha of time variable T      integer     i1  col.60
-#- in : number of terms of series            integer     i7  col.61-67
+# HEADER RECORD
+# =============
+# Specifications :
+# - iv : code of VSOP87 version               integer     i1  col.18
+# - bo : name of body                         character   a7  col.23-29
+# - ic : index of coordinate                  integer     i1  col.42
+# - it : degree alpha of time variable T      integer     i1  col.60
+# - in : number of terms of series            integer     i7  col.61-67
 #
-#The code iv of the version is :
-#iv = 4 for the version VSOP87D
+# The code iv of the version is :
+# iv = 4 for the version VSOP87D
 #
-#The names of the bodies are :
-#MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE, SUN,
-#and EMB for the Earth-Moon Barycenter.
+# The names of the bodies are :
+# MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE, SUN,
+# and EMB for the Earth-Moon Barycenter.
 #
-#The index ic of the coordinates are :
-#- for the spherical coordinates (versions B,D) :
+# The index ic of the coordinates are :
+# - for the spherical coordinates (versions B,D) :
 #  1 : Longitude
 #  2 : Latitude
 #  3 : Radius
 #
-#The degree alpha of the time variable is equal to :
-#0 for periodic series, 1 to 5 for Poisson series.
+# The degree alpha of the time variable is equal to :
+# 0 for periodic series, 1 to 5 for Poisson series.
 
-#TERM RECORD
-#===========
-#Specifications :
-#iv : code of VSOP87 version                 integer     i1  col.02
-#ic : index of coordinate                    integer     i1  col.04
-#it : degree alpha of time variable T        integer     i1  col.05
-#n  : rank of the term in a serie            integer     i5  col.06-10
-#A  : amplitude A                            real dp f18.11  col.80-97
-#B  : phase     B                            real dp f14.11  col.98-111
-#C  : frequency C                            read dp f20.11  col.112-131
+# TERM RECORD
+# ===========
+# Specifications :
+# iv : code of VSOP87 version                 integer     i1  col.02
+# ic : index of coordinate                    integer     i1  col.04
+# it : degree alpha of time variable T        integer     i1  col.05
+# n  : rank of the term in a serie            integer     i5  col.06-10
+# A  : amplitude A                            real dp f18.11  col.80-97
+# B  : phase     B                            real dp f14.11  col.98-111
+# C  : frequency C                            read dp f20.11  col.112-131
 
 import string
 
-planets = ('Mercury','Venus','Earth','Mars','Jupiter','Saturn','Uranus','Neptune')
-coords = ('L','B','R')
+planets = (
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+)
+coords = ("L", "B", "R")
 
 # each planet file...
 for planet in planets:
-    f = file('VSOP87D.' + planet[:3].lower())
+    f = file("VSOP87D." + planet[:3].lower())
     s = f.readline()
     # header records...
     while s:
-        assert s[17] == '4'                           # model "d"
+        assert s[17] == "4"  # model "d"
         assert (s[22:29]).rstrip() == planet.upper()  # planet name
-        ic = int(s[41])                               # coord type
-        it = int(s[59])                               # time degree
-        nt = int(s[60:67])                            # number of terms
+        ic = int(s[41])  # coord type
+        it = int(s[59])  # time degree
+        nt = int(s[60:67])  # number of terms
         print(planet, coords[ic - 1], it, nt)
         # term records
         for i in range(nt):
             s = f.readline()
-            assert s[1] == '4'                        # model "d"
-            ict = int(s[3])                           # coord type
+            assert s[1] == "4"  # model "d"
+            ict = int(s[3])  # coord type
             assert ict == ic
-            itt = int(s[4])                           # time degree
+            itt = int(s[4])  # time degree
             assert itt == it
             A = string.strip(s[79:97])
             B = string.strip(s[97:111])

@@ -13,6 +13,7 @@ apps/easter-cgi.py
 apps/solstice-cgi.py
 apps/solstice.py
 astronomia/__init__.py
+astronomia/astronomia.py
 astronomia/calendar.py
 astronomia/commonterms.py
 astronomia/constants.py
@@ -32,4 +33,5 @@ astronomia.egg-info/SOURCES.txt
 astronomia.egg-info/dependency_links.txt
 astronomia.egg-info/entry_points.txt
 astronomia.egg-info/not-zip-safe
+astronomia.egg-info/requires.txt
 astronomia.egg-info/top_level.txt

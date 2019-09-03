@@ -51,7 +51,12 @@ from heapq import heappush, heappop
 from math import *
 
 from astronomia.calendar import easter, cal_to_jd, ut_to_lt, lt_to_str
-from astronomia.constants import days_per_second, days_per_minute, standard_rst_altitude, sun_rst_altitude
+from astronomia.constants import (
+    days_per_second,
+    days_per_minute,
+    standard_rst_altitude,
+    sun_rst_altitude,
+)
 from astronomia.dynamical import dt_to_ut
 from astronomia.lunar import Lunar
 from astronomia.equinox import equinox_approx, equinox
@@ -109,8 +114,12 @@ def doEaster(year):
     heappush(taskQueue, Task(cal_to_jd(year + 1, 3, 1), doEaster, (year + 1,)))
 
 
-_seasons = {"spring": "Vernal Equinox", "summer": "Summer Solstice",
-            "autumn": "Autumnal Equinox", "winter": "Winter Solstice"}
+_seasons = {
+    "spring": "Vernal Equinox",
+    "summer": "Summer Solstice",
+    "autumn": "Autumnal Equinox",
+    "winter": "Winter Solstice",
+}
 
 
 def doEquinox(year, season):
@@ -133,19 +142,16 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-19s %s %s rises" % (lt_to_str(lt,
-                                                   "", "minute"), zone, obj.name)
+            str = "%-19s %s %s rises" % (lt_to_str(lt, "", "minute"), zone, obj.name)
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "rise")
 
-        td = settime(jd, obj.raList, obj.decList,
-                     obj.h0List[1], days_per_minute)
+        td = settime(jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute)
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-19s %s %s sets" % (lt_to_str(lt,
-                                                  "", "minute"), zone, obj.name)
+            str = "%-19s %s %s sets" % (lt_to_str(lt, "", "minute"), zone, obj.name)
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "set")
@@ -258,8 +264,7 @@ def initRST(start_year):
         for day in (-1, 0, 1):
             jd = start_jd + day
             deltaPsi, eps = nutation[day]
-            ra, dec = geocentric_planet(
-                jd, planet, deltaPsi, eps, days_per_second)
+            ra, dec = geocentric_planet(jd, planet, deltaPsi, eps, days_per_second)
             raList.append(ra)
             decList.append(dec)
             h0List.append(standard_rst_altitude)
@@ -336,8 +341,7 @@ def run():
 
     # four equinox/solstice events
     for season in astronomia.globals.season_names:
-        heappush(taskQueue, Task(HIGH_PRIORITY,
-                                 doEquinox, (start_year, season)))
+        heappush(taskQueue, Task(HIGH_PRIORITY, doEquinox, (start_year, season)))
 
     # initialize rise-set-transit objects
     initRST(start_year)
@@ -345,7 +349,7 @@ def run():
     # start the task loop
     t = heappop(taskQueue)
     while t.jd < stop_jd:
-        #apply(t.func, t.args)
+        # apply(t.func, t.args)
         t.func(*t.args)
         t = heappop(taskQueue)
 

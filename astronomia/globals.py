@@ -76,18 +76,20 @@ latitude = 0.0
 # Month names. There must be twelve. The default is three-character
 # abbreviations so that listings line up.
 #
-month_names = ("jan",
-               "feb",
-               "mar",
-               "apr",
-               "may",
-               "jun",
-               "jul",
-               "aug",
-               "sep",
-               "oct",
-               "nov",
-               "dec")
+month_names = (
+    "jan",
+    "feb",
+    "mar",
+    "apr",
+    "may",
+    "jun",
+    "jul",
+    "aug",
+    "sep",
+    "oct",
+    "nov",
+    "dec",
+)
 
 #
 # Season names. There must be four. These are used to characterize the

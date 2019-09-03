@@ -43,7 +43,7 @@ import time
 #
 # This path is specific to SourceForge.
 #
-sys.path.append('/home/groups/a/as/astronomia/lib/python')
+sys.path.append("/home/groups/a/as/astronomia/lib/python")
 
 from astronomia.calendar import easter
 
@@ -58,37 +58,50 @@ def display_form():
     fields = time.localtime(time.time())
     year = fields[0]
 
-    print('Content-type: text/html')
+    print("Content-type: text/html")
     print()
-    print('<HEAD>')
-    print('<TITLE>Astronomia Easter Parameters</TITLE>')
-    print('</HEAD>')
+    print("<HEAD>")
+    print("<TITLE>Astronomia Easter Parameters</TITLE>")
+    print("</HEAD>")
 
-    print('<BODY>')
-    print('<H1>Astronomia Easter Parameters</H1>')
+    print("<BODY>")
+    print("<H1>Astronomia Easter Parameters</H1>")
 
-    print('<FORM action="http://astronomia.sourceforge.net/cgi-bin/easter-cgi.py" method="post">')
+    print(
+        '<FORM action="http://astronomia.sourceforge.net/cgi-bin/easter-cgi.py" method="post">'
+    )
 
-    print('<TABLE>')
-    print('<TR>')
+    print("<TABLE>")
+    print("<TR>")
     print('<TD><LABEL for="starting_year">Starting year</LABEL></TD>')
-    print('<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="%d"></TD>' % (year - 5))
-    print('</TR>')
-    print('<TR>')
+    print(
+        '<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="%d"></TD>'
+        % (year - 5)
+    )
+    print("</TR>")
+    print("<TR>")
     print('<TD><LABEL for="ending_year">Ending year</LABEL></TD>')
-    print('<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="%d"></TD>' % (year + 5))
-    print('</TR>')
-    print('</TABLE>')
+    print(
+        '<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="%d"></TD>'
+        % (year + 5)
+    )
+    print("</TR>")
+    print("</TABLE>")
 
-    print('<INPUT type="checkbox" checked name="gregorian_calendar" value="1"> Gregorian calendar<BR>')
-    print('<INPUT type="checkbox" checked name="julian_calendar" value="1"> Julian calendar<BR>')
+    print(
+        '<INPUT type="checkbox" checked name="gregorian_calendar" value="1"> Gregorian calendar<BR>'
+    )
+    print(
+        '<INPUT type="checkbox" checked name="julian_calendar" value="1"> Julian calendar<BR>'
+    )
 
     print('<INPUT type="submit" value="Run"> <INPUT type="reset">')
 
     print('<INPUT type="hidden" name="results" value="1">')
 
-    print('</FORM>')
-    print('</BODY>')
+    print("</FORM>")
+    print("</BODY>")
+
 
 #
 # Display an error message
@@ -96,12 +109,13 @@ def display_form():
 
 
 def display_error(msg):
-    print('<HEAD>')
-    print('<TITLE>Astronomia Easter Error</TITLE>')
-    print('</HEAD>')
-    print('<BODY>')
-    print('<H1>', msg, '</H1>')
-    print('</BODY>')
+    print("<HEAD>")
+    print("<TITLE>Astronomia Easter Error</TITLE>")
+    print("</HEAD>")
+    print("<BODY>")
+    print("<H1>", msg, "</H1>")
+    print("</BODY>")
+
 
 #
 # Display the results
@@ -109,19 +123,19 @@ def display_error(msg):
 
 
 def display_results():
-    print('Content-type: text/html')
+    print("Content-type: text/html")
     print()
-    print('<HEAD>')
-    print('<TITLE>Astronomia Easter Results</TITLE>')
-    print('</HEAD>')
+    print("<HEAD>")
+    print("<TITLE>Astronomia Easter Results</TITLE>")
+    print("</HEAD>")
 
     #
     # To do: We should validate the integer values
     #
     # If no starting_year, start with 5 years ago.
     #
-    if 'starting_year' in form:
-        starting_year = int(form['starting_year'].value)
+    if "starting_year" in form:
+        starting_year = int(form["starting_year"].value)
     else:
         fields = time.localtime(time.time())
         year = fields[0]
@@ -130,62 +144,63 @@ def display_results():
     #
     # If no ending_year, end 10 years after the starting_year.
     #
-    if 'ending_year' in form:
-        ending_year = int(form['ending_year'].value)
+    if "ending_year" in form:
+        ending_year = int(form["ending_year"].value)
     else:
         ending_year = starting_year + 10
 
     #
     # Make sure end_year >= starting_year.
     #
-    if (ending_year < starting_year):
-        display_error('Ending year %d is earlier than starting year %d' %
-                      (ending_year, starting_year))
+    if ending_year < starting_year:
+        display_error(
+            "Ending year %d is earlier than starting year %d"
+            % (ending_year, starting_year)
+        )
         return
 
     #
     # We can't go farther back than the first Julian Day number.
     #
-    if (starting_year < -4712):
-        display_error('Starting year %d is earlier than 4713BC' %
-                      starting_year)
+    if starting_year < -4712:
+        display_error("Starting year %d is earlier than 4713BC" % starting_year)
         return
 
-    julian_calendar = 'julian_calendar' in form
-    gregorian_calendar = 'gregorian_calendar' in form
+    julian_calendar = "julian_calendar" in form
+    gregorian_calendar = "gregorian_calendar" in form
 
     #
     # Must have at least one calendar type.
     #
     if not julian_calendar and not gregorian_calendar:
-        display_error('No calendar type selected')
+        display_error("No calendar type selected")
         return
 
     #
     # Finally, we display the results.
     #
-    print('<BODY>')
-    print('<H1>Astronomia Easter Results</H1>')
+    print("<BODY>")
+    print("<H1>Astronomia Easter Results</H1>")
 
-    print('<TABLE BORDER>')
+    print("<TABLE BORDER>")
 
-    print('<TR>')
+    print("<TR>")
     if gregorian_calendar:
-        print('<TH>Gregorian</TH>')
+        print("<TH>Gregorian</TH>")
     if julian_calendar:
-        print('<TH>Julian</TH>')
-    print('</TR>')
+        print("<TH>Julian</TH>")
+    print("</TR>")
 
     for year in range(starting_year, ending_year + 1):
-        print('<TR>')
+        print("<TR>")
         if gregorian_calendar:
             month, day = easter(year, True)
-            print('<TD><TT>%02d-%02d-%d</TT></TD>' % (day, month, year))
+            print("<TD><TT>%02d-%02d-%d</TT></TD>" % (day, month, year))
         if julian_calendar:
             month, day = easter(year, False)
-            print('<TD><TT>%02d-%02d-%d</TT></TD>' % (day, month, year))
-        print('</TR>')
-    print('</TABLE>')
+            print("<TD><TT>%02d-%02d-%d</TT></TD>" % (day, month, year))
+        print("</TR>")
+    print("</TABLE>")
 
     # handy diagnostic routines
     """
@@ -200,14 +215,14 @@ def display_results():
     cgi.print_form(form)
     """
 
-    print('</BODY>')
+    print("</BODY>")
 
 
 #
 # Main routine. There is a hidden field "results" on the parameter form. If it
 # is not present, we display the form. If it is, we display the results.
 #
-if 'results' in form:
+if "results" in form:
     display_results()
 else:
     display_form()

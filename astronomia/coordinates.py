@@ -26,12 +26,13 @@
 
 import numpy as np
 
-import astronomia.globals
-from astronomia.util import modpi2
+from . import globals as globls
+from .util import modpi2
 
 
 class Error(Exception):
     """Local exception class"""
+
     pass
 
 
@@ -53,8 +54,7 @@ def ecl_to_equ(longitude, latitude, obliquity):
     cose = np.cos(obliquity)
     sine = np.sin(obliquity)
     sinl = np.sin(longitude)
-    ra = modpi2(np.arctan2(sinl * cose - np.tan(latitude) * sine,
-                np.cos(longitude)))
+    ra = modpi2(np.arctan2(sinl * cose - np.tan(latitude) * sine, np.cos(longitude)))
     dec = np.arcsin(np.sin(latitude) * cose + np.cos(latitude) * sine * sinl)
     return ra, dec
 
@@ -78,8 +78,8 @@ def equ_to_horiz(H, decl):
 
     """
     cosH = np.cos(H)
-    sinLat = np.sin(astronomia.globals.latitude)
-    cosLat = np.cos(astronomia.globals.latitude)
+    sinLat = np.sin(globls.latitude)
+    cosLat = np.cos(globls.latitude)
     A = np.arctan2(np.sin(H), cosH * sinLat - np.tan(decl) * cosLat)
     h = np.arcsin(sinLat * np.sin(decl) + cosLat * np.cos(decl) * cosH)
     return A, h
@@ -99,26 +99,26 @@ def ell_to_geo(latitude, longitude, height):
       - phi
 
     """
-    from astronomia.constants import earth_equ_radius
+    from .constants import earth_equ_radius
 
-    f = 1.0/298.2564219846
-    ea = earth_equ_radius/1000
+    f = 1.0 / 298.2564219846
+    ea = earth_equ_radius / 1000
 
-    ee = 2.0*f - f*f
+    ee = 2.0 * f - f * f
 
     sinLat = np.sin(latitude)
     cosLat = np.cos(latitude)
 
-    N = ea/np.sqrt(1.0 - ee*sinLat*sinLat)
+    N = ea / np.sqrt(1.0 - ee * sinLat * sinLat)
 
-    Hx = (N + height)*cosLat
-    Hy = (N*(1 - ee) + height)*sinLat
+    Hx = (N + height) * cosLat
+    Hy = (N * (1 - ee) + height) * sinLat
 
-    r = np.sqrt(Hx*Hx + Hy*Hy)
+    r = np.sqrt(Hx * Hx + Hy * Hy)
     theta = np.arctan2(Hx, Hy)
     phi = longitude
 
-    return(r, theta, phi)
+    return (r, theta, phi)
 
 
 def equ_to_ecl(ra, dec, obliquity):
@@ -139,8 +139,6 @@ def equ_to_ecl(ra, dec, obliquity):
     cose = np.cos(obliquity)
     sine = np.sin(obliquity)
     sina = np.sin(ra)
-    longitude = modpi2(np.arctan2(sina * cose + np.tan(dec) * sine,
-                       np.cos(ra)))
-    latitude = modpi2(np.arcsin(np.sin(dec) * cose -
-                      np.cos(dec) * sine * sina))
+    longitude = modpi2(np.arctan2(sina * cose + np.tan(dec) * sine, np.cos(ra)))
+    latitude = modpi2(np.arcsin(np.sin(dec) * cose - np.cos(dec) * sine * sina))
     return longitude, latitude

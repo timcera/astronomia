@@ -1,6 +1,6 @@
-'''
+"""
 Tests for the elp2000 functions.
-'''
+"""
 
 from unittest import TestCase
 import math
@@ -9,10 +9,20 @@ import numpy as np
 
 from astronomia.util import d_to_r, r_to_d
 from astronomia.coordinates import ecl_to_equ
-from astronomia.calendar import (cal_to_jd, cal_to_jde, jd_to_cal,
-                                 jd_to_day_of_week, cal_to_day_of_year, day_of_year_to_cal,
-                                 easter, sidereal_time_greenwich, fday_to_hms, is_leap_year,
-                                 frac_yr_to_jd, yr_frac_mon_to_jd)
+from astronomia.calendar import (
+    cal_to_jd,
+    cal_to_jde,
+    jd_to_cal,
+    jd_to_day_of_week,
+    cal_to_day_of_year,
+    day_of_year_to_cal,
+    easter,
+    sidereal_time_greenwich,
+    fday_to_hms,
+    is_leap_year,
+    frac_yr_to_jd,
+    yr_frac_mon_to_jd,
+)
 
 
 class TestUtil(TestCase):
@@ -49,8 +59,9 @@ class TestUtil(TestCase):
     def test_fday_to_hms(self):
         self.assertEqual(fday_to_hms(0.5), (12, 0, 0))
         self.assertEqual(fday_to_hms(0.5006944444444444445), (12, 1, 0))
-        self.assertEqual(fday_to_hms(0.5006944444444444445 +
-                                     0.0007060185185185186), (12, 2, 1))
+        self.assertEqual(
+            fday_to_hms(0.5006944444444444445 + 0.0007060185185185186), (12, 2, 1)
+        )
 
     def test_dow(self):
         jd = cal_to_jd(1954, 6, 30.0)
@@ -105,20 +116,19 @@ class TestUtil(TestCase):
         np.testing.assert_array_almost_equal(day, [27.5, 28.63])
 
     def test_ecl_to_equ(self):
-        ra, dec = ecl_to_equ(d_to_r(113.215630),
-                             d_to_r(6.684170),
-                             d_to_r(23.4392911))
+        ra, dec = ecl_to_equ(d_to_r(113.215630), d_to_r(6.684170), d_to_r(23.4392911))
         self.assertAlmostEqual(r_to_d(ra), 116.328942, places=5)
         self.assertAlmostEqual(r_to_d(dec), 28.026183, places=6)
 
     def test_easter(self):
         tbl = (
-              (1991, 3, 31),
-              (1992, 4, 19),
-              (1993, 4, 11),
-              (1954, 4, 18),
-              (2000, 4, 23),
-              (1818, 3, 22))
+            (1991, 3, 31),
+            (1992, 4, 19),
+            (1993, 4, 11),
+            (1954, 4, 18),
+            (2000, 4, 23),
+            (1818, 3, 22),
+        )
 
         for yr, mo, day in tbl:
             xmo, xday = easter(yr)

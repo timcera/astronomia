@@ -1,6 +1,3 @@
-
-from __future__ import print_function
-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -33,12 +30,13 @@ import sys
 
 import numpy as np
 
-import astronomia.globals
-from astronomia.constants import pi2, minutes_per_day, seconds_per_day
+from . import globals as globls
+from .constants import pi2, minutes_per_day, seconds_per_day
 
 
 class Error(Exception):
     """Local exception class"""
+
     pass
 
 
@@ -209,67 +207,76 @@ def load_params():
 
     if not os.path.exists(fname):
         # last resort
-        fname = os.path.join(sys.prefix,
-                             'share', 'astronomia', 'astronomia_params.txt')
-        print('''WARNING: Using system wide settings file at
+        fname = os.path.join(sys.prefix, "share", "astronomia", "astronomia_params.txt")
+        print(
+            """WARNING: Using system wide settings file at
 "{0}".
 You may want to set the ASTRONOMIA_PARAMS environment variable to point to the
 file you want, or create a "astronomia_params.txt" file in the current
-directory.'''.format(fname))
+directory.""".format(
+                fname
+            )
+        )
     try:
-        f = open(fname, 'r')
+        f = open(fname, "r")
     except IOError as value:
-        raise Error('''
+        raise Error(
+            """
 Unable to open param file. Either set ASTRONOMIA_PARAMS correctly or create
-astronomia_params.txt in the current directory''')
+astronomia_params.txt in the current directory"""
+        )
 
     lex = shlex.shlex(f)
     # tokens and values can have dots, dashes, slashes, colons
-    lex.wordchars = lex.wordchars + '.-/\\:'
+    lex.wordchars = lex.wordchars + ".-/\\:"
     token = lex.get_token()
     while token:
         if token == "standard_timezone_name":
-            astronomia.globals.standard_timezone_name = lex.get_token()
+            globls.standard_timezone_name = lex.get_token()
         elif token == "standard_timezone_offset":
             offset = float(lex.get_token())
             unit = lex.get_token().lower()
-            if unit not in ("day",
-                            "days",
-                            "hour",
-                            "hours",
-                            "minute",
-                            "minutes",
-                            "second",
-                            "seconds"):
-                raise Error('bad value for standard_timezone_offset units')
+            if unit not in (
+                "day",
+                "days",
+                "hour",
+                "hours",
+                "minute",
+                "minutes",
+                "second",
+                "seconds",
+            ):
+                raise Error("bad value for standard_timezone_offset units")
             if unit in ("hour", "hours"):
                 offset /= 24.0
             elif unit in ("minute", "minutes"):
                 offset /= minutes_per_day
             elif unit in ("second", "seconds"):
                 offset /= seconds_per_day
-            astronomia.globals.standard_timezone_offset = offset
+            globls.standard_timezone_offset = offset
         elif token == "daylight_timezone_name":
-            astronomia.globals.daylight_timezone_name = lex.get_token()
+            globls.daylight_timezone_name = lex.get_token()
         elif token == "daylight_timezone_offset":
             offset = float(lex.get_token())
             unit = lex.get_token().lower()
-            if unit not in ("day",
-                            "days",
-                            "hour",
-                            "hours",
-                            "minute",
-                            "minutes",
-                            "second",
-                            "seconds"):
-                raise Error('bad value for standard_timezone_offset units')
+            if unit not in (
+                "day",
+                "days",
+                "hour",
+                "hours",
+                "minute",
+                "minutes",
+                "second",
+                "seconds",
+            ):
+                raise Error("bad value for standard_timezone_offset units")
             if unit in ("hour", "hours"):
                 offset /= 24.0
             elif unit in ("minute", "minutes"):
                 offset /= minutes_per_day
             elif unit in ("second", "seconds"):
                 offset /= seconds_per_day
-            astronomia.globals.daylight_timezone_offset = offset
+            globls.daylight_timezone_offset = offset
         elif token == "longitude":
             longitude = float(lex.get_token())
             direction = lex.get_token().lower()
@@ -277,7 +284,7 @@ astronomia_params.txt in the current directory''')
                 raise Error('longitude direction must be "west" or "east"')
             if direction == "east":
                 longitude = -longitude
-            astronomia.globals.longitude = d_to_r(longitude)
+            globls.longitude = d_to_r(longitude)
         elif token == "latitude":
             latitude = float(lex.get_token())
             direction = lex.get_token().lower()
@@ -285,14 +292,15 @@ astronomia_params.txt in the current directory''')
                 raise Error('latitude direction must be "north" or "south"')
             if direction == "south":
                 latitude = -latitude
-            astronomia.globals.latitude = d_to_r(latitude)
+            globls.latitude = d_to_r(latitude)
         elif token == "vsop87d_text_path":
-            astronomia.globals.vsop87d_text_path = lex.get_token()
+            globls.vsop87d_text_path = lex.get_token()
         elif token == "vsop87d_binary_path":
-            astronomia.globals.vsop87d_binary_path = lex.get_token()
+            globls.vsop87d_binary_path = lex.get_token()
         else:
-            raise Error("unknown token %s at line %d in param file" %
-                        (token, lex.lineno))
+            raise Error(
+                "unknown token %s at line %d in param file" % (token, lex.lineno)
+            )
         token = lex.get_token()
 
     f.close()

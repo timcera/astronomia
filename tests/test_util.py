@@ -1,6 +1,6 @@
-'''
+"""
 Tests for the elp2000 functions.
-'''
+"""
 
 from unittest import TestCase
 

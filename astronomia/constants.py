@@ -37,7 +37,7 @@ pi2 = 2 * pi
 #
 # Ratio of Earth's polar to equitorial radius.
 #
-#flattening = 0.99664719
+# flattening = 0.99664719
 flattening = 0.99664713901477464
 
 #
@@ -77,4 +77,4 @@ km_per_au = 149597870.691
 # For rise-set-transit: altitude deflection caused by refraction
 #
 standard_rst_altitude = -0.00989078087105  # -0.5667 degrees
-sun_rst_altitude = -0.0145438286569        # -0.8333 degrees
+sun_rst_altitude = -0.0145438286569  # -0.8333 degrees

@@ -1,8 +1,8 @@
 Metadata-Version: 1.1
 Name: astronomia
-Version: 0.4.1
+Version: 0.4.2
 Summary: Library for calculation of ephemeris and other astronomical calculations
-Home-page: http://timcera.bitbucket.org/
+Home-page: http://timcera.bitbucket.io/astronomia/docsrc/index.html
 Author: Tim Cera, P.E.
 Author-email: tim@cerazone.net
 License: GPL2
@@ -14,15 +14,11 @@ Description: .. image:: https://travis-ci.org/timcera/astronomia.svg?branch=mast
             :target: https://coveralls.io/r/timcera/astronomia?branch=master
             :height: 20
         
-        .. image:: https://pypip.in/v/astronomia/badge.png?style=flat
+        .. image:: http://img.shields.io/pypi/v/astronomia.svg
             :alt: Latest release
             :target: https://pypi.python.org/pypi/astronomia
         
-        .. image:: https://pypip.in/d/astronomia/badge.png?style=flat
-            :alt: PyPI downloads count
-            :target: https://pypi.python.org/pypi/astronomia
-        
-        .. image:: https://pypip.in/license/astronomia/badge.png?style=flat
+        .. image:: http://img.shields.io/badge/license-GPL-lightgrey.svg
             :alt: astronomia license
             :target: https://pypi.python.org/pypi/astronomia/
         
@@ -44,7 +40,7 @@ Description: .. image:: https://travis-ci.org/timcera/astronomia.svg?branch=mast
         
         Documentation
         ~~~~~~~~~~~~~
-        Reference documentation is at http://pythonhosted.org/astronomia/
+        Reference documentation is at :ref:`astronomia_documentation`.
         
         Installation
         ~~~~~~~~~~~~
@@ -65,7 +61,7 @@ Description: .. image:: https://travis-ci.org/timcera/astronomia.svg?branch=mast
         
         	import astronomia
         
-        Refer to the API Documentation at http://pythonhosted.org/astronomia/
+        Refer to the API Documentation at :ref:`astronomia_documentation`.
         
         Development
         ~~~~~~~~~~~
@@ -83,7 +79,6 @@ Description: .. image:: https://travis-ci.org/timcera/astronomia.svg?branch=mast
         important added feature is the ability for most functions to work with array
         inputs.  Bill McClain had dual Python and 'C' code, but I focused only on the
         Python code, updating with newer data and equations as I found them.
-          
         
         
         

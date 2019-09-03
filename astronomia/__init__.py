@@ -23,15 +23,17 @@
     """
 """__init__.py for astronomia"""
 
-__all__ = ["calendar",
-           "constants",
-           "coordinates",
-           "dynamical",
-           "moon",
-           "equinox",
-           "globals",
-           "nutation",
-           "riseset",
-           "sun",
-           "util",
-           "planets"]
+__all__ = [
+    "calendar",
+    "constants",
+    "coordinates",
+    "dynamical",
+    "moon",
+    "equinox",
+    "globals",
+    "nutation",
+    "riseset",
+    "sun",
+    "util",
+    "planets",
+]
