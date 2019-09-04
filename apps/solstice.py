@@ -41,6 +41,7 @@ from __future__ import print_function
 
 """
 
+import os
 import sys
 
 from astronomia.constants import days_per_second
@@ -55,7 +56,7 @@ tab = 4 * " "
 
 if len(sys.argv) < 2:
     print(__doc__)
-    sys.exit()
+    os._exit(0)
 elif len(sys.argv) < 3:
     start = int(sys.argv[1])
     stop = start
@@ -64,7 +65,7 @@ elif len(sys.argv) < 4:
     stop = int(sys.argv[2])
 else:
     print(__doc__)
-    sys.exit()
+    os._exit(0)
 
 load_params()
 # sun = Sun() # load the database here so we don't get a message later

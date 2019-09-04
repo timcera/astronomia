@@ -46,6 +46,7 @@ from __future__ import print_function
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
+import os
 import sys
 from heapq import heappush, heappop
 from math import *
@@ -321,7 +322,7 @@ def run():
     global sun
     if len(sys.argv) < 2:
         print(__doc__)
-        sys.exit()
+        os._exit(0)
     if len(sys.argv) < 3:
         start_year = int(sys.argv[1])
         stop_jd = cal_to_jd(10000)  # default stopping date: 10,000AD
@@ -330,7 +331,7 @@ def run():
         stop_jd = cal_to_jd(int(sys.argv[2]))
     else:
         print(__doc__)
-        sys.exit()
+        os._exit(0)
 
     load_params()
     vsop = VSOP87d()

@@ -35,7 +35,7 @@ Usage:
 from astronomia.constants import days_per_second, km_per_au
 from astronomia.calendar import cal_to_jd
 from astronomia.util import load_params
-from astronomia.vsop87d import VSOP87d
+from astronomia.planets import VSOP87d
 
 load_params()
 vsop = VSOP87d()
