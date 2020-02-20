@@ -79,5 +79,5 @@ setup(
     data_files=[(os.path.join("share", "astronomia"), ["apps/astronomia_params.txt"])],
     entry_points={"console_scripts": ["astronomia=astronomia.astronomia:main"]},
     test_suite="tests",
-    python_requires=">=3.5,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
+    python_requires=">=3.6",
 )
