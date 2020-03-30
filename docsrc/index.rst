@@ -8,7 +8,7 @@ This is the home page for astronomia.  astronomia is a small Python library for
 calculating the ephemeris of the Sun, Moon, and planets.  It also has some
 utilities for working with time and angles.
 
-astronomia will work with Python 2.6+ and 3.0+.
+astronomia will work with Python 3.6+.
 
 Table of Contents
 -----------------
