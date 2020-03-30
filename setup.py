@@ -66,7 +66,7 @@ setup(
     data_files=[
         (
             os.path.join("share", "astronomia"),
-            os.path.join("apps", "astronomia_params.txt"),
+            [os.path.join("apps", "astronomia_params.txt")],
         )
     ],
     test_suite="tests",
