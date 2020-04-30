@@ -32,7 +32,7 @@ Astronomia will work with Python 2.6+ and 3.0+.
 
 Documentation
 ~~~~~~~~~~~~~
-Reference documentation is at :ref:`astronomia_documentation`.
+Reference documentation is at http://timcera.bitbucket.io/.
 
 Installation
 ~~~~~~~~~~~~
@@ -52,8 +52,6 @@ Usage
 To use Astronomia in a project::
 
 	import astronomia
-
-Refer to the API Documentation at :ref:`astronomia_documentation`.
 
 Development
 ~~~~~~~~~~~
