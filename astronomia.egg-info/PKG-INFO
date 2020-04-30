@@ -1,6 +1,6 @@
 Metadata-Version: 1.2
 Name: astronomia
-Version: 0.4.2
+Version: 1.1.1.1
 Summary: Library for calculation of ephemeris and other astronomical calculations
 Home-page: http://timcera.bitbucket.io/astronomia/docsrc/index.html
 Author: Tim Cera, P.E.
@@ -40,7 +40,7 @@ Description: .. image:: https://travis-ci.org/timcera/astronomia.svg?branch=mast
         
         Documentation
         ~~~~~~~~~~~~~
-        Reference documentation is at :ref:`astronomia_documentation`.
+        Reference documentation is at http://timcera.bitbucket.io/.
         
         Installation
         ~~~~~~~~~~~~
@@ -60,8 +60,6 @@ Description: .. image:: https://travis-ci.org/timcera/astronomia.svg?branch=mast
         To use Astronomia in a project::
         
         	import astronomia
-        
-        Refer to the API Documentation at :ref:`astronomia_documentation`.
         
         Development
         ~~~~~~~~~~~
