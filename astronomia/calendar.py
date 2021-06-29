@@ -1,26 +1,25 @@
 # -*- coding: utf-8 -*-
-"""
-    Copyright 2000, 2001 Astrolabe by William McClain
+"""Copyright 2000, 2001 Astrolabe by William McClain.
 
-    Forked in 2013 to Astronomia
+Forked in 2013 to Astronomia
 
-    Copyright 2013 Astronomia by Tim Cera
+Copyright 2013 Astronomia by Tim Cera
 
-    This file is part of Astronomia.
+This file is part of Astronomia.
 
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 A collection of date and time functions.
 
@@ -36,7 +35,7 @@ Numeric months are 1-based: Jan = 1...Dec = 12.
 
 Numeric days are the same as the calendar value.
 
-Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998,
+Reference: Jean Meeus, *Astronomical Algorithms*, second edition, 1998,
 Willmann-Bell, Inc.
 """
 
@@ -50,14 +49,14 @@ from .util import _scalar_if_one, d_to_r, modpi2
 
 
 class Error(Exception):
-    """local exception class"""
+    """local exception class."""
 
     pass
 
 
 def frac_yr_to_jd(year, gregorian=True):
-    """Convert a date in the Julian or Gregorian fractional year to the
-    Julian Day Number (Meeus 7.1).
+    """Convert a date in the Julian or Gregorian fractional year to the Julian
+    Day Number (Meeus 7.1).
 
     Arguments:
       - `year` : (int, float)  year
@@ -68,7 +67,6 @@ def frac_yr_to_jd(year, gregorian=True):
 
     Returns:
       - (float)
-
     """
     year = np.atleast_1d(year)
     day = np.atleast_1d(0.0).astype(np.float64)
@@ -85,8 +83,8 @@ def frac_yr_to_jd(year, gregorian=True):
 
 
 def yr_frac_mon_to_jd(year, mon, gregorian=True):
-    """Convert a year and fractional month in the Julian or Gregorian
-    calendars to the Julian Day Number (Meeus 7.1).
+    """Convert a year and fractional month in the Julian or Gregorian calendars
+    to the Julian Day Number (Meeus 7.1).
 
     Arguments:
       - `year` : (int)  year
@@ -98,7 +96,6 @@ def yr_frac_mon_to_jd(year, mon, gregorian=True):
 
     Returns:
       - (float)
-
     """
     year = np.atleast_1d(year)
     mon = np.atleast_1d(mon).astype(np.float64)
@@ -136,7 +133,6 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
 
     Returns:
       - (int, float)
-
     """
     year = np.atleast_1d(year)
     mon = np.atleast_1d(mon)
@@ -198,7 +194,6 @@ def jd_to_cal(julian_day, gregorian=True):
 
     Return:
       - (year, month, day) : (tuple) day may be fractional
-
     """
     julian_day = np.atleast_1d(julian_day)
     F, Z = np.modf(julian_day + 0.5)
@@ -237,7 +232,6 @@ def cal_to_jde(year, mon=1, day=1, hour=0, minute=0, sec=0.0, gregorian=True):
 
     Returns:
       - julian day ephemeris : (float)
-
     """
     jde = cal_to_jd(year, mon, day, gregorian)
     return _scalar_if_one(jde + hms_to_fday(hour, minute, sec))
@@ -258,7 +252,6 @@ def cal_to_day_of_year(year, mon, day, gregorian=True):
 
     Return:
       - day number : 1 = Jan 1...365 (or 366 for leap years) = Dec 31.
-
     """
     year = np.atleast_1d(year).astype(np.int64)
     mon = np.atleast_1d(mon).astype(np.int64)
@@ -289,7 +282,6 @@ def day_of_year_to_cal(year, N, gregorian=True):
 
     Return:
       - (month, day) : (tuple)
-
     """
     year = np.atleast_1d(year)
     N = np.atleast_1d(N)
@@ -321,7 +313,6 @@ def easter(year, gregorian=True):
 
     Return:
       - (month, day) : (tuple)
-
     """
     year = np.atleast_1d(year)
     if gregorian:
@@ -360,7 +351,6 @@ def fday_to_hms(day):
       - hour : (int, 0..23)
       - minute : (int, 0..59)
       - second : (int, 0..59)
-
     """
     # First get rid of the integer day
     fday, days = modf(day)
@@ -382,7 +372,6 @@ def hms_to_fday(hr, mn, sec):
 
     Returns:
       - fractional day, 0.0..1.0
-
     """
     hr = np.atleast_1d(hr)
     mn = np.atleast_1d(mn)
@@ -403,7 +392,6 @@ def is_dst(julian_day):
 
     Returns:
       - (bool) True if Daylight Savings Time is in effect, False otherwise.
-
     """
     import datetime
     import time
@@ -418,7 +406,7 @@ def is_dst(julian_day):
 
 
 def is_leap_year(year, gregorian=True):
-    """Return True if this is a leap year in the Julian or Gregorian calendars
+    """Return True if this is a leap year in the Julian or Gregorian calendars.
 
     Arguments:
       - `year` : (int) year
@@ -429,7 +417,6 @@ def is_leap_year(year, gregorian=True):
 
     Returns:
       - (bool) True is this is a leap year, else False.
-
     """
     year = np.atleast_1d(year).astype(np.int64)
     x = np.fmod(year, 4)
@@ -454,7 +441,6 @@ def jd_to_day_of_week(julian_day):
 
     Returns:
       - day of week : (int) 0 = Sunday...6 = Saturday.
-
     """
     julian_day = np.atleast_1d(julian_day)
     i = (julian_day + 1.5).astype(np.int64)
@@ -462,14 +448,13 @@ def jd_to_day_of_week(julian_day):
 
 
 def jd_to_jcent(julian_day):
-    """Return the number of Julian centuries since J2000.0
+    """Return the number of Julian centuries since J2000.0.
 
     Arguments:
       - `julian_day` : (int) Julian Day number
 
     Return:
       - Julian centuries : (int)
-
     """
     julian_day = np.atleast_1d(julian_day)
     return _scalar_if_one((julian_day - 2451545.0) / 36525.0)
@@ -497,7 +482,6 @@ def lt_to_str(julian_day, zone="", level="second"):
 
     Return:
       - formatted date/time string : (str)
-
     """
     year, mon, day = jd_to_cal(julian_day)
     fday, iday = modf(day)
@@ -535,7 +519,6 @@ def sidereal_time_greenwich(julian_day):
 
     Returns:
       - sidereal time in radians : (float) 2pi radians = 24 hours
-
     """
     T = jd_to_jcent(julian_day)
     T2 = T * T
@@ -561,7 +544,6 @@ def ut_to_lt(julian_day):
     Return:
       - Julian Day number : (str) local time
         zone string of the zone used for the conversion
-
     """
     if is_dst(julian_day):
         zone = globls.daylight_timezone_name

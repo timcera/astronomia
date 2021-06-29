@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
+"""Copyright 2000, 2001 Astrolabe by William McClain.
+
+Forked in 2013 to Astronomia
+
+Copyright 2013 Astronomia by Tim Cera
+
+This file is part of Astronomia.
+
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+The VSOP87d planetary position model
 """
-    Copyright 2000, 2001 Astrolabe by William McClain
-
-    Forked in 2013 to Astronomia
-
-    Copyright 2013 Astronomia by Tim Cera
-
-    This file is part of Astronomia.
-
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    The VSOP87d planetary position model
-    """
 
 import numpy as np
 
@@ -34,7 +33,7 @@ from .util import _scalar_if_one, d_to_r, diff_angle, dms_to_d, modpi2, polynomi
 
 
 class Error(Exception):
-    """Local exception class"""
+    """Local exception class."""
 
     pass
 
@@ -69,15 +68,14 @@ _first_time = True
 class VSOP87d:
     """The VSOP87d planetary model.
 
-    All instances of this class share a common dictionary
-    of planetary terms.
-
+    All instances of this class share a common dictionary of planetary
+    terms.
     """
 
     def __init__(self):
-        """Load the database of planetary terms. This is actually done
-        only once to save time and space.
+        """Load the database of planetary terms.
 
+        This is actually done only once to save time and space.
         """
         global _first_time
 
@@ -89,6 +87,7 @@ class VSOP87d:
 
     def dimension(self, jd, planet, dim):
         """Return one of heliocentric ecliptic longitude, latitude and radius.
+
         [Meeus-1998: pg 218]
 
         Arguments:
@@ -101,7 +100,6 @@ class VSOP87d:
         Returns:
           - longitude in radians, or latitude in radians, or radius in au,
             depending on the value of `dim`.
-
         """
         jd = np.atleast_1d(jd)
         X = 0.0
@@ -130,7 +128,6 @@ class VSOP87d:
           - longitude in radians
           - latitude in radians
           - radius in au
-
         """
         L = self.dimension(jd, planet, "L")
         B = self.dimension(jd, planet, "B")
@@ -161,7 +158,6 @@ def vsop_to_fk5(jd, L, B):
     Returns:
       - corrected longitude in radians
       - corrected latitude in radians
-
     """
     jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
@@ -174,7 +170,7 @@ def vsop_to_fk5(jd, L, B):
 
 
 def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
-    """Calculate the equatorial coordinates of a planet
+    """Calculate the equatorial coordinates of a planet.
 
     The results will be geocentric, corrected for light-time and
     aberration.
@@ -190,7 +186,6 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
     Returns:
       - right accension, in radians
       - declination, in radians
-
     """
     jd = np.atleast_1d(jd)
     vsop = VSOP87d()
@@ -253,7 +248,6 @@ def load_vsop87d_text_db():
     IMPORTANT: normally you don't call this routine directly.
     That is done automatically by the __init__() method of the VSOP87d
     class.
-
     """
     global _planets
     from .vsop87d_dict import _planets

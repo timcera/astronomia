@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
+"""Copyright 2000, 2001 Astrolabe by William McClain.
+
+Forked in 2013 to Astronomia
+
+Copyright 2013 Astronomia by Tim Cera
+
+This file is part of Astronomia.
+
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Calculate the times of solstice and equinox events for Earth
 """
-    Copyright 2000, 2001 Astrolabe by William McClain
-
-    Forked in 2013 to Astronomia
-
-    Copyright 2013 Astronomia by Tim Cera
-
-    This file is part of Astronomia.
-
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Calculate the times of solstice and equinox events for Earth
-    """
 
 from math import cos, pi
 
@@ -37,7 +36,7 @@ from .util import d_to_r, diff_angle, polynomial
 
 
 class Error(Exception):
-    """local exception class"""
+    """local exception class."""
 
     pass
 
@@ -105,7 +104,6 @@ def equinox_approx(yr, season):
 
     Returns:
       - Julian Day : (int) in dynamical time
-
     """
     if not (-1000 <= yr <= 3000):
         raise Error("year is out of range")
@@ -146,7 +144,6 @@ def equinox(jd, season, delta):
 
     Returns:
       - Julian Day : (int) dynamical time
-
     """
     #
     # If we knew that the starting approximate time was close enough

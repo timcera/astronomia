@@ -1,40 +1,38 @@
 # -*- coding: utf-8 -*-
-"""
-    Copyright 2000, 2001 Astrolabe by William McClain
+"""Copyright 2000, 2001 Astrolabe by William McClain.
 
-    Forked in 2013 to Astronomia
+Forked in 2013 to Astronomia
 
-    Copyright 2013 Astronomia by Tim Cera
+Copyright 2013 Astronomia by Tim Cera
 
-    This file is part of Astronomia.
+This file is part of Astronomia.
 
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Functions to calculate nutation and obliquity values.
 
 The IAU "1980 Theory of Nutation" is used, but terms with coefficients smaller
 than 0.0003" have been dropped.
 
-Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998,
+Reference: Jean Meeus, *Astronomical Algorithms*, second edition, 1998,
 Willmann-Bell, Inc.
 
 The first edition of the Meeus book had some errors in the table. These may be
 corrected in the second edition. I recall correcting my values from those
-published in _Explanatory Supplement to the Astronomical Almanac_, revised
+published in *Explanatory Supplement to the Astronomical Almanac*, revised
 edition edited by P. Kenneth Seidelman, 1992
-
 """
 
 import numpy as np
@@ -135,7 +133,6 @@ def nutation_in_longitude(jd):
 
     Returns:
       - nutation in longitude, in radians
-
     """
     #
     # Future optimization: factor the /1e5 and /1e6 adjustments into the table.
@@ -164,7 +161,6 @@ def nutation_in_obliquity(jd):
 
     Returns:
       - nutation in obliquity, in radians
-
     """
     #
     # Future optimization: factor the /1e5 and /1e6 adjustments into the table.
@@ -204,7 +200,6 @@ def obliquity(jd):
 
     Returns:
       - obliquity, in radians
-
     """
     T = jd_to_jcent(jd)
     return polynomial(_el0, T)
@@ -241,7 +236,6 @@ def obliquity_hi(jd):
 
     Returns:
       - obliquity, in radians
-
     """
     U = jd_to_jcent(jd) / 100
     return polynomial(_el1, U)

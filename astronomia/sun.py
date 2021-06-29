@@ -1,29 +1,27 @@
 # -*- coding: utf-8 -*-
-"""
-    Copyright 2000, 2001 Astrolabe by William McClain
+"""Copyright 2000, 2001 Astrolabe by William McClain.
 
-    Forked in 2013 to Astronomia
+Forked in 2013 to Astronomia
 
-    Copyright 2013 Astronomia by Tim Cera
+Copyright 2013 Astronomia by Tim Cera
 
-    This file is part of Astronomia.
+This file is part of Astronomia.
 
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Geocentric solar position and radius, both low and high precision.
-
 """
 import numpy as np
 
@@ -34,18 +32,17 @@ from .util import _scalar_if_one, d_to_r, dms_to_d, modpi2, polynomial
 
 
 class Error(Exception):
-    """Local exception class"""
+    """Local exception class."""
 
 
 class Sun:
     """High precision position calculations.
 
-    This is a very light wrapper around the VSOP87d class. The geocentric
-    longitude of the Sun is simply the heliocentric longitude of the Earth +
-    180 degrees. The geocentric latitude of the Sun is the negative of the
-    heliocentric latitude of the Earth. The radius is of course the same in
-    both coordinate systems.
-
+    This is a very light wrapper around the VSOP87d class. The
+    geocentric longitude of the Sun is simply the heliocentric longitude
+    of the Earth + 180 degrees. The geocentric latitude of the Sun is
+    the negative of the heliocentric latitude of the Earth. The radius
+    is of course the same in both coordinate systems.
     """
 
     def __init__(self):
@@ -59,7 +56,6 @@ class Sun:
 
         Returns:
           - Longitude in radians
-
         """
         jd = np.atleast_1d(jd)
         T = jd_to_jcent(jd)
@@ -95,7 +91,6 @@ class Sun:
 
         Returns:
           - Longitude of solar perigee in radians
-
         """
         jd = np.atleast_1d(jd)
         T = jd_to_jcent(jd)
@@ -116,7 +111,6 @@ class Sun:
         Returns:
           - Either longitude in radians, or latitude in radians, or radius in
             au, depending on value of `dim`.
-
         """
         jd = np.atleast_1d(jd)
         X = self.vsop.dimension(jd, "Earth", dim)
@@ -136,7 +130,6 @@ class Sun:
           - longitude in radians
           - latitude in radians
           - radius in au
-
         """
         L = self.dimension(jd, "L")
         B = self.dimension(jd, "B")
@@ -173,7 +166,6 @@ def longitude_radius_low(jd):
     Returns:
       - longitude in radians
       - radius in au
-
     """
     jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
@@ -211,7 +203,6 @@ def apparent_longitude_low(jd, L):
 
     Returns:
       - corrected longitude in radians
-
     """
     jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
@@ -227,6 +218,7 @@ _lk4 = d_to_r(dms_to_d(0, 0, 20.4898))
 
 def aberration_low(R):
     """Correct for aberration; low precision, but good enough for most uses.
+
     [Meeus-1998: pg 164]
 
     Arguments:
@@ -234,7 +226,6 @@ def aberration_low(R):
 
     Returns:
       - correction in radians
-
     """
     return -_lk4 / R
 

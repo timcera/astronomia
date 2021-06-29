@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
+"""Copyright 2000, 2001 Astrolabe by William McClain.
+
+Forked in 2013 to Astronomia
+
+Copyright 2013 Astronomia by Tim Cera
+
+This file is part of Astronomia.
+
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Collection of miscellaneous functions
 """
-    Copyright 2000, 2001 Astrolabe by William McClain
-
-    Forked in 2013 to Astronomia
-
-    Copyright 2013 Astronomia by Tim Cera
-
-    This file is part of Astronomia.
-
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Collection of miscellaneous functions
-    """
 
 import os
 import shlex
@@ -36,13 +35,13 @@ from .constants import minutes_per_day, pi2, seconds_per_day
 
 
 class Error(Exception):
-    """Local exception class"""
+    """Local exception class."""
 
     pass
 
 
 def _scalar_if_one(solution):
-    """Returns a scalar if array size is 1"""
+    """Returns a scalar if array size is 1."""
     if np.isscalar(solution):
         return solution
     if solution.size == 1:
@@ -69,7 +68,6 @@ def d_to_dms(x):
       - degrees : (int)
       - minutes : (int)
       - seconds : (int, float)
-
     """
     frac, degrees = np.modf(x)
     seconds, minutes = np.modf(frac * 60)
@@ -90,7 +88,6 @@ def d_to_r(d):
 
     Returns:
       - radians : (float)
-
     """
     return d * _DtoR
 
@@ -134,7 +131,6 @@ def dms_to_d(deg, minute, sec):
 
     Returns:
       - decimal degrees : (float)
-
     """
     deg = np.atleast_1d(deg)
     minute = np.atleast_1d(minute)
@@ -157,7 +153,6 @@ def interpolate3(n, y):
 
     Results:
       - the interpolated value of y
-
     """
     if not -1 < n < 1:
         raise Error("interpolating factor out of range: " + str(n))
@@ -183,7 +178,6 @@ def interpolate_angle3(n, y):
 
     Results:
       - the interpolated value of y
-
     """
     if not -1 < n < 1:
         raise Error("interpolating factor out of range: " + str(n))
@@ -202,7 +196,6 @@ def load_params():
 
     Returns:
         nothing
-
     """
     fname = os.environ.get("ASTRONOMIA_PARAMS", "astronomia_params.txt")
 
@@ -315,7 +308,6 @@ def modpi2(x):
 
     Returns:
       - angle in radians in the range 0..2pi
-
     """
     return x % pi2
 
@@ -328,7 +320,6 @@ def mod360(x):
 
     Returns:
       - angle in degress in the range 0..360
-
     """
     return x % 360
 
@@ -372,6 +363,5 @@ def r_to_d(r):
 
     Returns:
       - degrees
-
     """
     return r * _RtoD

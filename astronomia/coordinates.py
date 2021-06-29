@@ -1,29 +1,28 @@
 # -*- coding: utf-8 -*-
+"""Copyright 2000, 2001 Astrolabe by William McClain.
+
+Forked in 2013 to Astronomia
+
+Copyright 2013 Astronomia by Tim Cera
+
+This file is part of Astronomia.
+
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Collection of miscellaneous functions
 """
-    Copyright 2000, 2001 Astrolabe by William McClain
-
-    Forked in 2013 to Astronomia
-
-    Copyright 2013 Astronomia by Tim Cera
-
-    This file is part of Astronomia.
-
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-    Collection of miscellaneous functions
-    """
 
 import numpy as np
 
@@ -32,7 +31,7 @@ from .util import modpi2
 
 
 class Error(Exception):
-    """Local exception class"""
+    """Local exception class."""
 
     pass
 
@@ -50,7 +49,6 @@ def ecl_to_equ(longitude, latitude, obliquity):
     Returns:
       - Right accension in radians
       - Declination in radians
-
     """
     cose = np.cos(obliquity)
     sine = np.sin(obliquity)
@@ -76,7 +74,6 @@ def equ_to_horiz(H, decl):
     Returns:
       - azimuth in radians
       - altitude in radians
-
     """
     cosH = np.cos(H)
     sinLat = np.sin(globls.latitude)
@@ -98,7 +95,6 @@ def ell_to_geo(latitude, longitude, height):
       - r
       - theta
       - phi
-
     """
     from .constants import earth_equ_radius
 
@@ -135,7 +131,6 @@ def equ_to_ecl(ra, dec, obliquity):
     Returns:
       - ecliptic longitude in radians
       - ecliptic latitude in radians
-
     """
     cose = np.cos(obliquity)
     sine = np.sin(obliquity)

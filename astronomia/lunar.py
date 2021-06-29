@@ -1,35 +1,33 @@
 # -*- coding: utf-8 -*-
-"""
-    Copyright 2000, 2001 Astrolabe by William McClain
+"""Copyright 2000, 2001 Astrolabe by William McClain.
 
-    Forked in 2013 to Astronomia
+Forked in 2013 to Astronomia
 
-    Copyright 2013 Astronomia by Tim Cera
+Copyright 2013 Astronomia by Tim Cera
 
-    This file is part of Astronomia.
+This file is part of Astronomia.
 
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Lunar position model ELP2000-82 of Chapront.
 
 The result values are for the equinox of date and have been adjusted
 for light-time.
 
-This is the simplified version of Jean Meeus, _Astronomical Algorithms_,
+This is the simplified version of Jean Meeus, *Astronomical Algorithms*,
 second edition, 1998, Willmann-Bell, Inc.
-
 """
 import numpy as np
 
@@ -39,7 +37,7 @@ from .util import d_to_r, modpi2, polynomial
 
 
 class Error(Exception):
-    """Local exception class"""
+    """Local exception class."""
 
     pass
 
@@ -185,7 +183,7 @@ _kA3 = (d_to_r(313.45), d_to_r(481266.484))
 
 
 def _constants(T):
-    """Calculate values required by several other functions"""
+    """Calculate values required by several other functions."""
     L1 = modpi2(polynomial(kL1, T))
     D = modpi2(polynomial(kD, T))
     M = modpi2(polynomial(kM, T))
@@ -203,10 +201,10 @@ def _constants(T):
 
 
 class Lunar:
-    """ELP2000 lunar position calculations"""
+    """ELP2000 lunar position calculations."""
 
     def mean_longitude_ascending_node(self, jd):
-        """Return mean longitude of ascending node
+        """Return mean longitude of ascending node.
 
         Current implemention in astronomia is from:
 
@@ -244,14 +242,13 @@ class Lunar:
         return modpi2(polynomial(ko, T))
 
     def mean_longitude_perigee(self, jd):
-        """Return mean longitude of lunar perigee
+        """Return mean longitude of lunar perigee.
 
         Arguments:
           - `jd` : julian Day
 
         Returns:
           - mean longitude of perigee
-
         """
         T = jd_to_jcent(jd)
         X = polynomial(
@@ -274,7 +271,6 @@ class Lunar:
 
         Returns:
           - mean longitude in radians
-
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kL1, T))
@@ -287,7 +283,6 @@ class Lunar:
 
         Returns:
           - mean elongation in radians
-
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kD, T))
@@ -300,7 +295,6 @@ class Lunar:
 
         Returns:
           - mean anomaly in radians
-
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kM1, T))
@@ -313,7 +307,6 @@ class Lunar:
 
         Returns:
           - argument of latitude in radians
-
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kF, T))
@@ -331,7 +324,6 @@ class Lunar:
           - longitude in radians
           - latitude in radians
           - radius in km, Earth's center to Moon's center
-
         """
         return self._longitude(jd), self._latitude(jd), self._radius(jd)
 
@@ -345,7 +337,6 @@ class Lunar:
         Returns:
           - longitude in radians or latitude in radians or radius in km,
             Earth's center to Moon's center, depending on value of `dim`.
-
         """
         if dim == "L":
             return self._longitude(jd)
