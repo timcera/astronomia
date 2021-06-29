@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the elp2000 functions.
 """
 
-from unittest import TestCase
 import os.path
+from unittest import TestCase
 
 import numpy as np
 
-from astronomia.constants import km_per_au, days_per_second, pi2
-from astronomia.util import r_to_d, dms_to_d, d_to_r
-from astronomia.planets import VSOP87d, geocentric_planet
 from astronomia.calendar import hms_to_fday
+from astronomia.constants import days_per_second, km_per_au, pi2
+from astronomia.planets import VSOP87d, geocentric_planet
+from astronomia.util import d_to_r, dms_to_d, r_to_d
 
 vsop = VSOP87d()
 

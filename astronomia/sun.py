@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -20,23 +21,20 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
 
-""" Geocentric solar position and radius, both low and high precision.
+Geocentric solar position and radius, both low and high precision.
 
 """
 import numpy as np
 
-from .calendar import jd_to_jcent
-from .util import polynomial, d_to_r, modpi2, dms_to_d, _scalar_if_one
-from .planets import VSOP87d
 from . import globals as globls
+from .calendar import jd_to_jcent
+from .planets import VSOP87d
+from .util import _scalar_if_one, d_to_r, dms_to_d, modpi2, polynomial
 
 
 class Error(Exception):
     """Local exception class"""
-
-    pass
 
 
 class Sun:
@@ -250,11 +248,7 @@ def rise(
     gregorian=True,
 ):
 
-    from .astronomia.constants import (
-        days_per_second,
-        standard_rst_altitude,
-        sun_rst_altitude,
-    )
+    from .astronomia.constants import sun_rst_altitude
 
     jd = calendar.cal_to_jd(year, month, day, gregorian=gregorian)
 

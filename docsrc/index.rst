@@ -1,6 +1,6 @@
 .. include:: ../BADGES.rst
 
-.. _astronomia_documentation:   
+.. _astronomia_documentation:
 
 astronomia
 ==========
@@ -35,4 +35,3 @@ Python API Documentation
 Other Projects
 --------------
 http://timcera.bitbucket.io
-

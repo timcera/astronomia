@@ -1,11 +1,10 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 
-import pandas as pd
-
 import mando
+import pandas as pd
 from mando.rst_text_formatter import RSTHelpFormatter
-
 from tstoolbox import tsutils
 from tstoolbox.tstoolbox import createts
 

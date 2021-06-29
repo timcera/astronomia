@@ -1,18 +1,19 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the elp2000 functions.
 """
 
 from unittest import TestCase
 
-from astronomia.util import d_to_r, r_to_d
 from astronomia.calendar import (
+    cal_to_day_of_year,
     cal_to_jd,
+    day_of_year_to_cal,
     jd_to_cal,
     jd_to_day_of_week,
-    cal_to_day_of_year,
-    day_of_year_to_cal,
 )
 from astronomia.coordinates import ecl_to_equ
+from astronomia.util import d_to_r, r_to_d
 
 
 class TestUtil(TestCase):

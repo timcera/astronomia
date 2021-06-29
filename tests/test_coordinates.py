@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from unittest import TestCase
 
-from astronomia.coordinates import equ_to_ecl, ecl_to_equ, ell_to_geo
-from astronomia.util import d_to_r, r_to_d, modpi2
+from astronomia.coordinates import ecl_to_equ, ell_to_geo, equ_to_ecl
+from astronomia.util import d_to_r, modpi2, r_to_d
 
 
 class TestCoords(TestCase):

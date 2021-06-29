@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -20,9 +21,8 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
 
-"""Functions which calculate the deltaT correction to convert between
+Functions which calculate the deltaT correction to convert between
 dynamical and universal time.
 
 Reference: Jean Meeus, _Astronomical Algorithms_, second edition, 1998,
@@ -30,6 +30,7 @@ Willmann-Bell, Inc.
 
 """
 from bisect import bisect
+
 from .calendar import jd_to_cal
 from .constants import seconds_per_day
 from .util import polynomial

@@ -1,15 +1,16 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the elp2000 functions.
 """
 
-from unittest import TestCase
 import datetime
+from unittest import TestCase
 
 import numpy as np
 
 from astronomia import lunar
-from astronomia.util import r_to_d
 from astronomia.calendar import cal_to_jd, hms_to_fday
+from astronomia.util import r_to_d
 
 _elp = lunar.Lunar()
 

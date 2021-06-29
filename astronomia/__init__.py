@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -20,8 +21,8 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
-"""__init__.py for astronomia"""
+
+__init__.py for astronomia"""
 
 __all__ = [
     "calendar",

@@ -19,14 +19,14 @@ Astronomia - Quick Guide
 Astronomia is a collection of subroutines and applications for calculating the
 positions of the sun, moon, planets and other celestial objects. The emphasis
 is on high accuracy over a several thousand year time span. Note that the
-techniques used are overkill for most calendar applications. 
+techniques used are overkill for most calendar applications.
 
 The subroutine library attempts to implement some the techniques described in
 *Astronomical Algorithms*, second edition 1998, by Jean Meeus, `Willmann-Bell,
 Inc. <http://www.willbell.com/">`_
 
 Currently there are no graphical applications apart from some demo CGI
-interfaces. 
+interfaces.
 
 Astronomia will work with Python 2.6+ and 3.0+.
 

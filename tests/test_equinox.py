@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the elp2000 functions.
 """
@@ -6,10 +7,10 @@ from unittest import TestCase
 
 import numpy as np
 
-from astronomia.constants import days_per_second
-from astronomia.equinox import equinox_approx, equinox
-from astronomia.calendar import cal_to_jd, hms_to_fday
 import astronomia.globals
+from astronomia.calendar import cal_to_jd, hms_to_fday
+from astronomia.constants import days_per_second
+from astronomia.equinox import equinox, equinox_approx
 
 _months = {"spring": 3, "summer": 6, "autumn": 9, "winter": 12}
 

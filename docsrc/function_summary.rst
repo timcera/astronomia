@@ -102,4 +102,3 @@ Planet Functions
    planets.vsop_to_fk5
    planets.geocentric_planet
    planets.load_vsop87d_text_db
-

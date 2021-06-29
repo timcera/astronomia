@@ -82,4 +82,3 @@ astronomia Package
     :members:
     :undoc-members:
     :show-inheritance:
-

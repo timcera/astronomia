@@ -1,22 +1,23 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the elp2000 functions.
 """
 
-from unittest import TestCase
 import datetime
+from unittest import TestCase
 
 import numpy as np
 
-from astronomia.constants import km_per_au
-from astronomia.sun import (
-    longitude_radius_low,
-    apparent_longitude_low,
-    aberration_low,
-    Sun,
-)
-from astronomia.util import r_to_d, dms_to_d
-from astronomia.planets import vsop_to_fk5, VSOP87d
 from astronomia.calendar import cal_to_jd, hms_to_fday
+from astronomia.constants import km_per_au
+from astronomia.planets import VSOP87d, vsop_to_fk5
+from astronomia.sun import (
+    Sun,
+    aberration_low,
+    apparent_longitude_low,
+    longitude_radius_low,
+)
+from astronomia.util import dms_to_d, r_to_d
 
 sun = Sun()
 vsop = VSOP87d()

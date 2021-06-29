@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 

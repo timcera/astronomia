@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -31,7 +32,7 @@ import sys
 import numpy as np
 
 from . import globals as globls
-from .constants import pi2, minutes_per_day, seconds_per_day
+from .constants import minutes_per_day, pi2, seconds_per_day
 
 
 class Error(Exception):

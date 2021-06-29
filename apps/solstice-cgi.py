@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from __future__ import print_function
 
@@ -46,13 +47,11 @@ import time
 #
 sys.path.append("/home/groups/a/as/astronomia/lib/python")
 
-from astronomia.constants import days_per_second
-from astronomia.calendar import ut_to_lt, lt_to_str
-from astronomia.dynamical import dt_to_ut
-from astronomia.equinox import equinox_approx, equinox
-from astronomia.sun import Sun
-from astronomia.util import load_params
 import astronomia.globals
+from astronomia.calendar import lt_to_str, ut_to_lt
+from astronomia.constants import days_per_second
+from astronomia.dynamical import dt_to_ut
+from astronomia.equinox import equinox, equinox_approx
 
 standard_zones = (
     "GMT-12",

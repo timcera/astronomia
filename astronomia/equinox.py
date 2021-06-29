@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -24,14 +25,15 @@
     Calculate the times of solstice and equinox events for Earth
     """
 
-from math import pi, cos
+from math import cos, pi
+
+from . import globals as globls
 from .calendar import jd_to_jcent
 from .constants import pi2
 from .nutation import nutation_in_longitude
-from .sun import aberration_low, Sun
-from .util import d_to_r, polynomial, diff_angle
 from .planets import vsop_to_fk5
-from . import globals as globls
+from .sun import Sun, aberration_low
+from .util import d_to_r, diff_angle, polynomial
 
 
 class Error(Exception):

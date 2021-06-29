@@ -1,28 +1,29 @@
+# -*- coding: utf-8 -*-
 """
 Tests for the elp2000 functions.
 """
 
-from unittest import TestCase
 import math
+from unittest import TestCase
 
 import numpy as np
 
-from astronomia.util import d_to_r, r_to_d
-from astronomia.coordinates import ecl_to_equ
 from astronomia.calendar import (
+    cal_to_day_of_year,
     cal_to_jd,
     cal_to_jde,
-    jd_to_cal,
-    jd_to_day_of_week,
-    cal_to_day_of_year,
     day_of_year_to_cal,
     easter,
-    sidereal_time_greenwich,
     fday_to_hms,
-    is_leap_year,
     frac_yr_to_jd,
+    is_leap_year,
+    jd_to_cal,
+    jd_to_day_of_week,
+    sidereal_time_greenwich,
     yr_frac_mon_to_jd,
 )
+from astronomia.coordinates import ecl_to_equ
+from astronomia.util import d_to_r, r_to_d
 
 
 class TestUtil(TestCase):

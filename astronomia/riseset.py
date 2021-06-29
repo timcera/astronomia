@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -20,9 +21,8 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
 
-"""Compute Rise, Set, and Transit times.
+Compute Rise, Set, and Transit times.
 
 Each of the routines requires three equatorial coordinates for the
 object: yesterday, today and tomorrow, all at 0hr UT.
@@ -36,12 +36,12 @@ Bug: each of the routines drops some events which occur near 0hr UT.
 
 import numpy as np
 
-from .calendar import sidereal_time_greenwich
-from .constants import seconds_per_day, pi2, earth_equ_radius, standard_rst_altitude
-from .dynamical import deltaT_seconds
-from .util import d_to_r, interpolate_angle3, diff_angle, modpi2, interpolate3
-from .coordinates import equ_to_horiz
 from . import globals as globls
+from .calendar import sidereal_time_greenwich
+from .constants import earth_equ_radius, pi2, seconds_per_day, standard_rst_altitude
+from .coordinates import equ_to_horiz
+from .dynamical import deltaT_seconds
+from .util import d_to_r, diff_angle, interpolate3, interpolate_angle3, modpi2
 
 
 class Error(Exception):
@@ -201,7 +201,7 @@ def transit(jd, raList, delta):
 
 
 def moon_rst_altitude(r):
-    """ Return the standard altitude of the Moon.
+    """Return the standard altitude of the Moon.
 
     Arguments:
       - `r` : Distance between the centers of the Earth and Moon, in km.

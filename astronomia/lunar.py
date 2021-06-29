@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -20,9 +21,8 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
 
-"""Lunar position model ELP2000-82 of Chapront.
+Lunar position model ELP2000-82 of Chapront.
 
 The result values are for the equinox of date and have been adjusted
 for light-time.
@@ -34,8 +34,8 @@ second edition, 1998, Willmann-Bell, Inc.
 import numpy as np
 
 from .calendar import jd_to_jcent
-from .util import polynomial, d_to_r, modpi2
-from .commonterms import kL1, kD, kM, kM1, kF, ko
+from .commonterms import kD, kF, kL1, kM, kM1, ko
+from .util import d_to_r, modpi2, polynomial
 
 
 class Error(Exception):
@@ -356,8 +356,7 @@ class Lunar:
         raise Error("unknown dimension = " + dim)
 
     def _longitude(self, jd):
-        """Return the geocentric ecliptic longitude in radians.
-        """
+        """Return the geocentric ecliptic longitude in radians."""
         from .nutation import nutation_in_longitude
 
         T = jd_to_jcent(jd)
@@ -378,8 +377,7 @@ class Lunar:
         return longitude
 
     def _latitude(self, jd):
-        """Return the geocentric ecliptic latitude in radians.
-        """
+        """Return the geocentric ecliptic latitude in radians."""
         T = jd_to_jcent(jd)
         L1, D, M, M1, F, A1, A2, A3, E, E2 = _constants(T)
 
@@ -405,8 +403,7 @@ class Lunar:
         return latitude
 
     def _radius(self, jd):
-        """Return the geocentric radius in km.
-        """
+        """Return the geocentric radius in km."""
         T = jd_to_jcent(jd)
         L1, D, M, M1, F, A1, A2, A3, E, E2 = _constants(T)
 

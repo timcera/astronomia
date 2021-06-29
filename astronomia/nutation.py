@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -20,9 +21,8 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
 
-"""Functions to calculate nutation and obliquity values.
+Functions to calculate nutation and obliquity values.
 
 The IAU "1980 Theory of Nutation" is used, but terms with coefficients smaller
 than 0.0003" have been dropped.
@@ -39,10 +39,9 @@ edition edited by P. Kenneth Seidelman, 1992
 
 import numpy as np
 
-from .util import polynomial, modpi2, d_to_r, dms_to_d
 from .calendar import jd_to_jcent
-
-from .commonterms import kD, kM, kM1, kF, ko
+from .commonterms import kD, kF, kM, kM1, ko
+from .util import d_to_r, dms_to_d, modpi2, polynomial
 
 # [Meeus-1998: table 22.A]
 #

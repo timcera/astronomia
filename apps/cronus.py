@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 A clock application that displays a variety of celestial events in the
 order they occur.
@@ -48,26 +49,26 @@ from __future__ import print_function
 
 import os
 import sys
-from heapq import heappush, heappop
+from heapq import heappop, heappush
 from math import *
 
-from astronomia.calendar import easter, cal_to_jd, ut_to_lt, lt_to_str
+import astronomia.globals
+from astronomia.calendar import cal_to_jd, easter, lt_to_str, ut_to_lt
 from astronomia.constants import (
-    days_per_second,
     days_per_minute,
+    days_per_second,
     standard_rst_altitude,
     sun_rst_altitude,
 )
-from astronomia.dynamical import dt_to_ut
-from astronomia.lunar import Lunar
-from astronomia.equinox import equinox_approx, equinox
-from astronomia.nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
-from astronomia.riseset import rise, settime, transit, moon_rst_altitude
-from astronomia.sun import Sun, aberration_low
 from astronomia.coordinates import ecl_to_equ
-from astronomia.planets import VSOP87d, geocentric_planet, vsop_to_fk5, planet_names
+from astronomia.dynamical import dt_to_ut
+from astronomia.equinox import equinox, equinox_approx
+from astronomia.lunar import Lunar
+from astronomia.nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
+from astronomia.planets import VSOP87d, geocentric_planet, planet_names, vsop_to_fk5
+from astronomia.riseset import moon_rst_altitude, rise, settime, transit
+from astronomia.sun import Sun, aberration_low
 from astronomia.util import load_params
-import astronomia.globals
 
 vsop = None  # delay loading this until we are sure the script can run
 sun = None  # "                  "

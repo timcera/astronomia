@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -20,9 +21,8 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
 
-"""A collection of date and time functions.
+A collection of date and time functions.
 
 The functions which use Julian Day Numbers are valid only for positive values,
 i.e., for dates after -4712 (4713BC).
@@ -44,9 +44,9 @@ from math import modf
 
 import numpy as np
 
-from .util import d_to_r, modpi2, _scalar_if_one
-from .constants import minutes_per_day, seconds_per_day
 from . import globals as globls
+from .constants import minutes_per_day, seconds_per_day
+from .util import _scalar_if_one, d_to_r, modpi2
 
 
 class Error(Exception):
@@ -405,8 +405,8 @@ def is_dst(julian_day):
       - (bool) True if Daylight Savings Time is in effect, False otherwise.
 
     """
-    import time
     import datetime
+    import time
 
     year, mon, day = jd_to_cal(julian_day)
     day = int(day)

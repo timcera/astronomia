@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from __future__ import print_function
 
@@ -32,10 +33,10 @@ Usage:
 
 """
 
-from astronomia.constants import days_per_second, km_per_au
 from astronomia.calendar import cal_to_jd
-from astronomia.util import load_params
+from astronomia.constants import km_per_au
 from astronomia.planets import VSOP87d
+from astronomia.util import load_params
 
 load_params()
 vsop = VSOP87d()

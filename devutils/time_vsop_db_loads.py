@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from __future__ import print_function
 
@@ -36,6 +37,7 @@ text and binary times are about the same.
 
 """
 import time
+
 from astronomia.util import load_params
 from astronomia.vsop87d import load_vsop87d_text_db
 

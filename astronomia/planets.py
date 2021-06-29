@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Copyright 2000, 2001 Astrolabe by William McClain
 
@@ -26,10 +27,10 @@
 
 import numpy as np
 
-from .constants import pi2
 from .calendar import jd_to_jcent
-from .util import d_to_r, dms_to_d, polynomial, modpi2, diff_angle, _scalar_if_one
+from .constants import pi2
 from .coordinates import ecl_to_equ
+from .util import _scalar_if_one, d_to_r, diff_angle, dms_to_d, modpi2, polynomial
 
 
 class Error(Exception):
@@ -66,7 +67,7 @@ _first_time = True
 
 
 class VSOP87d:
-    """ The VSOP87d planetary model.
+    """The VSOP87d planetary model.
 
     All instances of this class share a common dictionary
     of planetary terms.
@@ -74,7 +75,7 @@ class VSOP87d:
     """
 
     def __init__(self):
-        """ Load the database of planetary terms. This is actually done
+        """Load the database of planetary terms. This is actually done
         only once to save time and space.
 
         """
