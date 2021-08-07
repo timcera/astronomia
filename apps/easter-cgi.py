@@ -1,8 +1,5 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from __future__ import print_function
-
 """
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
@@ -33,6 +30,7 @@ One application handles both the input form and the displayed
 results.
 
 """
+from __future__ import print_function
 
 import cgi
 import sys

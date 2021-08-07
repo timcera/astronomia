@@ -15,11 +15,6 @@ If one argument is given, the display is for that year.
 If two arguments are given, the display is for that range of
 years.
 
-"""
-
-from __future__ import print_function
-
-"""
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
     Astronomia copyright 2013
@@ -41,6 +36,7 @@ from __future__ import print_function
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 """
+from __future__ import print_function
 
 import os
 import sys

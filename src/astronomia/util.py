@@ -204,7 +204,7 @@ def load_params():
         fname = os.path.join(sys.prefix, "share", "astronomia", "astronomia_params.txt")
         print(
             """WARNING: Using system wide settings file at
-"{0}".
+"{}".
 You may want to set the ASTRONOMIA_PARAMS environment variable to point to the
 file you want, or create a "astronomia_params.txt" file in the current
 directory.""".format(

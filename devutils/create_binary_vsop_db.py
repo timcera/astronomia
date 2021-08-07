@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
@@ -21,9 +20,8 @@
     You should have received a copy of the GNU General Public License
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-    """
 
-"""Create a binary version of the VSOP87d database.
+Create a binary version of the VSOP87d database.
 
 Usage:
 

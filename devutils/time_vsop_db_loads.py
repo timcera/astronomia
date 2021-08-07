@@ -1,8 +1,5 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from __future__ import print_function
-
 """
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
@@ -36,6 +33,8 @@ one readlines() call instead of many readline() calls, the
 text and binary times are about the same.
 
 """
+from __future__ import print_function
+
 import time
 
 from astronomia.util import load_params

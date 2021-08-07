@@ -3,13 +3,14 @@
 import os
 import sys
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 pkg_name = "astronomia"
 
 version = open("VERSION").readline().strip()
 
 if sys.argv[-1] == "publish":
+    os.system("cleanpy .")
     os.system("python setup.py sdist")
     os.system("twine upload dist/{pkg_name}-{version}.tar.gz".format(**locals()))
     sys.exit()
@@ -22,6 +23,27 @@ install_requires = [
     # http://packages.python.org/distribute/setuptools.html#declaring-dependencies
     "tstoolbox >= 103",
 ]
+
+extras_require = {
+    "dev": [
+        "black",
+        "cleanpy",
+        "twine",
+        "pytest",
+        "coverage",
+        "flake8",
+        "pytest-cov",
+        "pytest-mpl",
+        "pre-commit",
+        "black-nbconvert",
+        "blacken-docs",
+        "velin",
+        "isort",
+        "pyroma",
+        "pyupgrade",
+        "commitizen",
+    ]
+}
 
 setup(
     name=pkg_name,
@@ -36,25 +58,31 @@ setup(
         "Intended Audience :: End Users/Desktop",
         "Intended Audience :: Developers",
         "Environment :: Console",
-        "Intended Audience :: Developers",
-        "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
+        "License :: OSI Approved :: BSD License",
+        "Natural Language :: English",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
-        "Topic :: Scientific/Engineering :: Astronomy",
+        "Programming Language :: Python :: 3.9",
+        "Topic :: Scientific/Engineering :: Information Analysis",
+        "Topic :: Scientific/Engineering",
+        "Topic :: Software Development :: Libraries :: Python Modules",
     ],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords="ephemeris astronomy",
     author="Tim Cera, P.E.",
     author_email="tim@cerazone.net",
-    url="http://timcera.bitbucket.io/astronomia/docsrc/index.html",
-    license="GPL2",
-    packages=["astronomia"],
+    url="http://timcera.bitbucket.io/{pkg_name}/docsrc/index.html".format(**locals()),
+    license="BSD",
+    packages=find_packages("src"),
+    package_dir={"": "src"},
+    package_data={"SciencePlots": ["*.mplstyle"]},
     include_package_data=True,
     zip_safe=False,
     install_requires=install_requires,
-    entry_points={"console_scripts": ["astronomia=astronomia.astronomia:main"]},
+    extras_require=extras_require,
+    entry_points={
+        "console_scripts": ["{pkg_name}={pkg_name}.{pkg_name}:main".format(**locals())]
+    },
     scripts=[
         "apps/solstice.py",
         "apps/check_perihelion.py",
@@ -69,5 +97,5 @@ setup(
         )
     ],
     test_suite="tests",
-    python_requires=">=3.6",
+    python_requires=">=3.7.1",
 )

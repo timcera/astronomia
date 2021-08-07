@@ -21,11 +21,6 @@ a given type needs to be calculated only when the previous one
 has been delivered, this is not as computationally intense as it
 sounds.
 
-"""
-
-from __future__ import print_function
-
-"""
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
     Astronomia copyright 2013
@@ -46,6 +41,7 @@ from __future__ import print_function
     along with Astronomia; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
+from __future__ import print_function
 
 import os
 import sys
@@ -110,7 +106,7 @@ def display(str):
 def doEaster(year):
     month, day = easter(year)
     jd = cal_to_jd(year, month, day)
-    str = "%-24s %s" % (lt_to_str(jd, None, "day"), "Easter")
+    str = "{:<24} {}".format(lt_to_str(jd, None, "day"), "Easter")
     heappush(taskQueue, Task(jd, display, (str,)))
     # recalculate on March 1, next year
     heappush(taskQueue, Task(cal_to_jd(year + 1, 3, 1), doEaster, (year + 1,)))
@@ -144,7 +140,9 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-19s %s %s rises" % (lt_to_str(lt, "", "minute"), zone, obj.name)
+            str = "{:<19} {} {} rises".format(
+                lt_to_str(lt, "", "minute"), zone, obj.name
+            )
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "rise")
@@ -153,7 +151,9 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-19s %s %s sets" % (lt_to_str(lt, "", "minute"), zone, obj.name)
+            str = "{:<19} {} {} sets".format(
+                lt_to_str(lt, "", "minute"), zone, obj.name
+            )
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "set")
@@ -162,7 +162,7 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "%-23s %s transits" % (lt_to_str(lt, zone), obj.name)
+            str = "{:<23} {} transits".format(lt_to_str(lt, zone), obj.name)
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "transit")

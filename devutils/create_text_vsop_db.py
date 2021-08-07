@@ -1,8 +1,5 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from __future__ import print_function
-
 """
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
@@ -58,6 +55,10 @@ data directory and enter that path/file name into the astronomia_params.txt
 file as the value of "vsop87d_text_path".
 
 """
+from __future__ import print_function
+
+import string
+
 #
 # Here are file format notes from the original VSOP distribution.
 #
@@ -98,7 +99,6 @@ file as the value of "vsop87d_text_path".
 # B  : phase     B                            real dp f14.11  col.98-111
 # C  : frequency C                            read dp f20.11  col.112-131
 
-import string
 
 planets = (
     "Mercury",
