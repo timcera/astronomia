@@ -1,3 +1,9 @@
+## v1.2.4 (2022-02-14)
+
+### Refactor
+
+- astronomia -> src/astronomia, docsrc -> docs
+
 ## v1.2.3 (2021-08-02)
 
 ## v1.2.2 (2021-06-29)
