@@ -5,8 +5,6 @@ import sys
 import mando
 import pandas as pd
 from mando.rst_text_formatter import RSTHelpFormatter
-from tstoolbox import tsutils
-from tstoolbox.tstoolbox import createts
 
 
 @mando.command(formatter_class=RSTHelpFormatter)
@@ -15,6 +13,10 @@ def right_ascension(
 ):
     """Print out right ascension.
 
+    :param latitude <float>: The latitude of the location where you want to
+        calculate right ascension.
+    :param longitude <float>: The longitude of the location where you want to
+        calculate right ascension.
     :param body <str>:  Celestial body, one of ['sun', 'moon',
         'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus',
         'neptune', 'pluto']
@@ -28,6 +30,7 @@ def right_ascension(
         supplied also.  The pandas date offset code used to create the
         index.
     """
+    from tstoolbox.tstoolbox import createts
     usets = createts(
         input_ts=input_ts, start_date=start_date, end_date=end_date, freq=freq
     )
@@ -65,6 +68,7 @@ def risesettransit(
 
         Defaults to "rise,set".
     """
+    from tstoolbox import tsutils
     start_date = tsutils.parsedate(start_date)
     end_date = tsutils.parsedate(end_date)
 
