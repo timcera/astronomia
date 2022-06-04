@@ -74,15 +74,13 @@ def display_form():
     print("<TR>")
     print('<TD><LABEL for="starting_year">Starting year</LABEL></TD>')
     print(
-        '<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="%d"></TD>'
-        % (year - 5)
+        f'<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="{year-5}"></TD>'
     )
     print("</TR>")
     print("<TR>")
     print('<TD><LABEL for="ending_year">Ending year</LABEL></TD>')
     print(
-        '<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="%d"></TD>'
-        % (year + 5)
+        f'<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="{year+5}"></TD>'
     )
     print("</TR>")
     print("</TABLE>")
@@ -153,8 +151,7 @@ def display_results():
     #
     if ending_year < starting_year:
         display_error(
-            "Ending year %d is earlier than starting year %d"
-            % (ending_year, starting_year)
+            "Ending year {ending_year} is earlier than starting year {starting_year}"
         )
         return
 
@@ -162,7 +159,7 @@ def display_results():
     # We can't go farther back than the first Julian Day number.
     #
     if starting_year < -4712:
-        display_error("Starting year %d is earlier than 4713BC" % starting_year)
+        display_error("Starting year {starting_year} is earlier than 4713BC")
         return
 
     julian_calendar = "julian_calendar" in form
@@ -194,10 +191,10 @@ def display_results():
         print("<TR>")
         if gregorian_calendar:
             month, day = easter(year, True)
-            print("<TD><TT>%02d-%02d-%d</TT></TD>" % (day, month, year))
+            print("<TD><TT>{day:02}-{month:02}-{year:02}</TT></TD>")
         if julian_calendar:
             month, day = easter(year, False)
-            print("<TD><TT>%02d-%02d-%d</TT></TD>" % (day, month, year))
+            print("<TD><TT>{day:02}-{month:02}-{year:02}</TT></TD>")
         print("</TR>")
     print("</TABLE>")
 
