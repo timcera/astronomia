@@ -490,23 +490,15 @@ def lt_to_str(julian_day, zone="", level="second"):
     sec = int(sec)
 
     if level == "second":
-        return "%d-%02d-%02d %02d:%02d:%02d %s" % (
-            year,
-            mon,
-            iday,
-            hour,
-            minute,
-            sec,
-            zone,
-        )
+        return "{year}-{mon:02}-{iday:02} {hour:02}:{minute:02}:{sec:02} {zone}"
     if level == "minute":
-        return "%d-%02d-%02d %02d:%02d %s" % (year, mon, iday, hour, minute, zone)
+        return "{year}-{mon:02}-{iday:02} {hour:02}:{minute:02} {zone}"
     if level == "hour":
-        return "%d-%02d-%02d %02d %s" % (year, mon, iday, hour, zone)
+        return "{year}-{mon:02}-{iday:02} {hour:02} {zone}"
     if level == "day":
-        return "%d-%02d-%02d" % (year, mon, iday)
+        return "{year}-{mon:02}-{iday:02}"
 
-    raise Error("unknown time level = " + level)
+    raise Error(f"unknown time level = {level}")
 
 
 def sidereal_time_greenwich(julian_day):

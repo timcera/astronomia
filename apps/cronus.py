@@ -106,7 +106,7 @@ def display(str):
 def doEaster(year):
     month, day = easter(year)
     jd = cal_to_jd(year, month, day)
-    str = "{:<24} {}".format(lt_to_str(jd, None, "day"), "Easter")
+    str = f"{lt_to_str(jd, None, 'day'):<24} Easter"
     heappush(taskQueue, Task(jd, display, (str,)))
     # recalculate on March 1, next year
     heappush(taskQueue, Task(cal_to_jd(year + 1, 3, 1), doEaster, (year + 1,)))
@@ -125,7 +125,7 @@ def doEquinox(year, season):
     jd = equinox(approx_jd, season, days_per_second)
     ut = dt_to_ut(jd)
     lt, zone = ut_to_lt(ut)
-    str = lt_to_str(lt, zone) + " " + _seasons[season]
+    str = f"{lt_to_str(lt, zone)} {_seasons[season]}"
     heappush(taskQueue, Task(jd, display, (str,)))
     heappush(taskQueue, Task(jd, doEquinox, (year + 1, season)))
 
@@ -140,9 +140,7 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "{:<19} {} {} rises".format(
-                lt_to_str(lt, "", "minute"), zone, obj.name
-            )
+            str = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} rises"
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "rise")
@@ -151,9 +149,7 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "{:<19} {} {} sets".format(
-                lt_to_str(lt, "", "minute"), zone, obj.name
-            )
+            str = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} sets"
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "set")
@@ -162,7 +158,7 @@ def doRiseSetTransit(jd_today):
         if td:
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = "{:<23} {} transits".format(lt_to_str(lt, zone), obj.name)
+            str = f"{lt_to_str(lt, zone):<23} {obj.name} transits"
             heappush(taskQueue, Task(td, display, (str,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "transit")

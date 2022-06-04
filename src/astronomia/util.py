@@ -155,7 +155,7 @@ def interpolate3(n, y):
       - the interpolated value of y
     """
     if not -1 < n < 1:
-        raise Error("interpolating factor out of range: " + str(n))
+        raise Error(f"interpolating factor out of range: {str(n)}")
 
     a = y[1] - y[0]
     b = y[2] - y[1]
@@ -180,7 +180,7 @@ def interpolate_angle3(n, y):
       - the interpolated value of y
     """
     if not -1 < n < 1:
-        raise Error("interpolating factor out of range: " + str(n))
+        raise Error(f"interpolating factor out of range: {str(n)}")
 
     a = diff_angle(y[0], y[1])
     b = diff_angle(y[1], y[2])
@@ -203,13 +203,11 @@ def load_params():
         # last resort
         fname = os.path.join(sys.prefix, "share", "astronomia", "astronomia_params.txt")
         print(
-            """WARNING: Using system wide settings file at
-"{}".
+            f"""WARNING: Using system wide settings file at
+"{fname}".
 You may want to set the ASTRONOMIA_PARAMS environment variable to point to the
 file you want, or create a "astronomia_params.txt" file in the current
-directory.""".format(
-                fname
-            )
+directory."""
         )
     try:
         f = open(fname, "r")
@@ -222,7 +220,7 @@ astronomia_params.txt in the current directory"""
 
     lex = shlex.shlex(f)
     # tokens and values can have dots, dashes, slashes, colons
-    lex.wordchars = lex.wordchars + ".-/\\:"
+    lex.wordchars = f"{lex.wordchars}.-/\\:"
     token = lex.get_token()
     while token:
         if token == "standard_timezone_name":
@@ -292,9 +290,7 @@ astronomia_params.txt in the current directory"""
         elif token == "vsop87d_binary_path":
             globls.vsop87d_binary_path = lex.get_token()
         else:
-            raise Error(
-                "unknown token %s at line %d in param file" % (token, lex.lineno)
-            )
+            raise Error("unknown token {token} at line {lex.lineno} in param file")
         token = lex.get_token()
 
     f.close()

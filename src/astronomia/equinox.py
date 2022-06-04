@@ -108,7 +108,7 @@ def equinox_approx(yr, season):
     if not (-1000 <= yr <= 3000):
         raise Error("year is out of range")
     if season not in globls.season_names:
-        raise Error("unknown season =" + season)
+        raise Error(f"unknown season ={season}")
 
     yr = int(yr)
     if -1000 <= yr <= 1000:

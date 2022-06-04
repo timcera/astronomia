@@ -114,7 +114,7 @@ coords = ("L", "B", "R")
 
 # each planet file...
 for planet in planets:
-    f = file("VSOP87D." + planet[:3].lower())
+    f = file(f"VSOP87D.{planet[:3].lower()}")
     s = f.readline()
     # header records...
     while s:

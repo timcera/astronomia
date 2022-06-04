@@ -210,9 +210,9 @@ def display_form():
     print('<TD><SELECT name = "standard_zone">')
     for zone in standard_zones:
         if zone == default_standard_zone:
-            print("<OPTION SELECTED>" + zone + "</OPTION>")
+            print(f"<OPTION SELECTED>{zone}</OPTION>")
         else:
-            print("<OPTION>" + zone + "</OPTION>")
+            print(f"<OPTION>{zone}</OPTION>")
     print("</SELECT></TD>")
     print("</TR>")
     print("<TR>")
@@ -220,9 +220,9 @@ def display_form():
     print('<TD><SELECT name = "daylight_zone">')
     for zone in daylight_zones:
         if zone == default_daylight_zone:
-            print("<OPTION SELECTED>" + zone + "</OPTION>")
+            print(f"<OPTION SELECTED>{zone}</OPTION>")
         else:
-            print("<OPTION>" + zone + "</OPTION>")
+            print(f"<OPTION>{zone}</OPTION>")
     print("</SELECT></TD>")
     print("</TR>")
     print("</TABLE>")
@@ -338,7 +338,7 @@ def display_results():
             jd = equinox(approx_jd, season, days_per_second)
             ut = dt_to_ut(jd)
             lt, zone = ut_to_lt(ut)
-            print("<TD>" + lt_to_str(lt, zone) + "</TD>")
+            print(f"<TD>{lt_to_str(lt, zone)}</TD>")
         print("</TR>")
     print("</TABLE>")
 

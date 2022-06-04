@@ -89,7 +89,7 @@ def _riseset(
     elif m > 1:
         m -= 1
     if not 0 <= m <= 1:
-        raise Error("m is out of range = " + str(m))
+        raise Error(f"m is out of range = {str(m)}")
     for bailout in range(20):
         m0 = m
         theta0 = modpi2(THETA0 + _k1 * m)
@@ -175,7 +175,7 @@ def transit(jd, raList, delta):
     elif m > 1:
         m -= 1
     if not 0 <= m <= 1:
-        raise Error("m is out of range = " + str(m))
+        raise Error(f"m is out of range = {str(m)}")
     for bailout in range(20):
         m0 = m
         theta0 = modpi2(THETA0 + _k1 * m)

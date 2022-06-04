@@ -344,7 +344,7 @@ class Lunar:
             return self._latitude(jd)
         if dim == "R":
             return self._radius(jd)
-        raise Error("unknown dimension = " + dim)
+        raise Error(f"unknown dimension = {dim}")
 
     def _longitude(self, jd):
         """Return the geocentric ecliptic longitude in radians."""
