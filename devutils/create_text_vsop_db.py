@@ -55,7 +55,6 @@ data directory and enter that path/file name into the astronomia_params.txt
 file as the value of "vsop87d_text_path".
 
 """
-from __future__ import print_function
 
 import string
 

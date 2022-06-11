@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/timcera/astronomia.svg?branch=master
-    :target: https://travis-ci.org/timcera/astronomia
+.. image:: https://github.com/timcera/astronomia/actions/workflows/python-package.yml/badge.svg
+    :target: https://github.com/timcera/astronomia/actions/workflows/python-package.yml
     :height: 20
 
 .. image:: https://coveralls.io/repos/timcera/astronomia/badge.png?branch=master

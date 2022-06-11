@@ -30,7 +30,6 @@ One application handles both the input form and the displayed
 results.
 
 """
-from __future__ import print_function
 
 import cgi
 import sys

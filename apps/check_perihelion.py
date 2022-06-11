@@ -29,7 +29,6 @@ Usage:
     ./check_perihelion.py
 
 """
-from __future__ import print_function
 
 from astronomia.calendar import cal_to_jd
 from astronomia.constants import km_per_au

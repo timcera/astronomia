@@ -33,7 +33,6 @@ one readlines() call instead of many readline() calls, the
 text and binary times are about the same.
 
 """
-from __future__ import print_function
 
 import time
 
