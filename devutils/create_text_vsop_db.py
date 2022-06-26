@@ -56,6 +56,7 @@ file as the value of "vsop87d_text_path".
 
 """
 
+
 import string
 
 #
@@ -114,9 +115,7 @@ coords = ("L", "B", "R")
 # each planet file...
 for planet in planets:
     f = file(f"VSOP87D.{planet[:3].lower()}")
-    s = f.readline()
-    # header records...
-    while s:
+    while s := f.readline():
         assert s[17] == "4"  # model "d"
         assert (s[22:29]).rstrip() == planet.upper()  # planet name
         ic = int(s[41])  # coord type
@@ -124,7 +123,7 @@ for planet in planets:
         nt = int(s[60:67])  # number of terms
         print(planet, coords[ic - 1], it, nt)
         # term records
-        for i in range(nt):
+        for _ in range(nt):
             s = f.readline()
             assert s[1] == "4"  # model "d"
             ict = int(s[3])  # coord type
@@ -135,7 +134,6 @@ for planet in planets:
             B = string.strip(s[97:111])
             C = string.strip(s[111:131])
             print(A, B, C)
-        s = f.readline()
     f.close()
 #
 # that's all

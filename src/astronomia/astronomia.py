@@ -34,7 +34,6 @@ def right_ascension(
     usets = createts(
         input_ts=input_ts, start_date=start_date, end_date=end_date, freq=freq
     )
-    pass
 
 
 @mando.command(formatter_class=RSTHelpFormatter)

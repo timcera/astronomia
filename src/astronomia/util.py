@@ -110,10 +110,7 @@ def diff_angle(a, b):
       - b - a, in radians : (int, float)
 
     """
-    if b < a:
-        result = b + pi2 - a
-    else:
-        result = b - a
+    result = b + pi2 - a if b < a else b - a
     if result > np.pi:
         result -= pi2
     return result
@@ -221,8 +218,7 @@ astronomia_params.txt in the current directory"""
     lex = shlex.shlex(f)
     # tokens and values can have dots, dashes, slashes, colons
     lex.wordchars = f"{lex.wordchars}.-/\\:"
-    token = lex.get_token()
-    while token:
+    while token := lex.get_token():
         if token == "standard_timezone_name":
             globls.standard_timezone_name = lex.get_token()
         elif token == "standard_timezone_offset":
@@ -291,8 +287,6 @@ astronomia_params.txt in the current directory"""
             globls.vsop87d_binary_path = lex.get_token()
         else:
             raise Error("unknown token {token} at line {lex.lineno} in param file")
-        token = lex.get_token()
-
     f.close()
 
 

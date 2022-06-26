@@ -37,6 +37,7 @@ years.
 
 """
 
+
 import os
 import sys
 
@@ -49,19 +50,15 @@ from astronomia.util import load_params
 
 tab = 4 * " "
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 2 or len(sys.argv) >= 3 and len(sys.argv) >= 4:
     print(__doc__)
     os._exit(0)
 elif len(sys.argv) < 3:
     start = int(sys.argv[1])
     stop = start
-elif len(sys.argv) < 4:
+else:
     start = int(sys.argv[1])
     stop = int(sys.argv[2])
-else:
-    print(__doc__)
-    os._exit(0)
-
 load_params()
 # sun = Sun() # load the database here so we don't get a message later
 

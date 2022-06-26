@@ -135,8 +135,9 @@ def doRiseSetTransit(jd_today):
     #
     jd = jd_today
     for obj in list(rstDict.values()):
-        td = rise(jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute)
-        if td:
+        if td := rise(
+            jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute
+        ):
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
             str = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} rises"
@@ -144,8 +145,9 @@ def doRiseSetTransit(jd_today):
         else:
             print("****** RiseSetTransit failure:", obj.name, "rise")
 
-        td = settime(jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute)
-        if td:
+        if td := settime(
+            jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute
+        ):
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
             str = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} sets"
@@ -153,8 +155,7 @@ def doRiseSetTransit(jd_today):
         else:
             print("****** RiseSetTransit failure:", obj.name, "set")
 
-        td = transit(jd, obj.raList, days_per_second)
-        if td:
+        if td := transit(jd, obj.raList, days_per_second):
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
             str = f"{lt_to_str(lt, zone):<23} {obj.name} transits"

@@ -358,8 +358,8 @@ def fday_to_hms(day):
     minutes = int(seconds / 60.0)
     seconds = seconds - (minutes * 60.0)
     hours = int(minutes / 60.0)
-    minutes = minutes - (hours * 60.0)
-    return int(hours), int(minutes), int(seconds)
+    minutes -= hours * 60.0
+    return hours, minutes, int(seconds)
 
 
 def hms_to_fday(hr, mn, sec):
