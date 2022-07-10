@@ -31,6 +31,7 @@ def right_ascension(
         index.
     """
     from tstoolbox.tstoolbox import createts
+
     usets = createts(
         input_ts=input_ts, start_date=start_date, end_date=end_date, freq=freq
     )
@@ -69,6 +70,7 @@ def risesettransit(
         Defaults to "rise,set".
     """
     from tstoolbox import tsutils
+
     start_date = tsutils.parsedate(start_date)
     end_date = tsutils.parsedate(end_date)
 
