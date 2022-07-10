@@ -2,8 +2,8 @@
     :target: https://github.com/timcera/astronomia/actions/workflows/python-package.yml
     :height: 20
 
-.. image:: https://coveralls.io/repos/timcera/astronomia/badge.png?branch=master
-    :target: https://coveralls.io/r/timcera/astronomia?branch=master
+.. image:: https://coveralls.io/repos/timcera/astronomia/badge.png?branch=main
+    :target: https://coveralls.io/r/timcera/astronomia?branch=main
     :height: 20
 
 .. image:: https://img.shields.io/pypi/v/astronomia.svg
