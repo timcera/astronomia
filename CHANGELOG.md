@@ -1,3 +1,10 @@
+## v1.2.5 (2022-07-10)
+
+### Refactor
+
+- edited additional % strings to f strings
+- changed % and .format to f strings
+
 ## v1.2.4 (2022-02-14)
 
 ### Refactor
