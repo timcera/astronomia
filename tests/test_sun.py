@@ -102,6 +102,6 @@ class TestSun(TestCase):
             282.77 + 0.00 + 0.00 + 0.00,
             282.92 + 0.00 + 0.00 + 0.00,
         ]
-        for i in range(len(h)):
-            np.testing.assert_array_almost_equal(h[i], h_schureman[i], decimal=1)
+        for i, item in enumerate(h):
+            np.testing.assert_array_almost_equal(item, h_schureman[i], decimal=1)
             np.testing.assert_array_almost_equal(p1[i], p1_schureman[i], decimal=1)
