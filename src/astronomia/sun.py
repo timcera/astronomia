@@ -25,9 +25,14 @@ Geocentric solar position and radius, both low and high precision.
 """
 import numpy as np
 
+from . import calendar
 from . import globals as globls
-from .calendar import jd_to_jcent
-from .planets import VSOP87d
+from .calendar import cal_to_jd, jd_to_jcent
+from .constants import days_per_second
+from .coordinates import ecl_to_equ
+from .lunar import Lunar
+from .nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
+from .planets import VSOP87d, geocentric_planet, vsop_to_fk5
 from .util import _scalar_if_one, d_to_r, dms_to_d, modpi2, polynomial
 
 
@@ -239,10 +244,11 @@ def rise(
     gregorian=True,
 ):
 
-    from .astronomia.constants import sun_rst_altitude
+    from .constants import sun_rst_altitude
 
     jd = calendar.cal_to_jd(year, month, day, gregorian=gregorian)
 
+    sun = Sun()
     #
     # Sun
     #
@@ -252,7 +258,7 @@ def rise(
     l, b = vsop_to_fk5(jd, l, b)
 
     # nutation in longitude
-    l += deltaPsi
+    l += nutation_in_longitude(jd)
 
     # aberration
     l += aberration_low(r)

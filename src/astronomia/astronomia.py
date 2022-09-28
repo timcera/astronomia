@@ -6,6 +6,17 @@ import cltoolbox
 import pandas as pd
 from cltoolbox.rst_text_formatter import RSTHelpFormatter
 
+from .calendar import cal_to_jd
+from .constants import days_per_second
+from .coordinates import ecl_to_equ
+from .lunar import Lunar
+from .nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
+from .planets import geocentric_planet, vsop_to_fk5
+from .sun import Sun, aberration_low
+
+moon = Lunar()
+sun = Sun()
+
 
 @cltoolbox.command(formatter_class=RSTHelpFormatter)
 def right_ascension(
@@ -112,7 +123,7 @@ def risesettransit(
             # equatorial coordinates
             ra, dec = ecl_to_equ(l, b, eps)
         else:
-            ra, dec = geocentric_planet(jd, planet, deltaPsi, eps, days_per_second)
+            ra, dec = geocentric_planet(jd, body, deltaPsi, eps, days_per_second)
 
 
 def main():
