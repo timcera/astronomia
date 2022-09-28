@@ -117,8 +117,10 @@ for planet in planets:
     s = f.readline()
     # header records...
     while s:
-        assert s[17] == "4"  # model "d"
-        assert (s[22:29]).rstrip() == planet.upper()  # planet name
+        if s[17] != "4":
+            raise AssertionError
+        if (s[22:29]).rstrip() != planet.upper():
+            raise AssertionError
         ic = int(s[41])  # coord type
         it = int(s[59])  # time degree
         nt = int(s[60:67])  # number of terms
@@ -126,11 +128,14 @@ for planet in planets:
         # term records
         for i in range(nt):
             s = f.readline()
-            assert s[1] == "4"  # model "d"
+            if s[1] != "4":
+                raise AssertionError
             ict = int(s[3])  # coord type
-            assert ict == ic
+            if ict != ic:
+                raise AssertionError
             itt = int(s[4])  # time degree
-            assert itt == it
+            if itt != it:
+                raise AssertionError
             A = string.strip(s[79:97])
             B = string.strip(s[97:111])
             C = string.strip(s[111:131])
