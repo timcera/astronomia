@@ -427,8 +427,7 @@ def is_leap_year(year, gregorian=True):
         return _scalar_if_one(
             np.logical_and(np.logical_not(x), np.logical_or(y, np.logical_not(z)))
         )
-    else:
-        return _scalar_if_one(x == 0)
+    return _scalar_if_one(x == 0)
 
 
 def jd_to_day_of_week(julian_day):
