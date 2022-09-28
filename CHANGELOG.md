@@ -1,3 +1,14 @@
+## v1.2.6 (2022-09-28)
+
+### Fix
+
+- improved some unfinished features though still not complete
+- fixed printing of solstices plus documentation and ci fixes
+
+### Refactor
+
+- removed a two-line function that was only called once
+
 ## v1.2.5 (2022-07-10)
 
 ### Refactor
