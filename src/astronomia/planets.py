@@ -82,7 +82,9 @@ class VSOP87d:
         if not _first_time:
             return
 
-        load_vsop87d_text_db()
+        global _planets
+        from .vsop87d_dict import _planets
+
         _first_time = False
 
     def dimension(self, jd, planet, dim):
@@ -240,14 +242,3 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
     ra, dec = ecl_to_equ(l, b, epsilon)
 
     return ra, dec
-
-
-def load_vsop87d_text_db():
-    """Load the text version of the VSOP87d database into memory.
-
-    IMPORTANT: normally you don't call this routine directly.
-    That is done automatically by the __init__() method of the VSOP87d
-    class.
-    """
-    global _planets
-    from .vsop87d_dict import _planets
