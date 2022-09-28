@@ -99,8 +99,6 @@ def _riseset(
         ra = interpolate_angle3(n, raList)
         dec = interpolate3(n, decList)
         H = theta0 - longitude - ra
-        #        if H > pi:
-        #            H = H - pi2
         H = diff_angle(0.0, H)
         A, h = equ_to_horiz(H, dec)
         dm = (h - h0) / (pi2 * np.cos(dec) * np.cos(latitude) * np.sin(H))
@@ -184,8 +182,6 @@ def transit(jd, raList, delta):
             return None  # Bug: this is where we drop some events
         ra = interpolate_angle3(n, raList)
         H = theta0 - longitude - ra
-        #        if H > pi:
-        #            H = H - pi2
         H = diff_angle(0.0, H)
         dm = -H / pi2
         m += dm
