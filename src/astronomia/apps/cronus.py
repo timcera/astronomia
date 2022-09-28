@@ -313,7 +313,7 @@ def initRST(start_year):
     heappush(taskQueue, Task(HIGH_PRIORITY, doRiseSetTransit, (start_jd,)))
 
 
-def run():
+def main():
     global vsop
     global sun
     if len(sys.argv) < 2:
@@ -351,4 +351,5 @@ def run():
         t = heappop(taskQueue)
 
 
-run()
+if __name__ == "__main__":
+    main()

@@ -49,27 +49,33 @@ from astronomia.util import load_params
 
 tab = 4 * " "
 
-if len(sys.argv) < 2:
-    print(__doc__)
-    os._exit(0)
-elif len(sys.argv) < 3:
-    start = int(sys.argv[1])
-    stop = start
-elif len(sys.argv) < 4:
-    start = int(sys.argv[1])
-    stop = int(sys.argv[2])
-else:
-    print(__doc__)
-    os._exit(0)
 
-load_params()
-# sun = Sun() # load the database here so we don't get a message later
+def main(start=None, stop=None):
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(1)
+    elif len(sys.argv) < 3:
+        start = int(sys.argv[1])
+        stop = start
+    elif len(sys.argv) < 4:
+        start = int(sys.argv[1])
+        stop = int(sys.argv[2])
+    else:
+        print(__doc__)
+        sys.exit(1)
 
-for yr in range(start, stop + 1):
-    print(yr)
-    for season in astronomia.globals.season_names:
-        approx_jd = equinox_approx(yr, season)
-        jd = equinox(approx_jd, season, days_per_second)
-        ut = dt_to_ut(jd)
-        lt, zone = ut_to_lt(ut)
-        print(tab, season, lt_to_str(lt, zone))
+    load_params()
+    # sun = Sun() # load the database here so we don't get a message later
+
+    for yr in range(start, stop + 1):
+        print(yr)
+        for season in astronomia.globals.season_names:
+            approx_jd = equinox_approx(yr, season)
+            jd = equinox(approx_jd, season, days_per_second)
+            ut = dt_to_ut(jd)
+            lt, zone = ut_to_lt(ut)
+            print(tab, season, lt_to_str(lt, zone))
+
+
+if __name__ == "__main__":
+    main(start, stop)

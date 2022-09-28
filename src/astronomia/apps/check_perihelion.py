@@ -35,16 +35,22 @@ from astronomia.constants import km_per_au
 from astronomia.planets import VSOP87d
 from astronomia.util import load_params
 
-load_params()
-vsop = VSOP87d()
 
-exact_jd = cal_to_jd(1991, 7, 6 + (15.46 / 24))
+def main():
+    load_params()
+    vsop = VSOP87d()
 
-exact_R = vsop.dimension(exact_jd, "Earth", "R")
+    exact_jd = cal_to_jd(1991, 7, 6 + (15.46 / 24))
 
-days_per_hour = 1.0 / 24
+    exact_R = vsop.dimension(exact_jd, "Earth", "R")
 
-for i in range(-24, 24):
-    jd = exact_jd + i * days_per_hour
-    R = vsop.dimension(jd, "Earth", "R")
-    print(i, (exact_R - R) * km_per_au)
+    days_per_hour = 1.0 / 24
+
+    for i in range(-24, 24):
+        jd = exact_jd + i * days_per_hour
+        R = vsop.dimension(jd, "Earth", "R")
+        print(i, (exact_R - R) * km_per_au)
+
+
+if __name__ == "__main__":
+    main()

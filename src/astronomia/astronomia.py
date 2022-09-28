@@ -2,12 +2,12 @@
 import os
 import sys
 
-import mando
+import cltoolbox
 import pandas as pd
-from mando.rst_text_formatter import RSTHelpFormatter
+from cltoolbox.rst_text_formatter import RSTHelpFormatter
 
 
-@mando.command(formatter_class=RSTHelpFormatter)
+@cltoolbox.command(formatter_class=RSTHelpFormatter)
 def right_ascension(
     latitude, longitude, body, input_ts=None, start_date=None, end_date=None, freq=None
 ):
@@ -38,7 +38,7 @@ def right_ascension(
     pass
 
 
-@mando.command(formatter_class=RSTHelpFormatter)
+@cltoolbox.command(formatter_class=RSTHelpFormatter)
 def risesettransit(
     latitude, longitude, start_date, end_date, body, h0=0, times="rise,set"
 ):
@@ -69,7 +69,7 @@ def risesettransit(
 
         Defaults to "rise,set".
     """
-    from tstoolbox import tsutils
+    from toolbox_utils import tsutils
 
     start_date = tsutils.parsedate(start_date)
     end_date = tsutils.parsedate(end_date)
@@ -118,7 +118,7 @@ def risesettransit(
 def main():
     if not os.path.exists("debug_astronomia"):
         sys.tracebacklimit = 0
-    mando.main()
+    cltoolbox.main()
 
 
 if __name__ == "__main__":

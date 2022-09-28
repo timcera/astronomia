@@ -490,13 +490,13 @@ def lt_to_str(julian_day, zone="", level="second"):
     sec = int(sec)
 
     if level == "second":
-        return "{year}-{mon:02}-{iday:02} {hour:02}:{minute:02}:{sec:02} {zone}"
+        return f"{year}-{mon:02}-{iday:02} {hour:02}:{minute:02}:{sec:02} {zone}"
     if level == "minute":
-        return "{year}-{mon:02}-{iday:02} {hour:02}:{minute:02} {zone}"
+        return f"{year}-{mon:02}-{iday:02} {hour:02}:{minute:02} {zone}"
     if level == "hour":
-        return "{year}-{mon:02}-{iday:02} {hour:02} {zone}"
+        return f"{year}-{mon:02}-{iday:02} {hour:02} {zone}"
     if level == "day":
-        return "{year}-{mon:02}-{iday:02}"
+        return f"{year}-{mon:02}-{iday:02}"
 
     raise Error(f"unknown time level = {level}")
 
