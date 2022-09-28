@@ -5,7 +5,7 @@ description = "Library for calculation of ephemeris and other astronomical calcu
 dependencies = [
     "tstoolbox > 103.16.1",
     ]
-license = {text = "BSD-3-Clause"}
+license = {text = "GPL-2.0-only"}
 authors = [
     {name = "Tim Cera", email = "tim@cerazone.net"}
     ]
