@@ -65,7 +65,6 @@ def main(start=None, stop=None):
         sys.exit(1)
 
     load_params()
-    # sun = Sun() # load the database here so we don't get a message later
 
     for yr in range(start, stop + 1):
         print(yr)

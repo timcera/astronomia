@@ -346,7 +346,6 @@ def main():
     # start the task loop
     t = heappop(taskQueue)
     while t.jd < stop_jd:
-        # apply(t.func, t.args)
         t.func(*t.args)
         t = heappop(taskQueue)
 
