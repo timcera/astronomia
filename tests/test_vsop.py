@@ -64,18 +64,17 @@ class TestVSOPDatabase(TestCase):
         line = f.readline()
         while line:
             fields = line.split()
-            if fields:
-                if fields[0] == "VSOP87D":
-                    planet = fields[1]
-                    planet = planet[0] + planet[1:].lower()
-                    jd = fields[2]
-                    jd = float(jd[2:])
-                    line = f.readline()
-                    fields = line.split()
-                    l = float(fields[1])
-                    b = float(fields[4])
-                    r = float(fields[7])
-                    refs.append((planet, jd, l, b, r))
+            if fields and fields[0] == "VSOP87D":
+                planet = fields[1]
+                planet = planet[0] + planet[1:].lower()
+                jd = fields[2]
+                jd = float(jd[2:])
+                line = f.readline()
+                fields = line.split()
+                l = float(fields[1])
+                b = float(fields[4])
+                r = float(fields[7])
+                refs.append((planet, jd, l, b, r))
             line = f.readline()
         f.close()
 
