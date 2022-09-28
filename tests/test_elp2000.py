@@ -136,7 +136,7 @@ class TestELP(TestCase):
             np.mod(331.54 + 57.41 + 26.35 + 9.88, 360),
             82.36 + 0.00 + 118.59 + 1.65,
         ]
-        for i in range(len(Nv)):
-            np.testing.assert_array_almost_equal(Nv[i], Nv_schureman[i], decimal=1)
+        for i, item in enumerate(Nv):
+            np.testing.assert_array_almost_equal(item, Nv_schureman[i], decimal=1)
             np.testing.assert_array_almost_equal(p[i], p_schureman[i], decimal=1)
             np.testing.assert_array_almost_equal(s[i], s_schureman[i], decimal=1)
