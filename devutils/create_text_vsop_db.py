@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
 """
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013

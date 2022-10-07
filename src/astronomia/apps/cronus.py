@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 A clock application that displays a variety of celestial events in the
 order they occur.
