@@ -45,7 +45,7 @@ repos:
           - id: yamlfmt
 
     - repo: https://github.com/psf/black
-      rev: 22.8.0
+      rev: 22.10.0
       hooks:
           - id: black
             language_version: python
@@ -79,7 +79,7 @@ repos:
           - id: blacken-docs
 
     - repo: https://github.com/asottile/pyupgrade
-      rev: v3.0.0
+      rev: v3.1.0
       hooks:
           - id: pyupgrade
 

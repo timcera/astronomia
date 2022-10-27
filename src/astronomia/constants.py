@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Copyright 2000, 2001 Astrolabe by William McClain.
 
 Forked in 2013 to Astronomia

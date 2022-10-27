@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Copyright 2000, 2001 Astrolabe by William McClain.
 
 Forked in 2013 to Astronomia
@@ -210,8 +209,8 @@ file you want, or create a "astronomia_params.txt" file in the current
 directory."""
         )
     try:
-        f = open(fname, "r")
-    except IOError as value:
+        f = open(fname)
+    except OSError as value:
         raise Error(
             """
 Unable to open param file. Either set ASTRONOMIA_PARAMS correctly or create

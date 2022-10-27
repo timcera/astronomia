@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from unittest import TestCase
 
 from astronomia.coordinates import ecl_to_equ, ell_to_geo, equ_to_ecl

@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
 """
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
@@ -42,14 +41,14 @@ def main():
 
     exact_jd = cal_to_jd(1991, 7, 6 + (15.46 / 24))
 
-    exact_R = vsop.dimension(exact_jd, "Earth", "R")
+    exact_r = vsop.dimension(exact_jd, "Earth", "R")
 
     days_per_hour = 1.0 / 24
 
     for i in range(-24, 24):
         jd = exact_jd + i * days_per_hour
         R = vsop.dimension(jd, "Earth", "R")
-        print(i, (exact_R - R) * km_per_au)
+        print(i, (exact_r - R) * km_per_au)
 
 
 if __name__ == "__main__":

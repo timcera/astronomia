@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Tests for the elp2000 functions.
 """
@@ -60,7 +59,7 @@ class TestVSOPDatabase(TestCase):
         """
         refs = []
         bname = os.path.dirname(__file__)
-        f = open(os.path.join(bname, "vsop87.chk"), "r")
+        f = open(os.path.join(bname, "vsop87.chk"))
         line = f.readline()
         while line:
             fields = line.split()

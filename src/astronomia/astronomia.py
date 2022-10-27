@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import sys
 
@@ -41,12 +40,11 @@ def right_ascension(
         supplied also.  The pandas date offset code used to create the
         index.
     """
-    from tstoolbox.tstoolbox import createts
-
-    usets = createts(
-        input_ts=input_ts, start_date=start_date, end_date=end_date, freq=freq
-    )
-    pass
+    if input_ts is not None:
+        start_date = input_ts.index[0]
+        end_date = input_ts.index[-1]
+    tindex = pd.date_range(start=start_date, end=end_date, freq=freq)
+    usets = pd.DataFrame([0.0] * len(tindex), index=tindex)
 
 
 @cltoolbox.command(formatter_class=RSTHelpFormatter)
