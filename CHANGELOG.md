@@ -1,3 +1,10 @@
+## v1.2.7 (2022-10-27)
+
+### Fix
+
+- replaced createts with pandas version to remove tstoolbox dependency
+- marked apps as executable
+
 ## v1.2.6 (2022-09-28)
 
 ### Fix
