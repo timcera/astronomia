@@ -38,19 +38,19 @@ Reference: Jean Meeus, *Astronomical Algorithms*, second edition, 1998,
 Willmann-Bell, Inc.
 """
 
+import datetime
+import time
 from math import modf
 
 import numpy as np
 
-from . import globals as globls
-from .constants import minutes_per_day, seconds_per_day
-from .util import _scalar_if_one, d_to_r, modpi2
+from astronomia import globals as globls
+from astronomia.constants import minutes_per_day, seconds_per_day
+from astronomia.util import _scalar_if_one, d_to_r, modpi2
 
 
 class Error(Exception):
     """local exception class."""
-
-    pass
 
 
 def frac_yr_to_jd(year, gregorian=True):
@@ -151,7 +151,7 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
         raise ValueError("Day must be from 1 to 31")
     year, mon, day = list(map(np.array, np.broadcast_arrays(year, mon, day)))
 
-    for thirtydays in [9, 4, 6, 11]:
+    for thirtydays in (9, 4, 6, 11):
         daytestarr = mon == thirtydays
         if np.any(day[daytestarr] > 30):
             raise ValueError("Day must be from 1 to 30")
@@ -392,9 +392,6 @@ def is_dst(julian_day):
     Returns:
       - (bool) True if Daylight Savings Time is in effect, False otherwise.
     """
-    import datetime
-    import time
-
     year, mon, day = jd_to_cal(julian_day)
     day = int(day)
     hr, minute, second = fday_to_hms(julian_day)

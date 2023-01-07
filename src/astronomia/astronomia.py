@@ -4,6 +4,7 @@ import sys
 import cltoolbox
 import pandas as pd
 from cltoolbox.rst_text_formatter import RSTHelpFormatter
+from toolbox_utils import tsutils
 
 from .calendar import cal_to_jd
 from .constants import days_per_second
@@ -45,6 +46,7 @@ def right_ascension(
         end_date = input_ts.index[-1]
     tindex = pd.date_range(start=start_date, end=end_date, freq=freq)
     usets = pd.DataFrame([0.0] * len(tindex), index=tindex)
+    # Finish!!!!!
 
 
 @cltoolbox.command(formatter_class=RSTHelpFormatter)
@@ -78,8 +80,6 @@ def risesettransit(
 
         Defaults to "rise,set".
     """
-    from toolbox_utils import tsutils
-
     start_date = tsutils.parsedate(start_date)
     end_date = tsutils.parsedate(end_date)
 
@@ -98,9 +98,6 @@ def risesettransit(
         eps = obliquity(jd) + nutation_in_obliquity(jd)
         nutation[day] = deltaPsi, eps
 
-    raList = []
-    decList = []
-    h0List = []
     for day in (-1, 0, 1):
         jd = start_jd + day
         deltaPsi, eps = nutation[day]

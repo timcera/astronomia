@@ -25,12 +25,10 @@ Table of Contents
 
 Python API Documentation
 ------------------------
-
 .. toctree::
    :maxdepth: 2
 
    astronomia
-   function_summary
 
 Other Projects
 --------------

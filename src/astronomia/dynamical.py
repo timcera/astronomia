@@ -27,10 +27,11 @@ Reference: Jean Meeus, *Astronomical Algorithms*, second edition, 1998,
 Willmann-Bell, Inc.
 """
 from bisect import bisect
+from contextlib import suppress
 
-from .calendar import jd_to_cal
-from .constants import seconds_per_day
-from .util import polynomial
+from astronomia.calendar import jd_to_cal
+from astronomia.constants import seconds_per_day
+from astronomia.util import polynomial
 
 # _tbl is a list of tuples (jd, seconds), giving deltaT values for the
 # beginnings of years in a historical range. [Meeus-1998: table 10.A]
@@ -1216,13 +1217,11 @@ def deltaT_seconds(jd):
     #
     if _tbl_start < yr < _tbl_end:
         idx = bisect(_tbl, (jd, 0))
-        try:
+        with suppress(IndexError):
             jd1, secs1 = _tbl[idx]
             jd0, secs0 = _tbl[idx - 1]
             # simple linear interpolation between two values
             return ((jd - jd0) * (secs1 - secs0) / (jd1 - jd0)) + secs0
-        except IndexError:
-            pass
 
     # I decided to replicate Naughter for times outside of table.
     # Naughter claims that this is better since there are

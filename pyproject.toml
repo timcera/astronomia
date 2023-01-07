@@ -95,3 +95,6 @@ version = {file = "VERSION"}
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["examples*", "tools*", "docs*", "astronomia.tests*"]
+
+[tool.isort]
+profile = "black"

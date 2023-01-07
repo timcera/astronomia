@@ -154,7 +154,7 @@ def interpolate3(n, y):
       - the interpolated value of y
     """
     if not -1 < n < 1:
-        raise Error(f"interpolating factor out of range: {str(n)}")
+        raise Error(f"interpolating factor out of range: {n}")
 
     a = y[1] - y[0]
     b = y[2] - y[1]
@@ -179,7 +179,7 @@ def interpolate_angle3(n, y):
       - the interpolated value of y
     """
     if not -1 < n < 1:
-        raise Error(f"interpolating factor out of range: {str(n)}")
+        raise Error(f"interpolating factor out of range: {n}")
 
     a = diff_angle(y[0], y[1])
     b = diff_angle(y[1], y[2])
@@ -215,7 +215,7 @@ directory."""
             """
 Unable to open param file. Either set ASTRONOMIA_PARAMS correctly or create
 astronomia_params.txt in the current directory"""
-        )
+        ) from value
 
     lex = shlex.shlex(f)
     # tokens and values can have dots, dashes, slashes, colons

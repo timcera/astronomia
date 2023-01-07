@@ -25,14 +25,12 @@ Collection of miscellaneous functions
 
 import numpy as np
 
-from . import globals as globls
-from .util import modpi2
+from astronomia import globals as globls
+from astronomia.util import modpi2
 
 
 class Error(Exception):
     """Local exception class."""
-
-    pass
 
 
 def ecl_to_equ(longitude, latitude, obliquity):
