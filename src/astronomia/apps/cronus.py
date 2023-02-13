@@ -1,25 +1,5 @@
 #! /usr/bin/env python
 """
-A clock application that displays a variety of celestial events in the
-order they occur.
-
-Usage:
-
-    ./cronus.py start_year [stop_year]
-
-To do:
-    -- Add many more events
-    -- Support both real-time and "fast" modes
-    -- Allow finer start and stop times
-
-Currently the program always runs in "fast" mode, queueing and
-displaying events in the future as fast as possible. Eventually
-I would like to have enough events covered so that the display
-runs continuously even in real-time. Since the next event of
-a given type needs to be calculated only when the previous one
-has been delivered, this is not as computationally intense as it
-sounds.
-
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
     Astronomia copyright 2013
@@ -45,6 +25,9 @@ import os
 import sys
 from heapq import heappop, heappush
 from math import *
+
+import cltoolbox
+from cltoolbox.rst_text_formatter import RSTHelpFormatter
 
 import astronomia.globals
 from astronomia.calendar import cal_to_jd, easter, lt_to_str, ut_to_lt
@@ -312,41 +295,63 @@ def initRST(start_year):
     heappush(taskQueue, Task(HIGH_PRIORITY, doRiseSetTransit, (start_jd,)))
 
 
-def main():
+@cltoolbox.command(formatter_class=RSTHelpFormatter)
+def cronus(start, stop=None):
+    """Displays a variety of celestial events in the order they occur.
+
+    To do::
+
+        -- Add many more events
+        -- Support both real-time and "fast" modes
+        -- Allow finer start and stop times
+
+    Currently the program always runs in "fast" mode, queueing and
+    displaying events in the future as fast as possible. Eventually
+    I would like to have enough events covered so that the display
+    runs continuously even in real-time. Since the next event of
+    a given type needs to be calculated only when the previous one
+    has been delivered, this is not as computationally intense as it
+    sounds.
+
+    Parameters
+    ----------
+    start : int
+        The year to start the display.
+    stop : int, optional
+        The year to stop the display. If not given, the display
+        continues until 10,000AD.
+    """
     global vsop
     global sun
-    if len(sys.argv) < 2:
-        print(__doc__)
-        os._exit(0)
-    if len(sys.argv) < 3:
-        start_year = int(sys.argv[1])
-        stop_jd = cal_to_jd(10000)  # default stopping date: 10,000AD
-    elif len(sys.argv) < 4:
-        start_year = int(sys.argv[1])
-        stop_jd = cal_to_jd(int(sys.argv[2]))
+    start = int(start)
+    if stop is None:
+        stop = cal_to_jd(stop)
     else:
-        print(__doc__)
-        os._exit(0)
+        stop = int(stop)
 
     load_params()
     vsop = VSOP87d()
     sun = Sun()
 
     # Easter
-    heappush(taskQueue, Task(HIGH_PRIORITY, doEaster, (start_year,)))
+    heappush(taskQueue, Task(HIGH_PRIORITY, doEaster, (start,)))
 
     # four equinox/solstice events
     for season in astronomia.globals.season_names:
-        heappush(taskQueue, Task(HIGH_PRIORITY, doEquinox, (start_year, season)))
+        heappush(taskQueue, Task(HIGH_PRIORITY, doEquinox, (start, season)))
 
     # initialize rise-set-transit objects
-    initRST(start_year)
+    initRST(start)
 
     # start the task loop
     t = heappop(taskQueue)
-    while t.jd < stop_jd:
+    while t.jd < stop:
         t.func(*t.args)
         t = heappop(taskQueue)
+
+
+def main():
+    cltoolbox.main()
 
 
 if __name__ == "__main__":
