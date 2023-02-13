@@ -1,3 +1,9 @@
+## v1.2.10 (2023-02-13)
+
+### Fix
+
+- fixed solstice.py app to use cltoolbox and fixed location finding of astronomia_params.txt to be found when editable
+
 ## v1.2.9 (2023-01-16)
 
 ## v1.2.8 (2023-01-07)
