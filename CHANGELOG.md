@@ -1,3 +1,9 @@
+## v1.2.11 (2023-02-13)
+
+### Fix
+
+- fix cronus to use cltoolbox
+
 ## v1.2.10 (2023-02-13)
 
 ### Fix
