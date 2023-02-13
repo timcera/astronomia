@@ -173,7 +173,7 @@ form = cgi.FieldStorage()
 
 def display_form():
     fields = time.localtime(time.time())
-    year = fields[0]
+    fields[0]
 
     print("Content-type: text/html")
     print()

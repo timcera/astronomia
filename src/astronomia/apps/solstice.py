@@ -1,19 +1,5 @@
 #! /usr/bin/env python
 """
-Usage:
-
-    ./solstice.py start_year [stop_year]
-
-Displays the instants of equinoxes and solstices for a range of years.
-Times are accurate to one second.
-
-The arguments must be integers.
-
-If one argument is given, the display is for that year.
-
-If two arguments are given, the display is for that range of
-years.
-
     Astrolabe copyright 2000, 2001 William McClain
     Astrolabe forked to Astronomia 2013
     Astronomia copyright 2013
@@ -37,6 +23,9 @@ years.
 """
 import sys
 
+import cltoolbox
+from cltoolbox.rst_text_formatter import RSTHelpFormatter
+
 import astronomia.globals
 from astronomia.calendar import lt_to_str, ut_to_lt
 from astronomia.constants import days_per_second
@@ -47,19 +36,24 @@ from astronomia.util import load_params
 tab = 4 * " "
 
 
-def main(start=None, stop=None):
-    if len(sys.argv) < 2:
-        print(__doc__)
-        sys.exit(1)
-    elif len(sys.argv) < 3:
-        start = int(sys.argv[1])
+@cltoolbox.command(formatter_class=RSTHelpFormatter)
+def solstice(start, stop=None):
+    """Displays the instants of equinoxes and solstices for a range of years.
+
+    Times are accurate to one second.
+
+    Parameters
+    ----------
+    start : int
+        The start year, or if stop is not given, the year to display.
+    stop : int
+        The end year.
+    """
+    start = int(start)
+    if stop is None:
         stop = start
-    elif len(sys.argv) < 4:
-        start = int(sys.argv[1])
-        stop = int(sys.argv[2])
     else:
-        print(__doc__)
-        sys.exit(1)
+        stop = int(stop)
 
     load_params()
 
@@ -73,5 +67,9 @@ def main(start=None, stop=None):
             print(tab, season, lt_to_str(lt, zone))
 
 
+def main():
+    cltoolbox.main()
+
+
 if __name__ == "__main__":
-    main(start, stop)
+    main()

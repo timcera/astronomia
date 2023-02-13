@@ -26,12 +26,10 @@ import numpy as np
 
 from . import calendar
 from . import globals as globls
-from .calendar import cal_to_jd, jd_to_jcent
-from .constants import days_per_second
+from .calendar import jd_to_jcent
 from .coordinates import ecl_to_equ
-from .lunar import Lunar
-from .nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
-from .planets import VSOP87d, geocentric_planet, vsop_to_fk5
+from .nutation import nutation_in_longitude
+from .planets import VSOP87d, vsop_to_fk5
 from .util import _scalar_if_one, d_to_r, dms_to_d, modpi2, polynomial
 
 
@@ -242,7 +240,6 @@ def rise(
     latitude=globls.latitude,
     gregorian=True,
 ):
-
     from .constants import sun_rst_altitude
 
     jd = calendar.cal_to_jd(year, month, day, gregorian=gregorian)
