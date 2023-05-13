@@ -45,7 +45,7 @@ def right_ascension(
         start_date = input_ts.index[0]
         end_date = input_ts.index[-1]
     tindex = pd.date_range(start=start_date, end=end_date, freq=freq)
-    usets = pd.DataFrame([0.0] * len(tindex), index=tindex)
+    pd.DataFrame([0.0] * len(tindex), index=tindex)
     # Finish!!!!!
 
 
@@ -83,7 +83,7 @@ def risesettransit(
     start_date = tsutils.parsedate(start_date)
     end_date = tsutils.parsedate(end_date)
 
-    dr = pd.date_range(start=start_date, end=end_date).to_julian_date()
+    pd.date_range(start=start_date, end=end_date).to_julian_date()
     start_jd = cal_to_jd(start_date)
 
     #

@@ -25,7 +25,6 @@ Collection of miscellaneous functions
 
 import os
 import shlex
-import sys
 
 import numpy as np
 
