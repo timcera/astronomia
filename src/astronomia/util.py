@@ -229,6 +229,19 @@ You may want to set the ASTRONOMIA_PARAMS environment variable to point to the
 file you want, or create a "astronomia_params.txt" file in the current
 directory."""
         )
+    if not os.path.exists(fname):
+        # really last resort
+        fname = os.path.join(
+            os.path.dirname(__file__),
+            "astronomia_params.txt",
+        )
+        print(
+            f"""WARNING: Using system wide settings file at
+"{fname}".
+You may want to set the ASTRONOMIA_PARAMS environment variable to point to the
+file you want, or create a "astronomia_params.txt" file in the current
+directory."""
+        )
 
     try:
         f = open(fname)

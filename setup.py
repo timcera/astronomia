@@ -18,11 +18,4 @@ if sys.argv[-1] == "publish":
     )
     sys.exit()
 
-setup(
-    data_files=[
-        (
-            os.path.join("share", "astronomia"),
-            [os.path.join("params", "astronomia_params.txt")],
-        )
-    ],
-)
+setup()
