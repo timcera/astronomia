@@ -1,3 +1,10 @@
+## v1.2.12 (2023-06-11)
+
+### Fix
+
+- now install astronomia_params.txt into the package until figure out what I want it to look like
+- small fix to correctly set variables and updated pre-commit
+
 ## v1.2.11 (2023-02-13)
 
 ### Fix
