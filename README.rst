@@ -54,12 +54,7 @@ At the command line::
 
     $ pip install astronomia
     # OR
-    $ easy_install astronomia
-
-Or, if you have virtualenvwrapper installed::
-
-    $ mkvirtualenv astronomia
-    $ pip install astronomia
+    $ conda install -c conda-forge astronomia
 
 Usage
 ~~~~~

@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=45",
+    "setuptools>=61.0.0",
     "setuptools_scm[toml]>=6.2",
     "wheel",
     "oldest-supported-numpy"
@@ -15,7 +15,7 @@ dependencies = [
     "cltoolbox",
     "numpy",
     "pandas",
-    "toolbox_utils >= 3.0.0, < 4.0.0"
+    "toolbox_utils >= 5.0.0, < 6.0.0"
 ]
 authors = [
     {name = "Tim Cera", email = "tim@cerazone.net"}
