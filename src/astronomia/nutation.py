@@ -146,8 +146,7 @@ def nutation_in_longitude(jd):
         deltaPsi += (tpsiK / 10000.0 + tpsiT / 100000.0 * T) * np.sin(arg)
 
     deltaPsi /= 3600
-    deltaPsi = d_to_r(deltaPsi)
-    return deltaPsi
+    return d_to_r(deltaPsi)
 
 
 def nutation_in_obliquity(jd):
@@ -173,8 +172,7 @@ def nutation_in_obliquity(jd):
         arg = D * tD + M * tM + M1 * tM1 + F * tF + omega * tomega
         deltaEps = deltaEps + (tepsK / 10000.0 + tepsT / 100000.0 * T) * np.cos(arg)
     deltaEps = deltaEps / 3600
-    deltaEps = d_to_r(deltaEps)
-    return deltaEps
+    return d_to_r(deltaEps)
 
 
 #

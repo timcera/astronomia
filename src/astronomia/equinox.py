@@ -151,7 +151,7 @@ def equinox(jd, season, delta):
     #
     circ = _circle[season]
     sun = Sun()
-    for i in range(20):
+    for _ in range(20):
         jd0 = jd
         L, B, R = sun.dimension3(jd)
         L += nutation_in_longitude(jd) + aberration_low(R)

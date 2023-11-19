@@ -89,7 +89,7 @@ def _riseset(
         m -= 1
     if not 0 <= m <= 1:
         raise Error(f"m is out of range = {m}")
-    for bailout in range(20):
+    for _ in range(20):
         m0 = m
         theta0 = modpi2(THETA0 + _k1 * m)
         n = m + deltaT_days
@@ -173,7 +173,7 @@ def transit(jd, raList, delta):
         m -= 1
     if not 0 <= m <= 1:
         raise Error(f"m is out of range = {m}")
-    for bailout in range(20):
+    for _ in range(20):
         m0 = m
         theta0 = modpi2(THETA0 + _k1 * m)
         n = m + deltaT_days

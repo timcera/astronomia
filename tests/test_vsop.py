@@ -59,24 +59,20 @@ class TestVSOPDatabase(TestCase):
         """
         refs = []
         bname = os.path.dirname(__file__)
-        f = open(os.path.join(bname, "vsop87.chk"))
-        line = f.readline()
-        while line:
-            fields = line.split()
-            if fields and fields[0] == "VSOP87D":
-                planet = fields[1]
-                planet = planet[0] + planet[1:].lower()
-                jd = fields[2]
-                jd = float(jd[2:])
-                line = f.readline()
+        with open(os.path.join(bname, "vsop87.chk")) as f:
+            while line := f.readline():
                 fields = line.split()
-                l = float(fields[1])
-                b = float(fields[4])
-                r = float(fields[7])
-                refs.append((planet, jd, l, b, r))
-            line = f.readline()
-        f.close()
-
+                if fields and fields[0] == "VSOP87D":
+                    planet = fields[1]
+                    planet = planet[0] + planet[1:].lower()
+                    jd = fields[2]
+                    jd = float(jd[2:])
+                    line = f.readline()
+                    fields = line.split()
+                    l = float(fields[1])
+                    b = float(fields[4])
+                    r = float(fields[7])
+                    refs.append((planet, jd, l, b, r))
         for planet, jd, l, b, r in refs:
             L, B, R = vsop.dimension3(jd, planet)
             np.testing.assert_array_almost_equal(L, l)

@@ -49,11 +49,7 @@ def solstice(start, stop=None):
         The end year.
     """
     start = int(start)
-    if stop is None:
-        stop = start
-    else:
-        stop = int(stop)
-
+    stop = start if stop is None else int(stop)
     load_params()
 
     for yr in range(start, stop + 1):

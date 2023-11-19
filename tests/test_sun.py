@@ -61,8 +61,8 @@ class TestSun(TestCase):
     def test_compare_to_schureman(self):
         rad2deg = 180.0 / np.pi
         dt = [datetime.datetime(i, 1, 1) for i in range(1800, 2001, 20)]
-        dt = dt + [datetime.datetime(1990, 3, 3, 18, 0, 0)]
-        dt = dt + [datetime.datetime(1999, 1, 10, 3, 0, 0)]
+        dt += [datetime.datetime(1990, 3, 3, 18, 0, 0)]
+        dt += [datetime.datetime(1999, 1, 10, 3, 0, 0)]
         jd = [
             cal_to_jd(i.year, i.month, i.day) + hms_to_fday(i.hour, i.minute, i.second)
             for i in dt

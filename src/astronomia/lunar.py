@@ -363,8 +363,7 @@ class Lunar:
         lsum += 3958 * np.sin(A1) + 1962 * np.sin(L1 - F) + 318 * np.sin(A2)
 
         nutinlong = nutation_in_longitude(jd)
-        longitude = L1 + d_to_r(lsum / 1000000) + nutinlong
-        return longitude
+        return L1 + d_to_r(lsum / 1000000) + nutinlong
 
     def _latitude(self, jd):
         """Return the geocentric ecliptic latitude in radians."""
@@ -389,8 +388,7 @@ class Lunar:
             - 115 * np.sin(L1 + M1)
         )
 
-        latitude = d_to_r(bsum / 1000000)
-        return latitude
+        return d_to_r(bsum / 1000000)
 
     def _radius(self, jd):
         """Return the geocentric radius in km."""
@@ -406,5 +404,4 @@ class Lunar:
                 tr *= E2
             rsum += tr * np.cos(arg)
 
-        dist = 385000.56 + rsum / 1000
-        return dist
+        return 385000.56 + rsum / 1000

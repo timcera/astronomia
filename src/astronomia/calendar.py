@@ -315,29 +315,39 @@ def easter(year, gregorian=True):
     """
     year = np.atleast_1d(year)
     if gregorian:
-        a = year % 19
-        b = year // 100
-        c = year % 100
-        d = b // 4
-        e = b % 4
-        f = (b + 8) // 25
-        g = (b - f + 1) // 3
-        h = (19 * a + b - d - g + 15) % 30
-        i = c // 4
-        k = c % 4
-        l = (32 + 2 * e + 2 * i - h - k) % 7
-        m = (a + 11 * h + 22 * l) // 451
-        tmp = h + l - 7 * m + 114
+        tmp = _extracted_from_easter_17(year)
     else:
-        a = year % 4
-        b = year % 7
-        c = year % 19
-        d = (19 * c + 15) % 30
-        e = (2 * a + 4 * b - d + 34) % 7
-        tmp = d + e + 114
+        tmp = _extracted_from_easter_31(year)
     mon = tmp // 31
     day = (tmp % 31) + 1
     return _scalar_if_one(mon), _scalar_if_one(day)
+
+
+# TODO Rename this here and in `easter`
+def _extracted_from_easter_31(year):
+    a = year % 4
+    b = year % 7
+    c = year % 19
+    d = (19 * c + 15) % 30
+    e = (2 * a + 4 * b - d + 34) % 7
+    return d + e + 114
+
+
+# TODO Rename this here and in `easter`
+def _extracted_from_easter_17(year):
+    a = year % 19
+    b = year // 100
+    c = year % 100
+    d = b // 4
+    e = b % 4
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19 * a + b - d - g + 15) % 30
+    i = c // 4
+    k = c % 4
+    l = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * l) // 451
+    return h + l - 7 * m + 114
 
 
 def fday_to_hms(day):
@@ -357,8 +367,8 @@ def fday_to_hms(day):
     minutes = int(seconds / 60.0)
     seconds = seconds - (minutes * 60.0)
     hours = int(minutes / 60.0)
-    minutes = minutes - (hours * 60.0)
-    return int(hours), int(minutes), int(seconds)
+    minutes -= hours * 60.0
+    return hours, minutes, int(seconds)
 
 
 def hms_to_fday(hr, mn, sec):
