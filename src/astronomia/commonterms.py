@@ -24,6 +24,7 @@ Useful constants terms.
 
 Don't change these unless you are moving to a new universe.
 """
+
 from .util import d_to_r
 
 #

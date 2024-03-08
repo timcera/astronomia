@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 Geocentric solar position and radius, both low and high precision.
 """
+
 import numpy as np
 
 from . import calendar

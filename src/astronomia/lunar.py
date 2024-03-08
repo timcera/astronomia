@@ -28,6 +28,7 @@ for light-time.
 This is the simplified version of Jean Meeus, *Astronomical Algorithms*,
 second edition, 1998, Willmann-Bell, Inc.
 """
+
 import numpy as np
 
 from .calendar import jd_to_jcent

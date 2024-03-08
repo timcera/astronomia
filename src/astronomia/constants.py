@@ -24,6 +24,7 @@ Useful constants.
 
 Don't change these unless you are moving to a new universe.
 """
+
 from math import pi
 
 #

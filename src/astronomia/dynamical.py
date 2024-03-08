@@ -26,6 +26,7 @@ dynamical and universal time.
 Reference: Jean Meeus, *Astronomical Algorithms*, second edition, 1998,
 Willmann-Bell, Inc.
 """
+
 from bisect import bisect
 from contextlib import suppress
 
