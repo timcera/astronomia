@@ -1,3 +1,9 @@
+## v3.0.0 (2024-03-31)
+
+### BREAKING CHANGE
+
+- previous wheels might have had old files
+
 ## v2.0.1 (2023-12-16)
 
 ### Refactor

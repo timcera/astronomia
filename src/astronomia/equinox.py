@@ -104,7 +104,7 @@ def equinox_approx(yr, season):
     Returns:
       - Julian Day : (int) in dynamical time
     """
-    if not (-1000 <= yr <= 3000):
+    if not -1000 <= yr <= 3000:
         raise Error("year is out of range")
     if season not in globls.season_names:
         raise Error(f"unknown season ={season}")

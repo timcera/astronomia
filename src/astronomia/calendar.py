@@ -137,14 +137,12 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     mon = np.atleast_1d(mon)
     day = np.atleast_1d(day).astype(np.float64)
 
-    fyear = year - year.astype("i")
-    mask = fyear > 0
-    if np.any(mask):
-        raise ValueError("Year must be integer. Use frac_yr_to_jd instead.")
-    fmon = mon - mon.astype("i")
-    mask = fmon > 0
-    if np.any(mask):
-        raise ValueError("Month must be integer. Use yr_frac_mon_to_jd instead.")
+    mask = _extracted_from_cal_to_jd_21(
+        year, "Year must be integer. Use frac_yr_to_jd instead."
+    )
+    mask = _extracted_from_cal_to_jd_21(
+        mon, "Month must be integer. Use yr_frac_mon_to_jd instead."
+    )
     if np.any(mon > 12) or np.any(mon < 1):
         raise ValueError("Month must be from 1 to 12")
     if np.any(day > 31) or np.any(day < 1):
@@ -178,6 +176,15 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
         + B
         - 1524.5
     )
+
+
+# TODO Rename this here and in `cal_to_jd`
+def _extracted_from_cal_to_jd_21(arg0, arg1):
+    fyear = arg0 - arg0.astype("i")
+    result = fyear > 0
+    if np.any(result):
+        raise ValueError(arg1)
+    return result
 
 
 def jd_to_cal(julian_day, gregorian=True):
