@@ -59,6 +59,7 @@ jobs:
                   parallel-finished: true
 
     pypi-publish:
+        needs: test
         runs-on: ubuntu-latest
         environment: release
         name: upload release to PyPI
