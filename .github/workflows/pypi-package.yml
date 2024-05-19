@@ -3,7 +3,7 @@
 # a variety of Python versions For more information see:
 # https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Tests
+name: PyPI package upload
 
 on:  # yamllint disable-line rule:truthy
     push:
@@ -84,3 +84,5 @@ jobs:
 
             - name: Publish package distributions to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
+              with:
+                  skip-existing: true
