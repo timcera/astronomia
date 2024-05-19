@@ -68,8 +68,10 @@ jobs:
             id-token: write
 
         steps:
-            - name: Build source and wheel distributions
+            - name: Checkout source
               uses: actions/checkout@v4
+
+            - name: Build sdist and wheel
               run: python -m build
 
             - name: Download artifact
