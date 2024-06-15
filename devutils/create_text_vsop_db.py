@@ -55,7 +55,6 @@ file as the value of "vsop87d_text_path".
 
 """
 
-
 import string
 
 #
@@ -113,7 +112,7 @@ coords = ("L", "B", "R")
 
 # each planet file...
 for planet in planets:
-    f = file(f"VSOP87D.{planet[:3].lower()}")
+    f = open(f"VSOP87D.{planet[:3].lower()}")
     while s := f.readline():
         if s[17] != "4":
             raise AssertionError

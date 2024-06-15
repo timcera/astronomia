@@ -27,6 +27,7 @@ Usage:
     ./create_binary_vsop_db.py
 
 """
+
 from astronomia.util import load_params
 from astronomia.vsop87d import load_vsop87d_text_db, write_vsop87d_binary_db
 

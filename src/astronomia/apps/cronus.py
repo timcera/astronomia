@@ -1,28 +1,27 @@
 #! /usr/bin/env python
 """
-    Astrolabe copyright 2000, 2001 William McClain
-    Astrolabe forked to Astronomia 2013
-    Astronomia copyright 2013
+Astrolabe copyright 2000, 2001 William McClain
+Astrolabe forked to Astronomia 2013
+Astronomia copyright 2013
 
-    This file is part of Astronomia.
+This file is part of Astronomia.
 
-    Astronomia is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+Astronomia is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-    Astronomia is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+Astronomia is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with Astronomia; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with Astronomia; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 """
 
 from heapq import heappop, heappush
-from math import *
 
 import cltoolbox
 from cltoolbox.rst_text_formatter import RSTHelpFormatter
@@ -61,7 +60,7 @@ class Task:
         self.args = args
 
     def __cmp__(self, other):
-        return cmp(self.jd, other.jd)
+        return (self.jd > other.jd) - (self.jd < other.jd)
 
     def __gt__(self, other):
         return self.jd > other.jd
@@ -85,8 +84,8 @@ def display(str):
 def doEaster(year):
     month, day = easter(year)
     jd = cal_to_jd(year, month, day)
-    str = f"{lt_to_str(jd, None, 'day'):<24} Easter"
-    heappush(taskQueue, Task(jd, display, (str,)))
+    astr = f"{lt_to_str(jd, None, 'day'):<24} Easter"
+    heappush(taskQueue, Task(jd, display, (astr,)))
     # recalculate on March 1, next year
     heappush(taskQueue, Task(cal_to_jd(year + 1, 3, 1), doEaster, (year + 1,)))
 
@@ -104,8 +103,8 @@ def doEquinox(year, season):
     jd = equinox(approx_jd, season, days_per_second)
     ut = dt_to_ut(jd)
     lt, zone = ut_to_lt(ut)
-    str = f"{lt_to_str(lt, zone)} {_seasons[season]}"
-    heappush(taskQueue, Task(jd, display, (str,)))
+    astr = f"{lt_to_str(lt, zone)} {_seasons[season]}"
+    heappush(taskQueue, Task(jd, display, (astr,)))
     heappush(taskQueue, Task(jd, doEquinox, (year + 1, season)))
 
 
@@ -118,24 +117,24 @@ def doRiseSetTransit(jd_today):
         if td := rise(jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute):
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} rises"
-            heappush(taskQueue, Task(td, display, (str,)))
+            astr = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} rises"
+            heappush(taskQueue, Task(td, display, (astr,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "rise")
 
         if td := settime(jd, obj.raList, obj.decList, obj.h0List[1], days_per_minute):
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} sets"
-            heappush(taskQueue, Task(td, display, (str,)))
+            astr = f"{lt_to_str(lt, '', 'minute'):<19} {zone} {obj.name} sets"
+            heappush(taskQueue, Task(td, display, (astr,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "set")
 
         if td := transit(jd, obj.raList, days_per_second):
             ut = dt_to_ut(td)
             lt, zone = ut_to_lt(ut)
-            str = f"{lt_to_str(lt, zone):<23} {obj.name} transits"
-            heappush(taskQueue, Task(td, display, (str,)))
+            astr = f"{lt_to_str(lt, zone):<23} {obj.name} transits"
+            heappush(taskQueue, Task(td, display, (astr,)))
         else:
             print("****** RiseSetTransit failure:", obj.name, "transit")
 
@@ -167,13 +166,13 @@ def doRiseSetTransit(jd_today):
     #
     # Moon
     #
-    l, b, r = moon.dimension3(jd)
+    lunar_longitude, lunar_latitude, lunar_radius = moon.dimension3(jd)
 
     # nutation in longitude
-    l += deltaPsi
+    lunar_longitude += deltaPsi
 
     # equatorial coordinates
-    ra, dec = ecl_to_equ(l, b, eps)
+    ra, dec = ecl_to_equ(lunar_longitude, lunar_latitude, eps)
 
     obj = rstDict["Moon"]
     del obj.raList[0]
@@ -181,24 +180,24 @@ def doRiseSetTransit(jd_today):
     del obj.h0List[0]
     obj.raList.append(ra)
     obj.decList.append(dec)
-    obj.h0List.append(moon_rst_altitude(r))
+    obj.h0List.append(moon_rst_altitude(lunar_radius))
 
     #
     # Sun
     #
-    l, b, r = sun.dimension3(jd)
+    lunar_longitude, lunar_latitude, lunar_radius = sun.dimension3(jd)
 
     # correct vsop coordinates
-    l, b = vsop_to_fk5(jd, l, b)
+    lunar_longitude, lunar_latitude = vsop_to_fk5(jd, lunar_longitude, lunar_latitude)
 
     # nutation in longitude
-    l += deltaPsi
+    lunar_longitude += deltaPsi
 
     # aberration
-    l += aberration_low(r)
+    lunar_longitude += aberration_low(lunar_radius)
 
     # equatorial coordinates
-    ra, dec = ecl_to_equ(l, b, eps)
+    ra, dec = ecl_to_equ(lunar_longitude, lunar_latitude, eps)
 
     obj = rstDict["Sun"]
     del obj.raList[0]
@@ -253,14 +252,14 @@ def initRST(start_year):
     for day in (-1, 0, 1):
         jd = start_jd + day
         deltaPsi, eps = nutation[day]
-        l, b, r = moon.dimension3(jd)
+        sun_longitude, sun_latitude, sun_radius = moon.dimension3(jd)
         # nutation in longitude
-        l += deltaPsi
+        sun_longitude += deltaPsi
         # equatorial coordinates
-        ra, dec = ecl_to_equ(l, b, eps)
+        ra, dec = ecl_to_equ(sun_longitude, sun_latitude, eps)
         raList.append(ra)
         decList.append(dec)
-        h0List.append(moon_rst_altitude(r))
+        h0List.append(moon_rst_altitude(sun_radius))
     rstDict["Moon"] = RiseSetTransit("Moon", raList, decList, h0List)
 
     #
@@ -272,15 +271,15 @@ def initRST(start_year):
     for day in (-1, 0, 1):
         jd = start_jd + day
         deltaPsi, eps = nutation[day]
-        l, b, r = sun.dimension3(jd)
+        sun_longitude, sun_latitude, sun_radius = sun.dimension3(jd)
         # correct vsop coordinates
-        l, b = vsop_to_fk5(jd, l, b)
+        sun_longitude, sun_latitude = vsop_to_fk5(jd, sun_longitude, sun_latitude)
         # nutation in longitude
-        l += deltaPsi
+        sun_longitude += deltaPsi
         # aberration
-        l += aberration_low(r)
+        sun_longitude += aberration_low(sun_radius)
         # equatorial coordinates
-        ra, dec = ecl_to_equ(l, b, eps)
+        ra, dec = ecl_to_equ(sun_longitude, sun_latitude, eps)
         raList.append(ra)
         decList.append(dec)
         h0List.append(sun_rst_altitude)
