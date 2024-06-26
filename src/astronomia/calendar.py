@@ -137,10 +137,10 @@ def cal_to_jd(year, mon=1, day=1, gregorian=True):
     mon = np.atleast_1d(mon)
     day = np.atleast_1d(day).astype(np.float64)
 
-    mask = _extracted_from_cal_to_jd_21(
+    _ = _extracted_from_cal_to_jd_21(
         year, "Year must be integer. Use frac_yr_to_jd instead."
     )
-    mask = _extracted_from_cal_to_jd_21(
+    _ = _extracted_from_cal_to_jd_21(
         mon, "Month must be integer. Use yr_frac_mon_to_jd instead."
     )
     if np.any(mon > 12) or np.any(mon < 1):
@@ -352,9 +352,9 @@ def _extracted_from_easter_17(year):
     h = (19 * a + b - d - g + 15) % 30
     i = c // 4
     k = c % 4
-    l = (32 + 2 * e + 2 * i - h - k) % 7
-    m = (a + 11 * h + 22 * l) // 451
-    return h + l - 7 * m + 114
+    weekday = (32 + 2 * e + 2 * i - h - k) % 7
+    m = (a + 11 * h + 22 * weekday) // 451
+    return h + weekday - 7 * m + 114
 
 
 def fday_to_hms(day):

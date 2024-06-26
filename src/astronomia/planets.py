@@ -213,7 +213,7 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
         # geocentric geometric ecliptic coordinates of the planet
         x2 = x * x
         y2 = y * y
-        l = np.arctan2(y, x)
+        geo_l = np.arctan2(y, x)
         b = np.arctan2(z, np.sqrt(x2 + y2))
 
         # distance to planet in AU
@@ -222,22 +222,22 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
         # light time in days
         tau = 0.0057755183 * dist
 
-        if abs(diff_angle(l, l0)) < pi2 * delta:
+        if abs(diff_angle(geo_l, l0)) < pi2 * delta:
             break
 
         # adjust for light travel time and try again
-        l0 = l
+        l0 = geo_l
         t = jd - tau
     else:
         raise Error("bailout")
 
     # transform to FK5 ecliptic and equinox
-    l, b = vsop_to_fk5(jd, l, b)
+    geo_l, b = vsop_to_fk5(jd, geo_l, b)
 
     # nutation in longitude
-    l = l + deltaPsi
+    geo_l = geo_l + deltaPsi
 
     # equatorial coordinates
-    ra, dec = ecl_to_equ(l, b, epsilon)
+    ra, dec = ecl_to_equ(geo_l, b, epsilon)
 
     return ra, dec

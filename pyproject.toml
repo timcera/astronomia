@@ -3,8 +3,7 @@ build-backend = "setuptools.build_meta"
 requires = [
     "setuptools>=61.0.0",
     "setuptools_scm[toml]>=6.2",
-    "wheel",
-    "oldest-supported-numpy"
+    "wheel"
 ]
 
 [project]
@@ -14,8 +13,7 @@ description = "Library for calculation of ephemeris and other astronomical calcu
 dependencies = [
     "cltoolbox",
     "numpy",
-    "pandas",
-    "toolbox_utils >= 5.0.0, < 6.0.0"
+    "pandas"
 ]
 authors = [
     {name = "Tim Cera", email = "tim@cerazone.net"}
@@ -41,35 +39,7 @@ classifiers = [
 ] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 keywords = ["ephemeris", "astronomy"]
 license = {text = "BSD-3-Clause"}
-requires-python = ">=3.8"
-
-[project.optional-dependencies]
-dev = [
-    "bandit",
-    "black",
-    "blacken-docs",
-    "black-nbconvert",
-    "cleanpy",
-    "commitizen",
-    "coverage[toml]",
-    "isort",
-    "mypy",
-    "pre-commit",
-    "pyflakes",
-    "pylama",
-    "pyle",
-    "pylint",
-    "pyre",
-    "pyroma",
-    "pytest",
-    "pytest-cov",
-    "pytest-mpl",
-    "pyupgrade",
-    "twine",
-    "unimport",
-    "velin",
-    "vulture"
-]
+requires-python = ">=3.9"
 
 [project.scripts]
 solstice = "astronomia.apps.solstice:main"
@@ -81,16 +51,6 @@ documentation = "https://timcera.bitbucket.io/astronomia/docs/index.html#astrono
 github = "https://github.com/timcera/astronomia"
 bitbucket = "https://bitbucket.org/timcera/astronomia/src/main/"
 
-[tool]
-
-[tool.check-manifest]
-ignore = [
-    "docs/_function_autosummary/*",
-    ".coverage",
-    ".deepsource.toml",
-    ".ipynb_checkpoints/*"
-]
-
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "v$version"
@@ -101,6 +61,9 @@ version_files = ["VERSION"]
 [tool.isort]
 profile = "black"
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.setuptools]
 license-files = ["LICENSE.txt"]
 include-package-data = true
@@ -110,7 +73,6 @@ readme = {file = "README.rst"}
 version = {file = "VERSION"}
 
 [tool.setuptools.packages.find]
-exclude = ["tests*", "examples*", "tools*", "docs*", "astronomia.tests*"]
 where = ["src"]
 
 [tool.setuptools_scm]

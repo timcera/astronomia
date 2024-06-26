@@ -29,7 +29,7 @@ from . import calendar
 from . import globals as globls
 from .calendar import jd_to_jcent
 from .coordinates import ecl_to_equ
-from .nutation import nutation_in_longitude
+from .nutation import nutation_in_longitude, obliquity
 from .planets import VSOP87d, vsop_to_fk5
 from .util import _scalar_if_one, d_to_r, dms_to_d, modpi2, polynomial
 
@@ -249,21 +249,21 @@ def rise(
     #
     # Sun
     #
-    l, b, r = sun.dimension3(jd)
+    sun_longitude, sun_latitude, sun_radius = sun.dimension3(jd)
 
     # correct vsop coordinates
-    l, b = vsop_to_fk5(jd, l, b)
+    sun_longitude, sun_latitude = vsop_to_fk5(jd, sun_longitude, sun_latitude)
 
     # nutation in longitude
-    l += nutation_in_longitude(jd)
+    sun_longitude += nutation_in_longitude(jd)
 
     # aberration
-    l += aberration_low(r)
+    sun_longitude += aberration_low(sun_radius)
 
     # equatorial coordinates
-    ra, dec = ecl_to_equ(l, b, eps)
+    ra, dec = ecl_to_equ(sun_longitude, sun_latitude, obliquity(jd))
 
-    obj = rstDict["Sun"]
+    obj = sun
     del obj.raList[0]
     del obj.decList[0]
     del obj.h0List[0]

@@ -69,12 +69,12 @@ class TestVSOPDatabase(TestCase):
                     jd = float(jd[2:])
                     line = f.readline()
                     fields = line.split()
-                    l = float(fields[1])
+                    lon = float(fields[1])
                     b = float(fields[4])
                     r = float(fields[7])
-                    refs.append((planet, jd, l, b, r))
-        for planet, jd, l, b, r in refs:
+                    refs.append((planet, jd, lon, b, r))
+        for planet, jd, lon, b, r in refs:
             L, B, R = vsop.dimension3(jd, planet)
-            np.testing.assert_array_almost_equal(L, l)
+            np.testing.assert_array_almost_equal(L, lon)
             np.testing.assert_array_almost_equal(B, b)
             np.testing.assert_array_almost_equal(R, r)

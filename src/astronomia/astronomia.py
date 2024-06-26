@@ -4,7 +4,6 @@ import sys
 import cltoolbox
 import pandas as pd
 from cltoolbox.rst_text_formatter import RSTHelpFormatter
-from toolbox_utils import tsutils
 
 from .calendar import cal_to_jd
 from .constants import days_per_second
@@ -13,6 +12,7 @@ from .lunar import Lunar
 from .nutation import nutation_in_longitude, nutation_in_obliquity, obliquity
 from .planets import geocentric_planet, vsop_to_fk5
 from .sun import Sun, aberration_low
+from .toolbox_utils.src.toolbox_utils import tsutils
 
 moon = Lunar()
 sun = Sun()
@@ -102,21 +102,23 @@ def risesettransit(
         jd = start_jd + day
         deltaPsi, eps = nutation[day]
         if body == "Moon":
-            l, b, r = moon.dimension3(jd)
+            moon_longitude, moon_latitude, moon_radius = moon.dimension3(jd)
             # nutation in longitude
-            l += deltaPsi
+            moon_longitude += deltaPsi
             # equatorial coordinates
-            ra, dec = ecl_to_equ(l, b, eps)
+            ra, dec = ecl_to_equ(moon_longitude, moon_latitude, eps)
         elif body == "Sun":
-            l, b, r = sun.dimension3(jd)
+            moon_longitude, moon_latitude, moon_radius = sun.dimension3(jd)
             # correct vsop coordinates
-            l, b = vsop_to_fk5(jd, l, b)
+            moon_longitude, moon_latitude = vsop_to_fk5(
+                jd, moon_longitude, moon_latitude
+            )
             # nutation in longitude
-            l += deltaPsi
+            moon_longitude += deltaPsi
             # aberration
-            l += aberration_low(r)
+            moon_longitude += aberration_low(moon_radius)
             # equatorial coordinates
-            ra, dec = ecl_to_equ(l, b, eps)
+            ra, dec = ecl_to_equ(moon_longitude, moon_latitude, eps)
         else:
             ra, dec = geocentric_planet(jd, body, deltaPsi, eps, days_per_second)
 
