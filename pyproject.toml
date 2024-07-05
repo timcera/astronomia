@@ -39,7 +39,7 @@ classifiers = [
 ] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
 keywords = ["ephemeris", "astronomy"]
 license = {text = "BSD-3-Clause"}
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 
 [project.scripts]
 solstice = "astronomia.apps.solstice:main"
