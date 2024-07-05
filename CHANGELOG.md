@@ -1,3 +1,9 @@
+## v3.0.1 (2024-07-05)
+
+### Refactor
+
+- simplified pyproject.toml, refactors
+
 ## v3.0.0 (2024-03-31)
 
 ### BREAKING CHANGE
