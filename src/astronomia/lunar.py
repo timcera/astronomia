@@ -39,14 +39,10 @@ from .util import d_to_r, modpi2, polynomial
 class Error(Exception):
     """Local exception class."""
 
-    pass
-
 
 # [Meeus-1998: table 47.A]
 #
 #    D, M, M1, F, l, r
-
-
 _tblLR = (
     (0, 0, 1, 0, 6288774, -20905355),
     (2, 0, -1, 0, 1274027, -3699111),
@@ -113,7 +109,6 @@ _tblLR = (
 # [Meeus-1998: table 47.B]
 #
 #    D, M, M1, F, b
-
 _tblB = (
     (0, 0, 0, 1, 5128122),
     (0, 0, 1, 1, 280602),
@@ -204,9 +199,10 @@ class Lunar:
     """ELP2000 lunar position calculations."""
 
     def mean_longitude_ascending_node(self, jd):
-        """Return mean longitude of ascending node.
+        """
+        Return mean longitude of ascending node.
 
-        Current implemention in astronomia is from:
+        Current implementation in astronomia is from:
 
            PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
@@ -232,23 +228,32 @@ class Lunar:
         *  Mean longitude of the ascending node of the Moon.
            OM  = MOD ( 450160.398036D0  -6962890.5431D0*T, TURNAS ) * DAS2R
 
-        Arguments:
-          - `jd` : julian Day
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
 
-        Returns:
-          - mean longitude of ascending node
+        Returns
+        -------
+        mean_longitude_ascending_node : float
+            Mean longitude of ascending node in radians.
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(ko, T))
 
     def mean_longitude_perigee(self, jd):
-        """Return mean longitude of lunar perigee.
+        """
+        Return mean longitude of lunar perigee.
 
-        Arguments:
-          - `jd` : julian Day
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
 
-        Returns:
-          - mean longitude of perigee
+        Returns
+        -------
+        mean_longitude_perigee : float
+            Mean longitude of perigee in radians.
         """
         T = jd_to_jcent(jd)
         X = polynomial(
@@ -264,78 +269,111 @@ class Lunar:
         return modpi2(X)
 
     def mean_longitude(self, jd):
-        """Return geocentric mean longitude.
+        """
+        Return geocentric mean longitude.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
 
-        Returns:
-          - mean longitude in radians
+        Returns
+        -------
+        mean_longitude : float
+            Mean longitude in radians.
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kL1, T))
 
     def mean_elongation(self, jd):
-        """Return geocentric mean elongation.
+        """
+        Return geocentric mean elongation.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
 
-        Returns:
-          - mean elongation in radians
+        Returns
+        -------
+        mean_elongation : float
+            Mean elongation in radians.
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kD, T))
 
     def mean_anomaly(self, jd):
-        """Return geocentric mean anomaly.
+        """
+        Return geocentric mean anomaly.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
 
-        Returns:
-          - mean anomaly in radians
+        Returns
+        -------
+        mean_anomaly : float
+            Mean anomaly in radians.
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kM1, T))
 
     def argument_of_latitude(self, jd):
-        """Return geocentric mean longitude.
+        """
+        Return geocentric mean longitude.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
 
-        Returns:
-          - argument of latitude in radians
+        Returns
+        -------
+        argument_of_latitude : float
+            Argument of latitude in radians.
         """
         T = jd_to_jcent(jd)
         return modpi2(polynomial(kF, T))
 
     def dimension3(self, jd):
-        """Return geocentric ecliptic longitude, latitude and radius.
+        """
+        Return geocentric ecliptic longitude, latitude, and radius.
 
-        When we need all three dimensions it is more efficient to combine the
-        calculations in one routine.
+        When all three dimensions are needed, it is more efficient to combine
+        the calculations in one routine.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
 
-        Returns:
-          - longitude in radians
-          - latitude in radians
-          - radius in km, Earth's center to Moon's center
+        Returns
+        -------
+        longitude : float
+            Geocentric ecliptic longitude in radians.
+        latitude : float
+            Geocentric ecliptic latitude in radians.
+        radius : float
+            Radius in kilometers (Earth's center to Moon's center).
         """
         return self._longitude(jd), self._latitude(jd), self._radius(jd)
 
     def dimension(self, jd, dim):
-        """Return one of geocentric ecliptic longitude, latitude and radius.
+        """
+        Return one of geocentric ecliptic longitude, latitude and radius.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
-          - `dim` : "L" (longitude") or "B" (latitude) or "R" (radius)
+        Parameters
+        ----------
+        jd : float
+            Julian Day in dynamical time.
+        dim : str
+            "L" (longitude), "B" (latitude), or "R" (radius).
 
-        Returns:
-          - longitude in radians or latitude in radians or radius in km,
+        Returns
+        -------
+        dimension : float
+            Longitude in radians or latitude in radians or radius in km,
             Earth's center to Moon's center, depending on value of `dim`.
         """
         if dim == "L":

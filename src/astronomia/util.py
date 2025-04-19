@@ -35,76 +35,98 @@ from .constants import minutes_per_day, pi2, seconds_per_day
 class Error(Exception):
     """Local exception class."""
 
-    pass
-
 
 def _scalar_if_one(solution):
-    """Returns a scalar if array size is 1."""
+    """
+    Return a scalar if the array size is 1.
+
+    Parameters
+    ----------
+    solution : ndarray or scalar
+        Input value or array.
+
+    Returns
+    -------
+    scalar or ndarray
+        Scalar if the input array size is 1, otherwise the input value.
+    """
     if np.isscalar(solution):
         return solution
     return solution.item() if solution.size == 1 else solution
 
 
 def d_to_dms(x):
-    """Convert an angle in decimal degrees to degree components.
+    """
+    Convert an angle in decimal degrees to degree components.
 
-    Return a tuple (degrees, minutes, seconds). Degrees and minutes
-    will be integers, seconds may be floating.
+    Parameters
+    ----------
+    x : float
+        Angle in decimal degrees.
 
-    If the argument is negative:
-
-        The return value of degrees will be negative.
-        If degrees is 0, minutes will be negative.
-        If minutes is 0, seconds will be negative.
-
-    Arguments:
-      - `x` : degrees
-
-    Returns:
-      - degrees : (int)
-      - minutes : (int)
-      - seconds : (int, float)
+    Returns
+    -------
+    degrees : int
+        Degrees component.
+    minutes : int
+        Minutes component.
+    seconds : float
+        Seconds component.
     """
     frac, degrees = np.modf(x)
     seconds, minutes = np.modf(frac * 60)
     return int(degrees), int(minutes), seconds * 60
 
 
-#
-# Local constants
-#
-_DtoR = np.pi / 180.0
-
-
 def d_to_r(d):
-    """Convert degrees to radians.
-
-    Arguments:
-      -  `d` : (int, float), degrees
-
-    Returns:
-      - radians : (float)
     """
-    return d * _DtoR
+    Convert degrees to radians.
+
+    Parameters
+    ----------
+    d : float
+        Angle in degrees.
+
+    Returns
+    -------
+    d_to_r
+        Angle in radians.
+    """
+    return d * np.pi / 180.0
+
+
+def r_to_d(r):
+    """
+    Convert radians to degrees.
+
+    Parameters
+    ----------
+    r : float
+        Angle in radians.
+
+    Returns
+    -------
+    r_to_d
+        Angle in degrees.
+    """
+    return r * 180.0 / np.pi
 
 
 def diff_angle(a, b):
-    """Return angle b - a, accounting for circular values.
+    """
+    Return the difference between two angles, accounting for circular values.
 
-    Parameters a and b should be in the range 0..pi*2. The
-    result will be in the range -pi..pi.
+    Parameters
+    ----------
+    a : float
+        First angle in radians.
+    b : float
+        Second angle in radians.
 
-    This allows us to directly compare angles which cross through 0:
-
-        359 degress... 0 degrees... 1 degree... etc
-
-    Arguments:
-      - `a` : (int, float) first angle, in radians
-      - `b` : (int, float) second angle, in radians
-
-    Returns:
-      - b - a, in radians : (int, float)
-
+    Returns
+    -------
+    diff_angle
+        Difference between the two angles in radians, in the range -pi to pi.
     """
     result = b + pi2 - a if b < a else b - a
     if result > np.pi:
@@ -113,17 +135,22 @@ def diff_angle(a, b):
 
 
 def dms_to_d(deg, minute, sec):
-    """Convert an angle in degree components to decimal degrees.
+    """
+    Convert an angle in degree components to decimal degrees.
 
-    If any of the components are negative the result will also be negative.
+    Parameters
+    ----------
+    deg : float
+        Degrees component.
+    minute : float
+        Minutes component.
+    sec : float
+        Seconds component.
 
-    Arguments:
-      - `deg` : (int, float) degrees
-      - `minute` : (int, float) minutes
-      - `sec` : (int, float) seconds
-
-    Returns:
-      - decimal degrees : (float)
+    Returns
+    -------
+    dms_to_d
+        Angle in decimal degrees.
     """
     deg = np.atleast_1d(deg)
     minute = np.atleast_1d(minute)
@@ -136,16 +163,22 @@ def dms_to_d(deg, minute, sec):
 
 
 def interpolate3(n, y):
-    """Interpolate from three equally spaced tabular values.
+    """
+    Interpolate from three equally spaced tabular values.
 
     [Meeus-1998; equation 3.3]
 
-    Parameters:
-      - `n` : the interpolating factor, must be between -1 and 1
-      - `y` : a sequence of three values
+    Parameters
+    ----------
+    n : float
+        Interpolating factor, must be between -1 and 1.
+    y : sequence of float
+        Sequence of three values.
 
-    Results:
-      - the interpolated value of y
+    Returns
+    -------
+    interpolate3
+        Interpolated value.
     """
     if not -1 < n < 1:
         raise Error(f"interpolating factor out of range: {n}")
@@ -157,20 +190,22 @@ def interpolate3(n, y):
 
 
 def interpolate_angle3(n, y):
-    """Interpolate from three equally spaced tabular angular values.
+    """
+    Interpolate from three equally spaced tabular angular values.
 
     [Meeus-1998; equation 3.3]
 
-    This version is suitable for interpolating from a table of
-    angular values which may cross the origin of the circle,
-    for example: 359 degrees...0 degrees...1 degree.
+    Parameters
+    ----------
+    n : float
+        Interpolating factor, must be between -1 and 1.
+    y : sequence of float
+        Sequence of three angular values.
 
-    Arguments:
-      - `n` : the interpolating factor, must be between -1 and 1
-      - `y` : a sequence of three values
-
-    Results:
-      - the interpolated value of y
+    Returns
+    -------
+    interpolate_angle3
+        Interpolated angular value.
     """
     if not -1 < n < 1:
         raise Error(f"interpolating factor out of range: {n}")
@@ -182,13 +217,16 @@ def interpolate_angle3(n, y):
 
 
 def load_params():
-    """Read a parameter file and assign global values.
+    """
+    Read a parameter file and assign global values.
 
-    Arguments:
-        none
+    Parameters
+    ----------
+    None
 
-    Returns:
-        nothing
+    Returns
+    -------
+    None
     """
     fname = os.environ.get("ASTRONOMIA_PARAMS", "astronomia_params.txt")
 
@@ -323,67 +361,61 @@ astronomia_params.txt in the current directory"""
 
 
 def modpi2(x):
-    """Reduce an angle in radians to the range 0..2pi.
+    """
+    Reduce an angle in radians to the range 0..2pi.
 
-    Arguments:
-      - `x` : angle in radians
+    Parameters
+    ----------
+    x : float
+        Angle in radians.
 
-    Returns:
-      - angle in radians in the range 0..2pi
+    Returns
+    -------
+    modpi2
+        Angle in radians in the range 0..2pi.
     """
     return x % pi2
 
 
 def mod360(x):
-    """Reduce an angle in degrees to the range 0..360.
+    """
+    Reduce an angle in degrees to the range 0..360.
 
-    Arguments:
-      - `x` : angle in degrees
+    Parameters
+    ----------
+    x : float
+        Angle in degrees.
 
-    Returns:
-      - angle in degress in the range 0..360
+    Returns
+    -------
+    mod360
+        Angle in degrees in the range 0..360.
     """
     return x % 360
 
 
 def polynomial(terms, x):
-    """Evaluate a simple polynomial.
+    """
+    Evaluate a simple polynomial.
 
-    Where: terms[0] is constant, terms[1] is for x, terms[2] is for x^2, etc.
+    Parameters
+    ----------
+    terms : sequence of float
+        Coefficients of the polynomial. `terms[0]` is the constant term,
+        `terms[1]` is the coefficient for x, `terms[2]` is for x^2, etc.
+    x : float
+        Variable value.
 
-    Arguments:
-      - `terms` : sequence of coefficients
-      - `x` : variable value
+    Returns
+    -------
+    polynomial
+        Value of the polynomial.
 
-    Results:
-      - value of the polynomial
-
-    Examples:
-        >>> t = 4.1
-        >>> polynomial((1.1, -3.2, 3.3, 4.5), t)
-        353.59749999999997
-
-        returns the value of:
-
-            1.1 + 2.2 * t + 3.3 * t^2 + 4.4 * t^3
+    Examples
+    --------
+    >>> t = 4.1
+    >>> polynomial((1.1, -3.2, 3.3, 4.5), t)
+    353.59749999999997
     """
     apolyfunc = np.polynomial.Polynomial(terms)
     return apolyfunc(x)
-
-
-#
-# Local constants
-#
-_RtoD = 180.0 / np.pi
-
-
-def r_to_d(r):
-    """Convert radians to degrees.
-
-    Arguments:
-      - `r` : radians
-
-    Returns:
-      - degrees
-    """
-    return r * _RtoD

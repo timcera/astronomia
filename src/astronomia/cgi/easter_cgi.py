@@ -72,13 +72,13 @@ def display_form():
     print("<TR>")
     print('<TD><LABEL for="starting_year">Starting year</LABEL></TD>')
     print(
-        f'<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="{year-5}"></TD>'
+        f'<TD><INPUT type="text" size=4 name="starting_year" id="starting_year" value="{year - 5}"></TD>'
     )
     print("</TR>")
     print("<TR>")
     print('<TD><LABEL for="ending_year">Ending year</LABEL></TD>')
     print(
-        f'<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="{year+5}"></TD>'
+        f'<TD><INPUT type="text" size=4 name="ending_year" id="ending_year" value="{year + 5}"></TD>'
     )
     print("</TR>")
     print("</TABLE>")

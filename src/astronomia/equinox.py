@@ -37,8 +37,6 @@ from .util import d_to_r, diff_angle, polynomial
 class Error(Exception):
     """local exception class."""
 
-    pass
-
 
 #
 # Meeus-1998 Table 27.A
@@ -92,17 +90,23 @@ _terms = [
 
 
 def equinox_approx(yr, season):
-    """Returns the approximate time of a solstice or equinox event.
+    """
+    Returns the approximate time of a solstice or equinox event.
 
     The year must be in the range -1000...3000. Within that range the
     the error from the precise instant is at most 2.16 minutes.
 
-    Arguments:
-      - `yr`     : (int) year
-      - `season` : (str) {"spring", "summer", "autumn", "winter"}
+    Parameters
+    ----------
+    yr : int
+        year
+    season : str
+        one of {"spring", "summer", "autumn", "winter"}
 
-    Returns:
-      - Julian Day : (int) in dynamical time
+    Returns
+    -------
+    equinox_approx
+        Julian Day in dynamical time
     """
     if not -1000 <= yr <= 3000:
         raise Error("year is out of range")
@@ -133,16 +137,23 @@ _k_sun_motion = 365.25 / pi2
 
 
 def equinox(jd, season, delta):
-    """Return the precise moment of an equinox or solstice event on Earth.
+    """
+    Return the precise moment of an equinox or solstice event on Earth.
 
-    Parameters:
-      - `jd`     : Julian of an approximate time of the event in dynamical time
-      - `season` : one of ("spring", "summer", "autumn", "winter")
-      - `delta`  : the required precision in days. Times accurate to a second
+    Parameters
+    ----------
+    jd : float
+        Julian of an approximate time of the event in dynamical time
+    season : str
+        one of ("spring", "summer", "autumn", "winter")
+    delta : float
+        the required precision in days. Times accurate to a second
         are reasonable when using the VSOP model.
 
-    Returns:
-      - Julian Day : (int) dynamical time
+    Returns
+    -------
+    equinox
+        Julian Day in dynamical time
     """
     #
     # If we knew that the starting approximate time was close enough

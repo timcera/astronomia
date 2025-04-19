@@ -31,3 +31,4 @@ __pycache__/*
 .tox
 .tox/*
 debug_*
+.qodo

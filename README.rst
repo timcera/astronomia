@@ -65,7 +65,8 @@ To use Astronomia in a project::
 Development
 ~~~~~~~~~~~
 Development is managed on bitbucket at
-https://bitbucket.org/timcera/astronomia/overview.
+https://bitbucket.org/timcera/astronomia/src/main/ and on github at
+https://github.com/timcera/astronomia
 
 History
 ~~~~~~~
