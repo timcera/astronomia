@@ -9,7 +9,7 @@ Model: The planetary model is VSOP87 (Variations Seculaires des Orbites
 Planetaires) by Bretagnon and Francou. The original model documentation, data
 files, and sample Fortran routines are available
 (http://vizier.cfa.harvard.edu/viz-bin/ftp-index?/ftp/cats/VI/81) NOTE: It is
-'''not''' neccessary to download any data or sources from the original site.
+'''not''' necessary to download any data or sources from the original site.
 Astronomia provides everything required. The original data files require about
 4.1 MB; combined and reduced in Astronomia to about 1.4 MB. The full accuracy
 of the model is retained.
@@ -46,16 +46,22 @@ Accuracy of planetary positions
         | Neptune | 1891        | 0.087                   |
         +---------+-------------+-------------------------+
 
-A note on the Meeus version. Meeus prints a truncated version of the model in
-his book. The first edition had an optional software supplement which included
-the truncated data. This supplement is no longer available, but the complete
-data presented here can be used instead of the version on the diskette.
-Astronomia does use a different format.
+A note on the Meeus [1]_ version. Meeus prints a truncated version of the model
+in his book. The first edition had an optional software supplement which
+included the truncated data. This supplement is no longer available, but the
+complete data presented here can be used instead of the version on the
+diskette. Astronomia does use a different format.
 
 Moon
 ~~~~
 
-The lunar model is Meeus's simplified version of ELP2000-82 by Chapront. The
-complete model can be found at http://cdsarc.u-strasbg.fr/viz-bin/Cat?VI/79.
-Accuracy of the simplified version is about 10 arc-seconds in longitude and 4
-arc-seconds in latitude.
+The lunar model is Meeus's [1]_ simplified version of ELP2000-82 by Chapront
+[2]_. The complete model can be found at
+http://cdsarc.u-strasbg.fr/viz-bin/Cat?VI/79. Accuracy of the simplified
+version is about 10 arc-seconds in longitude and 4 arc-seconds in latitude.
+
+.. [1] Meeus, Jean. Astronomical Algorithms. 2nd ed. Willmann-Bell, 1998.
+
+.. [2] Chapront-Touze, M. and Chapront, J., “ELP 2000-85: a semi-analytical
+   lunar ephemeris adequate for historical times”, <i>Astronomy and
+   Astrophysics</i>, vol. 190, p. 342, 1988.

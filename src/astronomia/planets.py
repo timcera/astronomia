@@ -34,8 +34,6 @@ from .util import _scalar_if_one, d_to_r, diff_angle, dms_to_d, modpi2, polynomi
 class Error(Exception):
     """Local exception class."""
 
-    pass
-
 
 #
 # Global values, readable from other modules
@@ -72,7 +70,8 @@ class VSOP87d:
     """
 
     def __init__(self):
-        """Load the database of planetary terms.
+        """
+        Load the database of planetary terms.
 
         This is actually done only once to save time and space.
         """
@@ -87,19 +86,26 @@ class VSOP87d:
         _first_time = False
 
     def dimension(self, jd, planet, dim):
-        """Return one of heliocentric ecliptic longitude, latitude and radius.
+        """
+        Return one of heliocentric ecliptic longitude, latitude and radius.
 
         [Meeus-1998: pg 218]
 
-        Arguments:
-          - `jd`     : Julian Day in dynamical time
-          - `planet` : must be one of ("Mercury", "Venus", "Earth", "Mars",
-            "Jupiter", "Saturn", "Uranus", "Neptune")
-          - `dim`    : must be one of "L" (longitude) or "B" (latitude) or "R"
-            (radius)
+        Parameters
+        ----------
+        jd : float or ndarray
+            Julian Day in dynamical time.
+        planet : str
+            Must be one of ("Mercury", "Venus", "Earth", "Mars",
+            "Jupiter", "Saturn", "Uranus", "Neptune").
+        dim : str
+            Must be one of "L" (longitude), "B" (latitude), or "R"
+            (radius).
 
-        Returns:
-          - longitude in radians, or latitude in radians, or radius in au,
+        Returns
+        -------
+        dimension
+            longitude in radians, or latitude in radians, or radius in au,
             depending on the value of `dim`.
         """
         jd = np.atleast_1d(jd)
@@ -118,17 +124,25 @@ class VSOP87d:
         return _scalar_if_one(X)
 
     def dimension3(self, jd, planet):
-        """Return heliocentric ecliptic longitude, latitude and radius.
+        """
+        Return heliocentric ecliptic longitude, latitude and radius.
 
-        Arguments:
-          - `jd`     : Julian Day in dynamical time
-          - `planet` : must be one of ("Mercury", "Venus", "Earth", "Mars",
-            "Jupiter", "Saturn", "Uranus", "Neptune")
+        Parameters
+        ----------
+        jd : float or ndarray
+            Julian Day in dynamical time.
+        planet : str
+            Must be one of ("Mercury", "Venus", "Earth", "Mars",
+            "Jupiter", "Saturn", "Uranus", "Neptune").
 
-        Returns:
-          - longitude in radians
-          - latitude in radians
-          - radius in au
+        Returns
+        -------
+        longitude
+            heliocentric ecliptic longitude in radians
+        latitude
+            heliocentric ecliptic latitude in radians
+        radius
+            radius in au
         """
         L = self.dimension(jd, planet, "L")
         B = self.dimension(jd, planet, "B")
@@ -146,19 +160,27 @@ _k3 = d_to_r(dms_to_d(0, 0, 0.03916))
 
 
 def vsop_to_fk5(jd, L, B):
-    """Convert VSOP to FK5 coordinates.
+    """
+    Convert VSOP to FK5 coordinates.
 
     This is required only when using the full precision of the
-    VSOP model.  [Meeus-1998: pg 219]
+    VSOP model. [Meeus-1998: pg 219]
 
-    Arguments:
-      - `jd` : Julian Day in dynamical time
-      - `L`  : longitude in radians
-      - `B`  : latitude in radians
+    Parameters
+    ----------
+    jd : float or ndarray
+        Julian Day in dynamical time.
+    L : float
+        Longitude in radians.
+    B : float
+        Latitude in radians.
 
-    Returns:
-      - corrected longitude in radians
-      - corrected latitude in radians
+    Returns
+    -------
+    corrected_longitude : float
+        Corrected longitude in radians.
+    corrected_latitude : float
+        Corrected latitude in radians.
     """
     jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
@@ -171,22 +193,32 @@ def vsop_to_fk5(jd, L, B):
 
 
 def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
-    """Calculate the equatorial coordinates of a planet.
+    """
+    Calculate the equatorial coordinates of a planet.
 
     The results will be geocentric, corrected for light-time and
     aberration.
 
-    Arguments:
-      - `jd`       : Julian Day in dynamical time
-      - `planet`   : must be one of ("Mercury", "Venus", "Earth", "Mars",
-        "Jupiter", "Saturn", "Uranus", "Neptune")
-      - `deltaPsi` : nutation in longitude, in radians
-      - `epsilon`  : True obliquity (corrected for nutation), in radians
-      - `delta`    : desired accuracy, in days
+    Parameters
+    ----------
+    jd : float or ndarray
+        Julian Day in dynamical time.
+    planet : str
+        Must be one of ("Mercury", "Venus", "Earth", "Mars",
+        "Jupiter", "Saturn", "Uranus", "Neptune").
+    deltaPsi : float
+        Nutation in longitude, in radians.
+    epsilon : float
+        True obliquity (corrected for nutation), in radians.
+    delta : float
+        Desired accuracy, in days.
 
-    Returns:
-      - right accension, in radians
-      - declination, in radians
+    Returns
+    -------
+    right_ascension : float
+        Right ascension in radians.
+    declination : float
+        Declination in radians.
     """
     jd = np.atleast_1d(jd)
     vsop = VSOP87d()
@@ -195,7 +227,7 @@ def geocentric_planet(jd, planet, deltaPsi, epsilon, delta):
     # We need to iterate to correct for light-time and aberration.
     # At most three passes through the loop always nails it.
     # Note that we move both the Earth and the other planet during
-    #    the iteration.
+    # the iteration.
     for bailout in range(20):
         # heliocentric geometric ecliptic coordinates of the Earth
         L0, B0, R0 = vsop.dimension3(t, "Earth")

@@ -35,11 +35,14 @@ from .util import _scalar_if_one, d_to_r, dms_to_d, modpi2, polynomial
 
 
 class Error(Exception):
-    """Local exception class."""
+    """
+    Local exception class.
+    """
 
 
 class Sun:
-    """High precision position calculations.
+    """
+    High precision position calculations.
 
     This is a very light wrapper around the VSOP87d class. The
     geocentric longitude of the Sun is simply the heliocentric longitude
@@ -52,13 +55,18 @@ class Sun:
         self.vsop = VSOP87d()
 
     def mean_longitude(self, jd):
-        """Return mean longitude.
+        """
+        Return the mean longitude of the Sun.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float or ndarray
+            Julian Day in dynamical time.
 
-        Returns:
-          - Longitude in radians
+        Returns
+        -------
+        mean_longitude : float
+            Longitude in radians.
         """
         jd = np.atleast_1d(jd)
         T = jd_to_jcent(jd)
@@ -87,13 +95,18 @@ class Sun:
         return _scalar_if_one(X)
 
     def mean_longitude_perigee(self, jd):
-        """Return mean longitude of solar perigee.
+        """
+        Return the mean longitude of the solar perigee.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float or ndarray
+            Julian Day in dynamical time.
 
-        Returns:
-          - Longitude of solar perigee in radians
+        Returns
+        -------
+        mean_longitude_perigee : float
+            Longitude of the solar perigee in radians.
         """
         jd = np.atleast_1d(jd)
         T = jd_to_jcent(jd)
@@ -105,15 +118,21 @@ class Sun:
         return _scalar_if_one(X)
 
     def dimension(self, jd, dim):
-        """Return one of geocentric ecliptic longitude, latitude and radius.
+        """
+        Return one of geocentric ecliptic longitude, latitude, or radius.
 
-        Arguments:
-          - jd : Julian Day in dynamical time
-          - dim : one of "L" (longitude) or "B" (latitude) or "R" (radius).
+        Parameters
+        ----------
+        jd : float or ndarray
+            Julian Day in dynamical time.
+        dim : str
+            One of "L" (longitude), "B" (latitude), or "R" (radius).
 
-        Returns:
-          - Either longitude in radians, or latitude in radians, or radius in
-            au, depending on value of `dim`.
+        Returns
+        -------
+        dimension : float or ndarray
+            Longitude in radians, latitude in radians, or radius in AU,
+            depending on the value of `dim`.
         """
         jd = np.atleast_1d(jd)
         X = self.vsop.dimension(jd, "Earth", dim)
@@ -124,15 +143,22 @@ class Sun:
         return _scalar_if_one(X)
 
     def dimension3(self, jd):
-        """Return geocentric ecliptic longitude, latitude and radius.
+        """
+        Return geocentric ecliptic longitude, latitude, and radius.
 
-        Arguments:
-          - `jd` : Julian Day in dynamical time
+        Parameters
+        ----------
+        jd : float or ndarray
+            Julian Day in dynamical time.
 
-        Returns:
-          - longitude in radians
-          - latitude in radians
-          - radius in au
+        Returns
+        -------
+        longitude : float
+            Longitude in radians.
+        latitude : float
+            Latitude in radians.
+        radius : float
+            Radius in AU.
         """
         L = self.dimension(jd, "L")
         B = self.dimension(jd, "B")
@@ -140,36 +166,36 @@ class Sun:
         return L, B, R
 
 
-#
-# Constant terms
-#
-_kL0 = (d_to_r(280.46646), d_to_r(36000.76983), d_to_r(0.0003032))
-_kM = (
-    d_to_r(357.5291092),
-    d_to_r(35999.0502909),
-    d_to_r(-0.0001536),
-    d_to_r(1.0 / 24490000),
-)
-_kC = (d_to_r(1.914602), d_to_r(-0.004817), d_to_r(-0.000014))
-
-_ck3 = d_to_r(0.019993)
-_ck4 = d_to_r(-0.000101)
-_ck5 = d_to_r(0.000289)
-
-
 def longitude_radius_low(jd):
-    """Return geometric longitude and radius vector.
-
-    Low precision. The longitude is accurate to 0.01 degree.  The latitude
-    should be presumed to be 0.0. [Meeus-1998: equations 25.2 through 25.5
-
-    Arguments:
-      - `jd` : Julian Day in dynamical time
-
-    Returns:
-      - longitude in radians
-      - radius in au
     """
+    Return geometric longitude and radius vector.
+
+    Low precision. The longitude is accurate to 0.01 degree. The latitude
+    should be presumed to be 0.0. [Meeus-1998: equations 25.2 through 25.5]
+
+    Parameters
+    ----------
+    jd : float or ndarray
+        Julian Day in dynamical time.
+
+    Returns
+    -------
+    longitude : float
+        Longitude in radians.
+    radius : float
+        Radius in AU.
+    """
+    _kL0 = (d_to_r(280.46646), d_to_r(36000.76983), d_to_r(0.0003032))
+    _kM = (
+        d_to_r(357.5291092),
+        d_to_r(35999.0502909),
+        d_to_r(-0.0001536),
+        d_to_r(1.0 / 24490000),
+    )
+    _kC = (d_to_r(1.914602), d_to_r(-0.004817), d_to_r(-0.000014))
+    _ck3 = d_to_r(0.019993)
+    _ck4 = d_to_r(-0.000101)
+    _ck5 = d_to_r(0.000289)
     jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
     L0 = polynomial(_kL0, T)
@@ -186,51 +212,51 @@ def longitude_radius_low(jd):
     return L, R
 
 
-#
-# Constant terms
-#
-_lk0 = d_to_r(125.04)
-_lk1 = d_to_r(1934.136)
-_lk2 = d_to_r(0.00569)
-_lk3 = d_to_r(0.00478)
-
-
 def apparent_longitude_low(jd, L):
-    """Correct the geometric longitude for nutation and aberration.
+    """
+    Correct the geometric longitude for nutation and aberration.
 
     Low precision. [Meeus-1998: pg 164]
 
-    Arguments:
-      - `jd` : Julian Day in dynamical time
-      - `L` : longitude in radians
+    Parameters
+    ----------
+    jd : float or ndarray
+        Julian Day in dynamical time.
+    L : float
+        Longitude in radians.
 
-    Returns:
-      - corrected longitude in radians
+    Returns
+    -------
+    apparant_longitude_low : float
+        Corrected longitude in radians.
     """
+    _lk0 = d_to_r(125.04)
+    _lk1 = d_to_r(1934.136)
+    _lk2 = d_to_r(0.00569)
+    _lk3 = d_to_r(0.00478)
     jd = np.atleast_1d(jd)
     T = jd_to_jcent(jd)
     omega = _lk0 - _lk1 * T
     return _scalar_if_one(modpi2(L - _lk2 - _lk3 * np.sin(omega)))
 
 
-#
-# Constant terms
-#
-_lk4 = d_to_r(dms_to_d(0, 0, 20.4898))
-
-
 def aberration_low(R):
-    """Correct for aberration; low precision, but good enough for most uses.
+    """
+    Correct for aberration; low precision, but good enough for most uses.
 
     [Meeus-1998: pg 164]
 
-    Arguments:
-      - `R` : radius in au
+    Parameters
+    ----------
+    R : float
+        Radius in AU.
 
-    Returns:
-      - correction in radians
+    Returns
+    -------
+    aberration_low : float
+        Correction in radians.
     """
-    return -_lk4 / R
+    return -d_to_r(dms_to_d(0, 0, 20.4898)) / R
 
 
 def rise(
@@ -241,6 +267,30 @@ def rise(
     latitude=globls.latitude,
     gregorian=True,
 ):
+    """
+    Calculate the rise time of the Sun for a given date and location.
+
+    Parameters
+    ----------
+    year : int
+        Year of the date.
+    month : int
+        Month of the date.
+    day : int
+        Day of the date.
+    longitude : float, optional
+        Longitude of the observer in radians. Default is `globls.longitude`.
+    latitude : float, optional
+        Latitude of the observer in radians. Default is `globls.latitude`.
+    gregorian : bool, optional
+        Whether the date is in the Gregorian calendar. Default is True.
+
+    Returns
+    -------
+    rise
+        Updates the Sun object's right ascension, declination, and standard
+        altitude.
+    """
     from .constants import sun_rst_altitude
 
     jd = calendar.cal_to_jd(year, month, day, gregorian=gregorian)
