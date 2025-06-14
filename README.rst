@@ -18,11 +18,6 @@
     :target: https://pypi.python.org/pypi/astronomia/
     :height: 20
 
-.. image:: http://img.shields.io/pypi/dd/astronomia.svg
-    :alt: astronomia downloads
-    :target: https://pypi.python.org/pypi/astronomia/
-    :height: 20
-
 .. image:: https://img.shields.io/pypi/pyversions/astronomia
     :alt: PyPI - Python Version
     :target: https://pypi.org/project/astronomia/
