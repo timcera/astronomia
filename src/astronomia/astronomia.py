@@ -22,24 +22,27 @@ sun = Sun()
 def right_ascension(
     latitude, longitude, body, input_ts=None, start_date=None, end_date=None, freq=None
 ):
-    """Print out right ascension.
+    """
+    Print out right ascension.
 
-    :param latitude <float>: The latitude of the location where you want to
-        calculate right ascension.
-    :param longitude <float>: The longitude of the location where you want to
-        calculate right ascension.
-    :param body <str>:  Celestial body, one of ['sun', 'moon',
-        'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus',
-        'neptune', 'pluto']
-    :param str input_ts:  Filename with data in 'ISOdate,value'
-        format or '-' for stdin.
-    :param str start_date:  The start_date of the series in
-        ISOdatetime format, or 'None' for beginning.
-    :param str end_date:  The end_date of the series in
-        ISOdatetime format, or 'None' for end.
-    :param freq:  To use this form --start_date and --end_date must be
-        supplied also.  The pandas date offset code used to create the
-        index.
+    Parameters
+    ----------
+    latitude : float
+        The latitude of the location where you want to calculate right ascension.
+    longitude : float
+        The longitude of the location where you want to calculate right ascension.
+    body : str
+        Celestial body, one of ['sun', 'moon', 'mercury', 'venus', 'mars',
+        'jupiter', 'saturn', 'uranus', 'neptune', 'pluto']
+    input_ts : str, optional
+        Filename with data in 'ISOdate,value' format or '-' for stdin.
+    start_date : str, optional
+        The start_date of the series in ISOdatetime format, or 'None' for beginning.
+    end_date : str, optional
+        The end_date of the series in ISOdatetime format, or 'None' for end.
+    freq : str, optional
+        To use this form --start_date and --end_date must be supplied also.
+        The pandas date offset code used to create the index.
     """
     if input_ts is not None:
         start_date = input_ts.index[0]
@@ -53,32 +56,30 @@ def right_ascension(
 def risesettransit(
     latitude, longitude, start_date, end_date, body, h0=0, times="rise,set"
 ):
-    """Print out rise, set, and/or transit times.
+    """
+    Print out rise, set, and/or transit times.
 
-    :param latitude <float>:  Earth observer latitude in decimal degrees
-    :param longitude <float>:  Earth observer longitude in decimal degrees
-    :param start_date <str>:  ISO 8601 date string
-    :param end_date <str>:  ISO 8601 date string
-    :param body <str>:  Astronomical body, one of::
-
-            Sun
-            Moon
-            Mercury
-            Venus
-            Mars
-            Jupiter
-            Saturn
-            Uranus
-            Neptune
-            Pluto
-    :param h0 <float>:  Earth observer standard altitude in radians
-    :param times <str>: Comma separated list of times to include::
-
-            "rise" for the rise time
-            "set" for the set time
-            "transit" for the transit time
-
-        Defaults to "rise,set".
+    Parameters
+    ----------
+    latitude : float
+        Earth observer latitude in decimal degrees
+    longitude : float
+        Earth observer longitude in decimal degrees
+    start_date : str
+        ISO 8601 date string
+    end_date : str
+        ISO 8601 date string
+    body : str
+        Astronomical body, one of:
+        Sun, Moon, Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
+    h0 : float, optional
+        Earth observer standard altitude in radians (default is 0)
+    times : str, optional
+        Comma separated list of times to include (default is "rise,set").
+        Valid values:
+            - "rise" for the rise time
+            - "set" for the set time
+            - "transit" for the transit time
     """
     start_date = tsutils.parsedate(start_date)
     end_date = tsutils.parsedate(end_date)

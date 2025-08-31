@@ -1201,16 +1201,21 @@ _tbl_end = 2015
 
 
 def deltaT_seconds(jd):
-    """Return deltaT as seconds of time.
+    """
+    Return deltaT as seconds of time.
 
     For a historical range from 1620 to a recent year, we interpolate from a
     table of observed values. Outside that range we use formulae.
 
-    Arguments:
-      - `jd` : (int) Julian Day number
+    Parameters
+    ----------
+    jd : int
+        Julian Day number
 
-    Returns:
-      - deltaT in seconds
+    Returns
+    -------
+    deltaT_seconds
+        deltaT in seconds
     """
     yr, mo, day = jd_to_cal(jd)
     #
@@ -1314,12 +1319,17 @@ def deltaT_seconds(jd):
 
 
 def dt_to_ut(jd):
-    """Convert Julian Day from dynamical to universal time.
+    """
+    Convert Julian Day from dynamical to universal time.
 
-    Arguments:
-      - `jd` : (int) Julian Day number (dynamical time)
+    Parameters
+    ----------
+    jd : int
+        Julian Day number (dynamical time)
 
-    Returns:
-      - Julian Day number : (int) (universal time)
+    Returns
+    -------
+    dt_to_ut
+        Julian Day number (universal time)
     """
     return jd - deltaT_seconds(jd) / seconds_per_day

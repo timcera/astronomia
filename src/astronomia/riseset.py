@@ -44,8 +44,6 @@ from .util import d_to_r, diff_angle, interpolate3, interpolate_angle3, modpi2
 class Error(Exception):
     """local exception class."""
 
-    pass
-
 
 _k1 = d_to_r(360.985647)
 
@@ -109,59 +107,75 @@ def _riseset(
 
 
 def rise(jd, raList, decList, h0, delta):
-    """Return the Julian Day of the rise time of an object.
+    """
+    Return the Julian Day of the rise time of an object.
 
-    Arguments:
-      - `jd`     : (int) Julian Day number of the day in question, at 0 hr UT
-      - `raList` : (float, float, float) a sequence of three right accension
-        values, in radians, for (jd-1, jd, jd+1)
-      - `decList`: (float, float, float) a sequence of three right declination
-        values, in radians, for (jd-1, jd, jd+1)
-      - `h0`     : (float) the standard altitude in radians
-      - `delta`  : (float) desired accuracy in days. Times less than one minute
-        are infeasible for rise times because of atmospheric refraction.
+    Parameters
+    ----------
+    jd : int
+        Julian Day number of the day in question, at 0 hr UT.
+    raList : tuple of float
+        A sequence of three right ascension values, in radians, for (jd-1, jd, jd+1).
+    decList : tuple of float
+        A sequence of three declination values, in radians, for (jd-1, jd, jd+1).
+    h0 : float
+        The standard altitude in radians.
+    delta : float
+        Desired accuracy in days. Times less than one minute are infeasible for rise times
+        because of atmospheric refraction.
 
-    Returns:
-      - Julian Day of the rise time
+    Returns
+    -------
+    rise
+        Julian Day of the rise time.
     """
     _riseset(jd, raList, decList, h0, delta, "rise")
 
 
 def settime(jd, raList, decList, h0, delta):
-    """Return the Julian Day of the set time of an object.
+    """
+    Return the Julian Day of the set time of an object.
 
-    Arguments:
-      - `jd`      : Julian Day number of the day in question, at 0 hr UT
-      - `raList`  : a sequence of three right accension values, in radians, for
-        (jd-1, jd, jd+1)
-      - `decList` : a sequence of three right declination values, in radians,
-        for (jd-1, jd, jd+1)
-      - `h0`      : the standard altitude in radians
-      - `delta`   : desired accuracy in days. Times less than one minute are
-        infeasible for set times because of atmospheric refraction.
+    Parameters
+    ----------
+    jd : int
+        Julian Day number of the day in question, at 0 hr UT.
+    raList : tuple of float
+        A sequence of three right ascension values, in radians, for (jd-1, jd, jd+1).
+    decList : tuple of float
+        A sequence of three declination values, in radians, for (jd-1, jd, jd+1).
+    h0 : float
+        The standard altitude in radians.
+    delta : float
+        Desired accuracy in days. Times less than one minute are infeasible for set times
+        because of atmospheric refraction.
 
-    Returns:
-      - Julian Day of the set time
+    Returns
+    -------
+    settime
+        Julian Day of the set time.
     """
     _riseset(jd, raList, decList, h0, delta, "set")
 
 
 def transit(jd, raList, delta):
-    """Return the Julian Day of the transit time of an object.
-
-    Arguments:
-      - `jd`      : Julian Day number of the day in question, at 0 hr UT
-      - `raList`  : a sequence of three right accension values, in radians, for
-        (jd-1, jd, jd+1)
-      - `delta`   : desired accuracy in days.
-
-    Returns:
-      - Julian Day of the transit time
     """
-    #
-    # future: report both upper and lower culmination, and transits of objects
-    # below the horizon
-    #
+    Return the Julian Day of the transit time of an object.
+
+    Parameters
+    ----------
+    jd : int
+        Julian Day number of the day in question, at 0 hr UT.
+    raList : tuple of float
+        A sequence of three right ascension values, in radians, for (jd-1, jd, jd+1).
+    delta : float
+        Desired accuracy in days.
+
+    Returns
+    -------
+    transit
+        Julian Day of the transit time.
+    """
     longitude = globls.longitude
     THETA0 = sidereal_time_greenwich(jd)
     deltaT_days = deltaT_seconds(jd) / seconds_per_day
@@ -191,13 +205,18 @@ def transit(jd, raList, delta):
 
 
 def moon_rst_altitude(r):
-    """Return the standard altitude of the Moon.
+    """
+    Return the standard altitude of the Moon.
 
-    Arguments:
-      - `r` : Distance between the centers of the Earth and Moon, in km.
+    Parameters
+    ----------
+    r : float
+        Distance between the centers of the Earth and Moon, in kilometers.
 
-    Returns:
-      - Standard altitude in radians.
+    Returns
+    -------
+    moon_rst_altitude
+        Standard altitude in radians.
     """
     # horizontal parallax
     parallax = np.arcsin(earth_equ_radius / r)

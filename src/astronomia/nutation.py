@@ -112,8 +112,27 @@ _tbl = (
 
 
 def _constants(T):
-    """Return some values needed for both nutation_in_longitude() and
-    nutation_in_obliquity()"""
+    """
+    Return some values needed for both nutation_in_longitude() and nutation_in_obliquity().
+
+    Parameters
+    ----------
+    T : float
+        Julian centuries since J2000.0.
+
+    Returns
+    -------
+    D
+        D in radians.
+    M
+        M in radians.
+    M1
+        M1 in radians.
+    F
+        F in radians.
+    omega
+        omega in radians.
+    """
     D = modpi2(polynomial(kD, T))
     M = modpi2(polynomial(kM, T))
     M1 = modpi2(polynomial(kM1, T))
@@ -123,21 +142,21 @@ def _constants(T):
 
 
 def nutation_in_longitude(jd):
-    """Return the nutation in longitude.
+    """
+    Return the nutation in longitude.
 
     High precision. [Meeus-1998: pg 144]
 
-    Arguments:
-      - `jd` : Julian Day in dynamical time
+    Parameters
+    ----------
+    jd : float
+        Julian Day in dynamical time.
 
-    Returns:
-      - nutation in longitude, in radians
+    Returns
+    -------
+    float
+        Nutation in longitude, in radians.
     """
-    #
-    # Future optimization: factor the /1e5 and /1e6 adjustments into the table.
-    #
-    # Could turn the loop into a generator expression. Too messy?
-    #
     T = jd_to_jcent(jd)
     D, M, M1, F, omega = _constants(T)
     deltaPsi = 0.0
@@ -150,28 +169,29 @@ def nutation_in_longitude(jd):
 
 
 def nutation_in_obliquity(jd):
-    """Return the nutation in obliquity.
+    """
+    Return the nutation in obliquity.
 
     High precision. [Meeus-1998: pg 144]
 
-    Arguments:
-      - `jd` : Julian Day in dynamical time
+    Parameters
+    ----------
+    jd : float
+        Julian Day in dynamical time.
 
-    Returns:
-      - nutation in obliquity, in radians
+    Returns
+    -------
+    nutation_in_obliquity : float
+        Nutation in obliquity, in radians.
     """
-    #
-    # Future optimization: factor the /1e5 and /1e6 adjustments into the table.
-    #
-    # Could turn the loop into a generator expression. Too messy?
-    #
     T = jd_to_jcent(jd)
     D, M, M1, F, omega = _constants(T)
     deltaEps = 0.0
     for tD, tM, tM1, tF, tomega, tpsiK, tpsiT, tepsK, tepsT in _tbl:
         arg = D * tD + M * tM + M1 * tM1 + F * tF + omega * tomega
-        deltaEps = deltaEps + (tepsK / 10000.0 + tepsT / 100000.0 * T) * np.cos(arg)
-    deltaEps = deltaEps / 3600
+        deltaEps += (tepsK / 10000.0 + tepsT / 100000.0 * T) * np.cos(arg)
+
+    deltaEps /= 3600
     return d_to_r(deltaEps)
 
 
@@ -187,16 +207,21 @@ _el0 = (
 
 
 def obliquity(jd):
-    """Return the mean obliquity of the ecliptic.
+    """
+    Return the mean obliquity of the ecliptic.
 
     Low precision, but good enough for most uses. [Meeus-1998: equation 22.2].
     Accuracy is 1" over 2000 years and 10" over 4000 years.
 
-    Arguments:
-      - `jd` : Julian Day in dynamical time
+    Parameters
+    ----------
+    jd : float
+        Julian Day in dynamical time.
 
-    Returns:
-      - obliquity, in radians
+    Returns
+    -------
+    obliquity : float
+        Obliquity, in radians.
     """
     T = jd_to_jcent(jd)
     return polynomial(_el0, T)
@@ -221,18 +246,23 @@ _el1 = (
 
 
 def obliquity_hi(jd):
-    """Return the mean obliquity of the ecliptic.
+    """
+    Return the mean obliquity of the ecliptic.
 
     High precision [Meeus-1998: equation 22.3].
 
     Accuracy is 0.01" between 1000 and 3000, and "a few arc-seconds
     after 10,000 years".
 
-    Arguments:
-      - `jd` : Julian Day in dynamical time
+    Parameters
+    ----------
+    jd : float
+        Julian Day in dynamical time.
 
-    Returns:
-      - obliquity, in radians
+    Returns
+    -------
+    obliquity_hi
+        Obliquity, in radians.
     """
     U = jd_to_jcent(jd) / 100
     return polynomial(_el1, U)

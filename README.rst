@@ -18,11 +18,6 @@
     :target: https://pypi.python.org/pypi/astronomia/
     :height: 20
 
-.. image:: http://img.shields.io/pypi/dd/astronomia.svg
-    :alt: astronomia downloads
-    :target: https://pypi.python.org/pypi/astronomia/
-    :height: 20
-
 .. image:: https://img.shields.io/pypi/pyversions/astronomia
     :alt: PyPI - Python Version
     :target: https://pypi.org/project/astronomia/
@@ -42,7 +37,7 @@ Inc. <http://www.willbell.com/">`_
 Currently there are no graphical applications apart from some demo CGI
 interfaces.
 
-Astronomia will work with Python 2.6+ and 3.0+.
+Astronomia will work with Python 3.8+.
 
 Documentation
 ~~~~~~~~~~~~~
@@ -65,7 +60,8 @@ To use Astronomia in a project::
 Development
 ~~~~~~~~~~~
 Development is managed on bitbucket at
-https://bitbucket.org/timcera/astronomia/overview.
+https://bitbucket.org/timcera/astronomia/src/main/ and on github at
+https://github.com/timcera/astronomia
 
 History
 ~~~~~~~
@@ -73,8 +69,8 @@ Astronomia is a fork of the Astrolabe library created by Bill McClain.  The
 Astrolabe library is no longer available.
 
 I (Tim Cera) used the Astrolabe library within my tidal analysis package
-`TAPPy <http://tappy.sf.net>`_. In 2013 I pulled Astrolabe out of TAPPy and
-forked Astronomia.  I have since fixed many bugs and added features.  The most
-important added feature is the ability for most functions to work with array
-inputs.  Bill McClain had dual Python and 'C' code, but I focused only on the
-Python code, updating with newer data and equations as I found them.
+`TAPPy <http://timcera.bitbucket.io>`_. In 2013 I pulled Astrolabe out of TAPPy
+and forked Astronomia.  I have since fixed many bugs and added features.  The
+most important added feature is the ability for most functions to work with
+array inputs.  Bill McClain had dual Python and 'C' code, but I focused only on
+the Python code, updating with newer data and equations as I found them.
