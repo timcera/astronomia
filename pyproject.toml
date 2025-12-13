@@ -2,8 +2,7 @@
 build-backend = "setuptools.build_meta"
 requires = [
     "setuptools>=80",
-    "setuptools-scm[simple]>=8",
-    "wheel"
+    "setuptools-scm[simple]>=8"
 ]
 
 [project]
