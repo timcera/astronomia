@@ -1,29 +1,21 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-    "setuptools>=61.0.0",
-    "setuptools_scm[toml]>=6.2",
+    "setuptools>=80",
+    "setuptools-scm[simple]>=8",
     "wheel"
 ]
 
 [project]
-name = "astronomia"
-dynamic = ["readme", "version"]
-description = "Library for calculation of ephemeris and other astronomical calculations"
-dependencies = [
-    "cltoolbox",
-    "numpy",
-    "pandas"
-]
 authors = [
-    {name = "Tim Cera", email = "tim@cerazone.net"}
+    {email = "tim@cerazone.net", name = "Tim Cera"}
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
-    "Intended Audience :: Science/Research",
-    "Intended Audience :: End Users/Desktop",
-    "Intended Audience :: Developers",
     "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Science/Research",
     "License :: OSI Approved :: BSD License",
     "Natural Language :: English",
     "Operating System :: OS Independent",
@@ -37,19 +29,32 @@ classifiers = [
     "Topic :: Scientific/Engineering",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ] # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-keywords = ["ephemeris", "astronomy"]
+dependencies = [
+    "cltoolbox",
+    "numpy",
+    "pandas"
+]
+description = "Library for calculation of ephemeris and other astronomical calculations"
+dynamic = ["readme", "version"]
+keywords = [
+    "astronomy",
+    "ephemeris"
+]
 license = {text = "BSD-3-Clause"}
+name = "astronomia"
 requires-python = ">=3.10"
 
 [project.scripts]
-solstice = "astronomia.apps.solstice:main"
 check_perihelion = "astronomia.apps.check_perihelion:main"
 cronus = "astronomia.apps.cronus:main"
+solstice = "astronomia.apps.solstice:main"
 
 [project.urls]
+bitbucket = "https://bitbucket.org/timcera/astronomia/src/main/"
 documentation = "https://timcera.bitbucket.io/astronomia/docs/index.html#astronomia-documentation"
 github = "https://github.com/timcera/astronomia"
-bitbucket = "https://bitbucket.org/timcera/astronomia/src/main/"
+
+[tool]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -65,8 +70,8 @@ profile = "black"
 testpaths = ["tests"]
 
 [tool.setuptools]
-license-files = ["LICENSE.txt"]
 include-package-data = true
+license-files = ["LICENSE.txt"]
 
 [tool.setuptools.dynamic]
 readme = {file = "README.rst"}
@@ -74,5 +79,3 @@ version = {file = "VERSION"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.setuptools_scm]
