@@ -37,7 +37,7 @@ Inc. <http://www.willbell.com/">`_
 Currently there are no graphical applications apart from some demo CGI
 interfaces.
 
-Astronomia will work with Python 3.8+.
+Astronomia will work with Python 3.10+.
 
 Documentation
 ~~~~~~~~~~~~~
